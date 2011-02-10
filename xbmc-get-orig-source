@@ -152,10 +152,10 @@ create_tarball() {
   tar -czf xbmc_$XBMC_VERSION.orig.tar.gz ${BUILDDIR}
 }
 
-# Function that performs a PPA upload. It will ensure the version is less than
-# the version specified in <XBMC_VERSION>-<DEB_REVISION> and upload a package
-# for each supported Ubuntu suite.
-perform_ppa_upload() {
+# Function that creates source packages. It will ensure the version is less
+# than the version specified in <XBMC_VERSION>-<DEB_REVISION> and upload a
+# package for each supported Ubuntu suite if desired.
+create_source_packages() {
   echo "Performing PPA upload."
   cp -r ./debian "${BUILDDIR}"
   for (( iter = 0 ; iter < ${#UBUNTU_SUITES[@]} ; iter++ )); do
@@ -196,13 +196,13 @@ perform_ppa_upload() {
     popd >/dev/null
     local SOURCE_CHANGES="xbmc_${XBMC_VERSION}-${DEB_REVISION}~0${UBUNTU_SUITES[$iter]}${N}_source.changes"
     debsign "$SOURCE_CHANGES"
-    dput "$DPUT_HOST" "$SOURCE_CHANGES"
+    if [ ! -z "${DPUT_HOST}" ]; then
+      dput "${DPUT_HOST}" "${SOURCE_CHANGES}"
+    fi
   done
 }
 
 get_sources
 prepare_orig_tarball
 create_tarball
-if [ ! -z ${DPUT_HOST} ]; then
-  perform_ppa_upload
-fi
+create_source_packages
