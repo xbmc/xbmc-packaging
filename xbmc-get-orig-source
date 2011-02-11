@@ -91,9 +91,9 @@ get_sources() {
 
   GIT_REVISION=$(GIT_DIR="${XBMC_SOURCE}/.git" git rev-parse --short ${REVISION})
   if [ "$STABLE" = "1" ]; then
-    XBMC_VERSION="${XBMC_MAJOR_VERSION}~deb1"
+    XBMC_VERSION="${XBMC_MAJOR_VERSION}"
   else
-    XBMC_VERSION="${XBMC_MAJOR_VERSION}~git$(date +%Y%m%d).${GIT_REVISION}~deb1"
+    XBMC_VERSION="${XBMC_MAJOR_VERSION}~git$(date +%Y%m%d).${GIT_REVISION}"
   fi
   BUILDDIR="xbmc-${XBMC_VERSION}"
   mkdir -p "${BUILDDIR}"
@@ -164,10 +164,9 @@ create_source_packages() {
   cp -r ./debian "${BUILDDIR}"
   for (( iter = 0 ; iter < ${#UBUNTU_SUITES[@]} ; iter++ )); do
     pushd ${BUILDDIR} >/dev/null
-    N="1"
     # Update changelog for uploads to PPA.
     dch --force-distribution -D ${UBUNTU_SUITES[$iter]} \
-      -b -v "${EPOCH}:${XBMC_VERSION}-${DEB_REVISION}~0${UBUNTU_SUITES[$iter]}${N}" \
+      -b -v "${EPOCH}:${XBMC_VERSION}-0ubuntu1~ppa${DEB_REVISION}~${UBUNTU_SUITES[$iter]}" \
       "Upload to XBMC PPA for Ubuntu ${UBUNTU_SUITES[$iter]}." 2>/dev/null
 
     # Create source package
@@ -198,7 +197,7 @@ create_source_packages() {
 
     # Sign source package and upload.
     popd >/dev/null
-    local SOURCE_CHANGES="xbmc_${XBMC_VERSION}-${DEB_REVISION}~0${UBUNTU_SUITES[$iter]}${N}_source.changes"
+    local SOURCE_CHANGES="xbmc_${XBMC_VERSION}-0ubuntu1~ppa${DEB_REVISION}~${UBUNTU_SUITES[$iter]}_source.changes"
     debsign "$SOURCE_CHANGES"
     if [ ! -z "${DPUT_HOST}" ]; then
       dput "${DPUT_HOST}" "${SOURCE_CHANGES}"
