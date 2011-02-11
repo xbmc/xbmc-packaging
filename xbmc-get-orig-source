@@ -1,0 +1,211 @@
+#!/bin/bash
+
+# This script is used to download the upstream source for xbmc and
+# generate it into an orig source tarball for Debian.
+
+# Common variables used to ease maintenance of this script
+XBMC_MAJOR_VERSION="10.1"
+EPOCH="2"
+PPA_REVISION="1"
+XBMC_GIT_URL="git://github.com/xbmc/xbmc.git"
+DEFAULT_XBMC_BRANCH="Dharma"
+UBUNTU_SUITES=("maverick" "lucid" "karmic" "jaunty" "hardy")
+XBMC_SOURCE="./xbmc"
+# This is the where the XBMC source repo should be cloned. You can use a local
+# tree if you have one. Origin will be updated, but it is otherwise read-only.
+
+USAGE="\n\
+This script is used to generate the orig tarball used in building\n\
+Debian packages for xbmc. This script will create an orig tarball from\n\
+the tip of master for the nightly PPA archive by default.
+Usage: xbmc-get-orig-source [OPTION]\n\
+\n\
+ -h, --help                  Display this help message\n\
+ --remove-nonfree            Remove non-free libs before creating archive\n\
+ --remove-libs               Remove libs not necessary for Linux build\n\
+ --remove-external-libs      Remove optional external libs. When used,\n\
+                             XBMC must be built with --enable-external-libraries\n\
+ ---revision [REV]           Build XBMC from the revision specified in [REV]\n\
+                             If not specified, HEAD will be used\n\
+ --branch [BRANCH]           Build XBMC from the tip of [BRANCH]\n\
+                             If not specified, master will be used\n\
+ --stable                    Use stable naming convention and omit git revision\n\
+                             TODO: Not yet implemented!\n\
+ --ppa-upload [HOST]         Perform PPA upload of the resulting source\n"
+
+# Loop that parses options passed to script
+while [ "$#" -gt "0" ]; do
+  case "$1" in
+    --remove-nonfree)
+      REMOVE_NONFREE=1
+      shift
+      ;;
+    --remove-libs)
+      REMOVE_LIBS=1
+      shift
+      ;;
+    --remove-external-libs)
+      REMOVE_EXTERNAL=1
+      shift
+      ;;
+    --revision)
+      REVISION="$2"
+      shift; shift
+      ;;
+    --branch)
+      BRANCH="$2"
+      shift; shift
+      ;;
+    --stable)
+      STABLE="1"
+      shift
+      ;;
+    --ppa-upload)
+      DPUT_HOST="$2"
+      shift; shift
+      ;;
+    -h|--help|*)
+      echo -e "${USAGE}"
+      exit 1
+      ;;
+  esac
+done
+
+if [[ ! -z "${BRANCH}" && ! -z "${REVISION}" ]]; then
+  echo -e "${USAGE}"
+  echo -e "\nError: \"--use-branch\" and \"--use-revision\" may not be combined\n"
+  exit 1
+fi
+
+if [ -z "${BRANCH}" ]; then BRANCH="${DEFAULT_XBMC_BRANCH}"; fi
+if [ "${BRANCH:0:7}" != "origin/" ]; then BRANCH="origin/${BRANCH}"; fi
+if [ -z "${REVISION}" ]; then REVISION="${BRANCH}"; fi
+
+# export xbmc source
+get_sources() {
+  if [ "$(GIT_DIR="${XBMC_SOURCE}/.git" git config remote.origin.url)" = "${XBMC_GIT_URL}" ]; then
+    GIT_DIR="${XBMC_SOURCE}/.git" git fetch origin
+  else
+    git clone --no-checkout "${XBMC_GIT_URL}" "${XBMC_SOURCE}"
+  fi
+
+  GIT_REVISION=$(GIT_DIR="${XBMC_SOURCE}/.git" git rev-parse --short ${REVISION})
+  if [ "$STABLE" = "1" ]; then
+    XBMC_VERSION="${XBMC_MAJOR_VERSION}"
+  else
+    XBMC_VERSION="${XBMC_MAJOR_VERSION}~git$(date +%Y%m%d).${GIT_REVISION}"
+  fi
+  BUILDDIR="xbmc-${XBMC_VERSION}"
+  mkdir -p "${BUILDDIR}"
+
+  GIT_DIR="${PWD}/${XBMC_SOURCE}/.git" GIT_WORK_TREE="${BUILDDIR}" git reset --hard "${GIT_REVISION}"
+  #Check out the specified revision into our build dir. We keep these separate so that a git clean
+  # will not remove the .git dir. This way we don't end up re-cloning for each build.
+  #As of 1.7.1, git has a bug that prevents a hard reset with a relative GIT_DIR. Hack around using $PWD.
+}
+
+# This will prepare the sources to create a tarball from
+prepare_orig_tarball() {
+  pushd ${BUILDDIR} >/dev/null
+    ./bootstrap
+    curl -Ls --output lib/addons/script.module.pil/Imaging-1.1.7.tar.gz http://www.effbot.org/downloads/Imaging-1.1.7.tar.gz
+    curl -Ls --output lib/addons/script.module.pysqlite/pysqlite-2.5.6.tar.gz http://pysqlite.googlecode.com/files/pysqlite-2.5.6.tar.gz
+  popd >/dev/null
+
+  if [ ! -z "$REMOVE_NONFREE" ]; then
+    # Remove non-free components
+    echo "Removing non-free components"
+    rm -rf ${BUILDDIR}/xbmc/cores/dvdplayer/Codecs/libdvd/libdvdcss
+    rm -rf ${BUILDDIR}/xbmc/lib/UnrarXLib
+    rm -rf ${BUILDDIR}/xbmc/lib/libXBMS
+  fi
+  if [ ! -z "$REMOVE_LIBS" ]; then
+    echo "Removing components not needed for Linux"
+    # Remove components not needed for Linux
+    #TODO
+  fi
+
+  if [ ! -z "$REMOVE_EXTERNAL" ]; then
+    echo "Removing components not needed for Linux when using external libs"
+    # Remove components not needed for Linux when using external libs
+    #TODO
+  fi
+
+  # Remove temp files and other cruft from source tarball
+  # The find command snippet here was taken from debhelper's dh_clean command
+  # with some modification to delete more unneeded files.
+  echo "Removing temp files and other cruft from source tarball"
+  find ${BUILDDIR} \( \( -type f -a \
+    \( -name '#*#' -o -name '.*~' -o -name '*~' -o -name DEADJOE \
+    -o -name '*.orig' -o -name '*.rej' -o -name '*.bak' \
+    -o -name '.*.orig' -o -name .*.rej -o -name '.SUMS' \
+    -o -name TAGS -o \( -path '*/.deps/*' -a -name '*.P' \) \
+    -o -name config.status -o -name config.cache -o -name config.log \
+    \) -exec rm -f "{}" \; \) -o \
+    \( -type d -a -name autom4te.cache -prune -exec rm -rf "{}" \; \) \)
+  rm ${BUILDDIR}/.gitignore
+
+  # Remove empty directories
+  echo "Removing empty directories"
+  find ${BUILDDIR} -type d -empty -delete
+}
+
+# Function to create tarball
+create_tarball() {
+  echo "Create orig tarball"
+  tar -czf xbmc_$XBMC_VERSION.orig.tar.gz ${BUILDDIR}
+}
+
+# Function that creates source packages. It will ensure the version is less
+# than the version specified in <XBMC_VERSION>-<PPA_REVISION> and upload a
+# package for each supported Ubuntu suite if desired.
+create_source_packages() {
+  echo "Performing PPA upload."
+  cp -r ./debian "${BUILDDIR}"
+  for (( iter = 0 ; iter < ${#UBUNTU_SUITES[@]} ; iter++ )); do
+    pushd ${BUILDDIR} >/dev/null
+    # Update changelog for uploads to PPA.
+    dch --force-distribution -D ${UBUNTU_SUITES[$iter]} \
+      -b -v "${EPOCH}:${XBMC_VERSION}-0ubuntu1~ppa${PPA_REVISION}~${UBUNTU_SUITES[$iter]}" \
+      "Upload to XBMC PPA for Ubuntu ${UBUNTU_SUITES[$iter]}." 2>/dev/null
+
+    # Create source package
+
+    if [[ "${UBUNTU_SUITES[$iter]}:1:0" < "l" ]]; then
+      # source format 3.0 (quilt) not supported in suites < lucid
+      echo "1.0" >debian/source/format
+    fi
+    if [ "$iter" = "0" ]; then
+      # First suite should always include source tarball
+      dpkg-buildpackage -rfakeroot -us -uc -S -sa
+    else
+      dpkg-buildpackage -rfakeroot -us -uc -S -sd
+    fi
+
+    # Clean changelog
+    perl -e 'local $/;
+      my @records, $fh;
+      open $fh, "<", "debian/changelog";
+      @records = split /^\b/msxg, <$fh>;
+      close $fh;
+      open $fh, ">", "debian/changelog";
+      shift @records;
+      foreach my $record (@records)
+      {
+        print $fh "$record";
+      }'
+
+    # Sign source package and upload.
+    popd >/dev/null
+    local SOURCE_CHANGES="xbmc_${XBMC_VERSION}-0ubuntu1~ppa${PPA_REVISION}~${UBUNTU_SUITES[$iter]}_source.changes"
+    debsign "$SOURCE_CHANGES"
+    if [ ! -z "${DPUT_HOST}" ]; then
+      dput "${DPUT_HOST}" "${SOURCE_CHANGES}"
+    fi
+  done
+}
+
+get_sources
+prepare_orig_tarball
+create_tarball
+create_source_packages
