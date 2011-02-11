@@ -3,7 +3,6 @@ XBMC Packaging Repository
 Clones the XBMC repository and prepares builds for upload to a ppa.
 
 TODO:
-  -Continue investigating versioning scheme
   -Install proper exclude filters for source generation
   -Massive cleanup of the debian/ files
    
