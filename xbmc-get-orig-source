@@ -90,7 +90,11 @@ get_sources() {
   fi
 
   GIT_REVISION=$(GIT_DIR="${XBMC_SOURCE}/.git" git rev-parse --short ${REVISION})
-  XBMC_VERSION="${XBMC_MAJOR_VERSION}~git$(date +%Y%m%d).${GIT_REVISION}~deb1"
+  if [ "$STABLE" = "1" ]; then
+    XBMC_VERSION="${XBMC_MAJOR_VERSION}~deb1"
+  else
+    XBMC_VERSION="${XBMC_MAJOR_VERSION}~git$(date +%Y%m%d).${GIT_REVISION}~deb1"
+  fi
   BUILDDIR="xbmc-${XBMC_VERSION}"
   mkdir -p "${BUILDDIR}"
 

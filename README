@@ -4,7 +4,6 @@ Clones the XBMC repository and prepares builds for upload to a ppa.
 
 TODO:
   -Continue investigating versioning scheme
-  -Hook up the -stable option for the build script
   -Install proper exclude filters for source generation
   -Massive cleanup of the debian/ files
    
