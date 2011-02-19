@@ -52,7 +52,7 @@ XBMC_CONFIG_OPTIONS ?= --host=$(DEB_HOST_GNU_TYPE) \
   --enable-joystick --enable-xrandr --enable-goom --disable-ccache \
   --enable-pulse --enable-rtmp --enable-ffmpeg-libvorbis --disable-mid \
   --enable-hal --enable-avahi --disable-asap-codec \
-  --enable-webserver --disable-libdts --disable-liba52 \
+  --enable-webserver \
   $(XBMC_CONFIG_EXTRA_OPTIONS) \
   $(DISTRO_SPECIFIC_OPTIONS) \
   $(SVNVERSION_OPTION) \
