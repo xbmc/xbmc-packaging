@@ -97,9 +97,10 @@ override_dh_install:
 	dh_install --sourcedir=$(CURDIR)/debian/tmp -XLICENCE \
 		-XLicence.txt -XLicense.txt -XLiberationSans-Regular.ttf \
 		-XDejaVuSans.ttf -XDejaVuSans-Bold.ttf
+	# Add in scripts to packaging
 	mkdir -p debian/xbmc-live/usr/bin/
-	cp -f live-scripts/* debian/xbmc-live/usr/bin/
-	# Add in live.d scripts to packaging
+	cp -f live-scripts/diskmounter live-scripts/runXBMC \
+		debian/xbmc-live/usr/bin/
 	mkdir -p debian/xbmc-live/etc/xbmc
 	cp -rf live-scripts/live.d debian/xbmc-live/etc/xbmc
 	# Delete stuff that is in other packages
