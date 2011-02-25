@@ -25,7 +25,7 @@ Usage: xbmc-get-orig-source [OPTION]\n\
  --remove-libs               Remove libs not necessary for Linux build\n\
  --remove-external-libs      Remove optional external libs. When used,\n\
                              XBMC must be built with --enable-external-libraries\n\
- ---revision [REV]           Build XBMC from the revision specified in [REV]\n\
+ --revision [REV]           Build XBMC from the revision specified in [REV]\n\
                              If not specified, HEAD will be used\n\
  --branch [BRANCH]           Build XBMC from the tip of [BRANCH]\n\
                              If not specified, master will be used\n\
