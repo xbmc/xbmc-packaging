@@ -164,47 +164,57 @@ create_tarball() {
 create_source_packages() {
   echo "Performing PPA upload."
   cp -r ./debian "${BUILDDIR}"
-  for (( iter = 0 ; iter < ${#UBUNTU_SUITES[@]} ; iter++ )); do
+  if [ -n "${DPUT_HOST}" ]; then
+    for (( iter = 0 ; iter < ${#UBUNTU_SUITES[@]} ; iter++ )); do
+      pushd ${BUILDDIR} >/dev/null
+      # Update changelog for uploads to PPA.
+      dch --force-distribution -D ${UBUNTU_SUITES[$iter]} \
+        -b -v "${EPOCH}:${XBMC_VERSION}-0ubuntu1~ppa${PPA_REVISION}~${UBUNTU_SUITES[$iter]}" \
+        "Upload to XBMC PPA for Ubuntu ${UBUNTU_SUITES[$iter]}." 2>/dev/null
+
+      # Create source package
+
+      if [[ "${UBUNTU_SUITES[$iter]}:1:0" < "l" ]]; then
+        # source format 3.0 (quilt) not supported in suites < lucid
+        echo "1.0" >debian/source/format
+      fi
+      if [ "$iter" = "0" ]; then
+        # First suite should always include source tarball
+        dpkg-buildpackage -rfakeroot -us -uc -S -sa
+      else
+        dpkg-buildpackage -rfakeroot -us -uc -S -sd
+      fi
+
+      # Clean changelog
+      perl -e 'local $/;
+        my @records, $fh;
+        open $fh, "<", "debian/changelog";
+        @records = split /^\b/msxg, <$fh>;
+        close $fh;
+        open $fh, ">", "debian/changelog";
+        shift @records;
+        foreach my $record (@records)
+        {
+          print $fh "$record";
+        }'
+
+      # Sign source package and upload.
+      popd >/dev/null
+      local SOURCE_CHANGES="xbmc_${XBMC_VERSION}-0ubuntu1~ppa${PPA_REVISION}~${UBUNTU_SUITES[$iter]}_source.changes"
+      debsign "$SOURCE_CHANGES"
+      dput "${DPUT_HOST}" "${SOURCE_CHANGES}"
+    done
+  else
     pushd ${BUILDDIR} >/dev/null
-    # Update changelog for uploads to PPA.
-    dch --force-distribution -D ${UBUNTU_SUITES[$iter]} \
-      -b -v "${EPOCH}:${XBMC_VERSION}-0ubuntu1~ppa${PPA_REVISION}~${UBUNTU_SUITES[$iter]}" \
-      "Upload to XBMC PPA for Ubuntu ${UBUNTU_SUITES[$iter]}." 2>/dev/null
+    dch --force-distribution -D "UNRELEASED" \
+      -b -v "${EPOCH}:${XBMC_VERSION}-1" \
+      "TEST PACKAGE! NOT MEANT FOR RELEASE." 2>/dev/null
 
     # Create source package
+    dpkg-buildpackage -rfakeroot -us -uc -S -sa
 
-    if [[ "${UBUNTU_SUITES[$iter]}:1:0" < "l" ]]; then
-      # source format 3.0 (quilt) not supported in suites < lucid
-      echo "1.0" >debian/source/format
-    fi
-    if [ "$iter" = "0" ]; then
-      # First suite should always include source tarball
-      dpkg-buildpackage -rfakeroot -us -uc -S -sa
-    else
-      dpkg-buildpackage -rfakeroot -us -uc -S -sd
-    fi
-
-    # Clean changelog
-    perl -e 'local $/;
-      my @records, $fh;
-      open $fh, "<", "debian/changelog";
-      @records = split /^\b/msxg, <$fh>;
-      close $fh;
-      open $fh, ">", "debian/changelog";
-      shift @records;
-      foreach my $record (@records)
-      {
-        print $fh "$record";
-      }'
-
-    # Sign source package and upload.
     popd >/dev/null
-    local SOURCE_CHANGES="xbmc_${XBMC_VERSION}-0ubuntu1~ppa${PPA_REVISION}~${UBUNTU_SUITES[$iter]}_source.changes"
-    debsign "$SOURCE_CHANGES"
-    if [ ! -z "${DPUT_HOST}" ]; then
-      dput "${DPUT_HOST}" "${SOURCE_CHANGES}"
-    fi
-  done
+  fi
 }
 
 get_sources
