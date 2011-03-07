@@ -166,7 +166,7 @@ create_source_packages() {
     pushd ${BUILDDIR} >/dev/null
     # Update changelog for uploads to PPA.
     dch --force-distribution -D ${UBUNTU_SUITES[$iter]} \
-      -b -v "${EPOCH}:${XBMC_VERSION}-0ubuntu1~ppa${PPA_REVISION}~${UBUNTU_SUITES[$iter]}" \
+      -b -v "${EPOCH}:${XBMC_VERSION}~ppa${PPA_REVISION}~${UBUNTU_SUITES[$iter]}" \
       "Upload to XBMC PPA for Ubuntu ${UBUNTU_SUITES[$iter]}." 2>/dev/null
 
     # Create source package
@@ -197,7 +197,7 @@ create_source_packages() {
 
     # Sign source package and upload.
     popd >/dev/null
-    local SOURCE_CHANGES="xbmc_${XBMC_VERSION}-0ubuntu1~ppa${PPA_REVISION}~${UBUNTU_SUITES[$iter]}_source.changes"
+    local SOURCE_CHANGES="xbmc_${XBMC_VERSION}~ppa${PPA_REVISION}~${UBUNTU_SUITES[$iter]}_source.changes"
     debsign "$SOURCE_CHANGES"
     if [ ! -z "${DPUT_HOST}" ]; then
       dput "${DPUT_HOST}" "${SOURCE_CHANGES}"
