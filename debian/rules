@@ -5,17 +5,9 @@
 DEB_HOST_GNU_TYPE   ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
 DEB_BUILD_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
 
-# Get the SVN revision from the changelog
-SVNVERSION ?= $(shell dpkg-parsechangelog | grep '^Version:' | grep svn | sed 's/.*svn\([[:digit:]]*\).*/\1/')
-
 # Set this variable to yes for release builds to disable debugging and enable
 # optimizations.
 XBMC_RELEASE ?= no
-
-# If not set already, try to set from debian/svnrevision
-ifeq (,$(SVNVERSION))
-	SVNVERSION = $(shell cat debian/svnrevision 2>/dev/null)
-endif
 
 # Whether we're building for release or not
 ifeq (yes,$(XBMC_RELEASE))
@@ -30,11 +22,6 @@ ifeq (Ubuntu,$(shell lsb_release -is))
 else
   DISTRO_SPECIFIC_OPTIONS = --enable-external-libraries --disable-dvdcss \
     --disable-non-free
-endif
-
-# Add the SVN revision if we could determine the svn revision
-ifneq (,$(SVNVERSION))
-  SVNVERSION_OPTION = SVN_REV="$(SVNVERSION)"
 endif
 
 # Various environment variables to set
@@ -55,7 +42,6 @@ XBMC_CONFIG_OPTIONS ?= --host=$(DEB_HOST_GNU_TYPE) \
   --enable-webserver \
   $(XBMC_CONFIG_EXTRA_OPTIONS) \
   $(DISTRO_SPECIFIC_OPTIONS) \
-  $(SVNVERSION_OPTION) \
   $(ENV_OPTIONS)
 
 # Input files used for generating other files
