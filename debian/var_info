@@ -37,6 +37,7 @@ case "$1" in
          adduser,
          sudo,
          whois,
+         policykit-1,
          \${misc:Depends},
          \${shlibs:Depends},"
         if [ $(lsb_release -cs) = "karmic" ]; then
@@ -47,13 +48,6 @@ case "$1" in
         if [ $(lsb_release -cs) = "lucid" ]; then
             XBMC_LIVE_DEPENDS="$XBMC_LIVE_DEPENDS
          mkpasswd,"
-        fi
-        if [ $(lsb_release -cs) = "maverick" ]; then
-            XBMC_LIVE_DEPENDS="$XBMC_LIVE_DEPENDS
-         policykit-1,"
-        else
-            XBMC_LIVE_DEPENDS="$XBMC_LIVE_DEPENDS
-         policykit,"
         fi
 
         printf "$XBMC_LIVE_DEPENDS"

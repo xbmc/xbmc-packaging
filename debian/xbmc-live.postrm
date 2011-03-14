@@ -28,66 +28,10 @@ if [ "$1" = "purge" ]; then
 	# Remove XBMC sudoers files
 	rm $SUDOERS_TEMPFILE
 
-if [ $release -ge 1010 ]; then
-        if [ -f " /var/lib/polkit-1/localauthority/50-local.d/20-xbmclive.pkla" ]; then
-             rm  "/var/lib/polkit-1/localauthority/50-local.d/20-xbmclive.pkla" > /dev/null
-        fi
-else
-	POLKIT_ACTIONS="org.freedesktop.hal.dockstation.undock
-		org.freedesktop.hal.wol.enabled
-		org.freedesktop.hal.wol.enable
-		org.freedesktop.hal.wol.supported
-		org.freedesktop.hal.leds.brightness
-		org.freedesktop.hal.device-access.audio-player
-		org.freedesktop.hal.device-access.camera
-		org.freedesktop.hal.device-access.cdrom
-		org.freedesktop.hal.device-access.dvb
-		org.freedesktop.hal.device-access.fingerprint-reader
-		org.freedesktop.hal.device-access.floppy
-		org.freedesktop.hal.device-access.ieee1394-avc
-		org.freedesktop.hal.device-access.ieee1394-iidc
-		org.freedesktop.hal.device-access.joystick
-		org.freedesktop.hal.device-access.mouse
-		org.freedesktop.hal.device-access.obex
-		org.freedesktop.hal.device-access.pda
-		org.freedesktop.hal.device-access.printer
-		org.freedesktop.hal.device-access.scanner
-		org.freedesktop.hal.device-access.sound
-		org.freedesktop.hal.device-access.video
-		org.freedesktop.hal.device-access.video4linux
-		org.freedesktop.hal.lock
-		org.freedesktop.hal.killswitch.bluetooth
-		org.freedesktop.hal.killswitch.wlan
-		org.freedesktop.hal.killswitch.wwan
-		org.freedesktop.hal.storage.mount-removable
-		org.freedesktop.hal.storage.eject
-		org.freedesktop.hal.storage.crypto-setup-removable
-		org.freedesktop.hal.power-management.shutdown
-		org.freedesktop.hal.power-management.reboot
-		org.freedesktop.hal.power-management.set-powersave
-		org.freedesktop.hal.power-management.suspend
-		org.freedesktop.hal.power-management.hibernate
-		org.freedesktop.hal.power-management.cpufreq
-		org.freedesktop.hal.power-management.lcd-panel
-		org.freedesktop.hal.power-management.light-sensor
-		org.freedesktop.hal.power-management.keyboard-backlight
-		org.freedesktop.devicekit.power.suspend
-		org.freedesktop.devicekit.power.Hibernate
-		org.freedesktop.consolekit.system.stop
-		org.freedesktop.devicekit.disks.filesystem-mount
-		org.freedesktop.devicekit.disks.filesystem-mount-system-internal
-		org.freedesktop.devicekit.disks.filesystem-unmount-others
-		org.freedesktop.devicekit.disks.drive-eject
-		org.freedesktop.devicekit.disks.drive-detach"
+    if [ -f " /var/lib/polkit-1/localauthority/50-local.d/20-xbmclive.pkla" ]; then
+        rm  "/var/lib/polkit-1/localauthority/50-local.d/20-xbmclive.pkla" > /dev/null
+    fi
 
-	# Grant the 'xbmc' user each action from the list if not done already
-	for ACTION in $POLKIT_ACTIONS; do
-		if polkit-auth --user xbmc --show-obtainable | \
-			grep -q $ACTION; then
-			polkit-auth --user xbmc --revoke $ACTION
-		fi
-	done
-fi
 	sed -i s/allowed_users=anybody/allowed_users=console/ /etc/X11/Xwrapper.config
 	if [ -f "/etc/X11/Xwrapper.config.bak-xbmc-live" ]; then
 		rm /etc/X11/Xwrapper.config.bak-xbmc-live > /dev/null
