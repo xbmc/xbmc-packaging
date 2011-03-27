@@ -89,16 +89,16 @@ get_sources() {
     git clone --no-checkout "${XBMC_GIT_URL}" "${XBMC_SOURCE}"
   fi
 
-  GIT_REVISION=$(GIT_DIR="${XBMC_SOURCE}/.git" git rev-parse --short ${REVISION})
+  GIT_REV_DATE=$(GIT_DIR="${XBMC_SOURCE}/.git" git log --abbrev=7 -1 --pretty=format:"%h %ci" ${REVISION} | awk '{gsub("-", "");print $2"."$1}')
   if [ "$STABLE" = "1" ]; then
     XBMC_VERSION="${XBMC_MAJOR_VERSION}"
   else
-    XBMC_VERSION="${XBMC_MAJOR_VERSION}~git$(date +%Y%m%d).${GIT_REVISION}"
+    XBMC_VERSION="${XBMC_MAJOR_VERSION}~git${GIT_REV_DATE}"
   fi
   BUILDDIR="xbmc-${XBMC_VERSION}"
   mkdir -p "${BUILDDIR}"
 
-  GIT_DIR="${PWD}/${XBMC_SOURCE}/.git" GIT_WORK_TREE="${BUILDDIR}" git reset --hard "${GIT_REVISION}"
+  GIT_DIR="${PWD}/${XBMC_SOURCE}/.git" GIT_WORK_TREE="${BUILDDIR}" git reset --hard "${REVISION}"
   #Check out the specified revision into our build dir. We keep these separate so that a git clean
   # will not remove the .git dir. This way we don't end up re-cloning for each build.
   #As of 1.7.1, git has a bug that prevents a hard reset with a relative GIT_DIR. Hack around using $PWD.
