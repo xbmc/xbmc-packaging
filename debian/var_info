@@ -30,7 +30,7 @@ case "$1" in
         printf "$LIBCURL_DEPENDS"
         ;;
     XBMC_LIVE_DEPENDS)
-        XBMC_LIVE_DEPENDS="xbmc-standalone (= \${binary:Version}),
+        XBMC_LIVE_DEPENDS="xbmc (= \${binary:Version}),
          openssh-server,
          \${python:Depends},
          python-apt,
