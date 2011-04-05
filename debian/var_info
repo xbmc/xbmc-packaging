@@ -37,7 +37,7 @@ case "$1" in
          adduser,
          sudo,
          whois,
-         policykit-1,
+         uxlaunch,
          \${misc:Depends},
          \${shlibs:Depends},"
         if [ $(lsb_release -cs) = "lucid" ]; then

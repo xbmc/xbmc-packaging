@@ -105,7 +105,7 @@ Depends: xbmc (= ${binary:Version}),
          adduser,
          sudo,
          whois,
-         policykit-1,
+         uxlaunch,
          ${misc:Depends},
          ${shlibs:Depends},
 Conflicts: kdm, gdm, xdm, wdm
