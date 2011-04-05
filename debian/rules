@@ -89,9 +89,8 @@ override_dh_install:
 		debian/xbmc-live/usr/bin/
 	mkdir -p debian/xbmc-live/etc/xbmc
 	cp -rf live-scripts/live.d debian/xbmc-live/etc/xbmc
-	# Delete stuff that is in other packages
-	rm -rf debian/xbmc-data/usr/share/xbmc/addons/skin.*
-	rm -rf debian/xbmc-data/usr/share/xbmc/web
+	# Delete license file from package
+	rm -f debian/xbmc/usr/share/xbmc/addons/script.recentlyadded/LICENSE.txt
 
 override_dh_makeshlibs:
 	# We don't install shared libraries in standard locations so don't edit
