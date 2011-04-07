@@ -1,6 +1,7 @@
 # xbmc-live
 #
-# init XBMC environment and starts XBMC in fullscreen (if asked to do so)
+# init XBMC environment
+#
 
 #      Copyright (C) 2005-2008 Team XBMC
 #      http://www.xbmc.org
@@ -23,18 +24,14 @@
 description     "XBMCLive"
 author          "Luigi Capriotti"
 
-start on (filesystem and stopped udevtrigger)
+start on starting uxlaunch
 
 stop on runlevel [06]
 
-emits starting-x
-
-pre-start script
+script
 	get_opt() {
 		echo "$@" | cut -d "=" -f 2
 	}
-
-	clear >/dev/tty7 || true
 
 	CMDLINE=$(cat /proc/cmdline)
 
@@ -78,34 +75,4 @@ pre-start script
 	        $hook $BOOTMEDIAMOUNTPOINT $XBMC_PARAMS  || true
 	  done
 	fi
-
-	if [ -f /home/$xbmcUser/.xsession ] ; then
-		rm /home/$xbmcUser/.xsession
-	fi
-	if [ -f /tmp/noRestartXBMC ] ; then
-		rm /tmp/noRestartXBMC
-	fi
-end script
-
-script
-	if ! grep -i -q autostart /tmp/xbmcliveParams ; then
-		exit
-	fi
-
-	exec /usr/bin/runXBMC
-end script
-
-pre-stop script
-	touch /tmp/noRestartXBMC
-	rm /tmp/xbmcliveParams
-
-	# Clean up the console before we switch to it, to avoid text flicker
-	if [ -x /usr/bin/tput ] ; then
-		tput -Tlinux reset > /dev/tty1 || true
-		tput -Tlinux reset > /dev/tty8 || true
-	fi
-
-	# Clear VT 1 & 8 of any console messages
-	clear >/dev/tty1 || true
-	clear >/dev/tty8 || true
 end script
