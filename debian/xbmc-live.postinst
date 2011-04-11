@@ -172,6 +172,16 @@ if [ $release -ge 910 ]; then
 	fi
 
 	ln -s /lib/init/upstart-job /etc/init.d/xbmc-live
+
+	if [ $release -ge 1010 ]; then
+		sed -i '/^user=*/ s/^/#/' /etc/uxlaunch/uxlaunch
+		sed -i '/^tty=*/ s/^/#/' /etc/uxlaunch/uxlaunch
+		sed -i '/^session=*/ s/^/#/' /etc/uxlaunch/uxlaunch
+
+		echo 'user=xbmc' >> /etc/uxlaunch/uxlaunch
+		echo 'tty=8' >> /etc/uxlaunch/uxlaunch
+		echo 'session=/usr/bin/xbmc-standalone' >> /etc/uxlaunch/uxlaunch
+	fi
 else
 	if [ -f "/etc/init/xbmc-live.conf" ]; then
 		rm /etc/init/xbmc-live.conf >/dev/null
