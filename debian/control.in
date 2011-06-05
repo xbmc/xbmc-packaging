@@ -54,7 +54,7 @@ Description: XBMC Media Center (arch-independent data package)
  working XBMC.
 
 Package: xbmc-bin
-Architecture: i386 amd64 powerpc ppc64
+Architecture: i386 amd64 powerpc ppc64 armel
 Depends: ${shlibs:Depends},
          ${misc:Depends}
 Provides: xbmc-common, xbmc-eventclients-wiiremote
@@ -153,7 +153,7 @@ Description: XBMC Media Center (Event Client Dev package)
  This is the Development package for XBMC Event Client.
 
 Package: xbmc-eventclients-wiiremote
-Architecture: i386 amd64 powerpc ppc64
+Architecture: i386 amd64 powerpc ppc64 armel
 Depends: xbmc-eventclients-common (= ${source:Version}),
          ${shlibs:Depends},
          ${misc:Depends}
