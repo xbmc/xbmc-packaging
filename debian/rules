@@ -4,6 +4,7 @@
 # from having to guess our platform (since we know it already)
 DEB_HOST_GNU_TYPE   ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
 DEB_BUILD_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
+DEB_HOST_ARCH ?= $(shell dpkg-architecture -qDEB_HOST_ARCH)
 
 # Set this variable to yes for release builds to disable debugging and enable
 # optimizations.
@@ -18,10 +19,21 @@ endif
 
 # Ubuntu or Debian specific options
 ifeq (Ubuntu,$(shell lsb_release -is))
-  DISTRO_SPECIFIC_OPTIONS = 
+  DISTRO_SPECIFIC_OPTIONS =
+# Enable external libraries for all architectures except i386 and amd64
+ifeq (,$(filter i386 amd64,$(DEB_HOST_ARCH)))
+  DISTRO_SPECIFIC_OPTIONS = --enable-external-libraries
+endif
 else
   DISTRO_SPECIFIC_OPTIONS = --enable-external-libraries --disable-dvdcss \
     --disable-non-free
+endif
+
+# Enable gles for armel
+ifeq (,$(filter armel,$(DEB_HOST_ARCH)))
+GL_CONFIG_OPTIONS = --enable-gl --disable-gles
+else
+GL_CONFIG_OPTIONS = --disable-gl --enable-gles
 endif
 
 # Various environment variables to set
@@ -34,12 +46,13 @@ XBMC_CONFIG_OPTIONS ?= --host=$(DEB_HOST_GNU_TYPE) \
   --build=$(DEB_BUILD_GNU_TYPE) \
   --prefix=/usr --docdir=/usr/share/doc/xbmc \
   $(DEBUG_OPTIONS) \
-  --enable-gl --disable-gles --enable-vdpau --disable-vaapi \
+  --enable-vdpau --disable-vaapi \
   --disable-vdadecoder --disable-openmax --disable-tegra --disable-profiling \
   --enable-joystick --enable-xrandr --enable-goom --disable-ccache \
   --enable-pulse --enable-rtmp --enable-ffmpeg-libvorbis --disable-mid \
   --disable-hal --enable-avahi --disable-asap-codec \
   --enable-webserver \
+  $(GL_CONFIG_OPTIONS) \
   $(XBMC_CONFIG_EXTRA_OPTIONS) \
   $(DISTRO_SPECIFIC_OPTIONS) \
   $(ENV_OPTIONS)
