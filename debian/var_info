@@ -72,7 +72,8 @@ BUILD_DEPENDS="debhelper (>= 7.0.50~),
  libmodplug-dev,
  librtmp-dev,
  libcrystalhd-dev,
- curl,"
+ curl,
+ libyajl-dev,"
 
 case "$1" in
     BUILD_DEPENDS)

@@ -75,6 +75,7 @@ Build-Depends: debhelper (>= 7.0.50~),
  librtmp-dev,
  libcrystalhd-dev,
  curl,
+ libyajl-dev,
 Standards-Version: 3.9.1
 Homepage: http://xbmc.org/
 Vcs-Git: git://github.com/xbmc/xbmc-packaging.git
