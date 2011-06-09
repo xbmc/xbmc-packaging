@@ -7,7 +7,7 @@ DM-Upload-Allowed: yes
 Build-Depends: debhelper (>= 7.0.50~),
  python-support,
  cmake,
- autopoint,
+ autopoint | gettext,
  autotools-dev,
  autoconf,
  automake,
