@@ -162,9 +162,9 @@ create_tarball() {
 # than the version specified in <XBMC_VERSION>-<PPA_REVISION> and upload a
 # package for each supported Ubuntu suite if desired.
 create_source_packages() {
-  echo "Performing PPA upload."
   cp -r ./debian "${BUILDDIR}"
   if [ -n "${DPUT_HOST}" ]; then
+    echo "Performing PPA upload."
     for (( iter = 0 ; iter < ${#UBUNTU_SUITES[@]} ; iter++ )); do
       pushd ${BUILDDIR} >/dev/null
       # Update changelog for uploads to PPA.
