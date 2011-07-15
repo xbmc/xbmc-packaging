@@ -154,7 +154,7 @@ prepare_orig_tarball() {
 
 # Function to create tarball
 create_tarball() {
-  echo "Create orig tarball"
+  echo "Creating orig tarball"
   tar -czf xbmc_$XBMC_VERSION.orig.tar.gz ${BUILDDIR}
 }
 
