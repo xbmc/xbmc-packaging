@@ -8,7 +8,12 @@ DEB_HOST_ARCH ?= $(shell dpkg-architecture -qDEB_HOST_ARCH)
 
 # Set this variable to yes for release builds to disable debugging and enable
 # optimizations.
+# NOTE: DEB_BUILD_OPTIONS must have 'nostrip' otherwise debugging symbols will
+# be stripped from binaries.
+XBMC_RELEASE ?= yes
+ifneq (,$(findstring nostrip,$(DEB_BUILD_OPTIONS)))
 XBMC_RELEASE ?= no
+endif
 
 # Whether we're building for release or not
 ifeq (yes,$(XBMC_RELEASE))
