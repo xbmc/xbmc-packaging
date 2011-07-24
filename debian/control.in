@@ -19,6 +19,7 @@ Depends: xbmc-bin (>= ${source:Version}),
          ttf-liberation,
          ttf-dejavu-core,
          python-bluez | python-lightblue,
+         python-imaging,
          ${python:Depends},
          ${misc:Depends}
 Suggests: xbmc-test-helper
