@@ -110,7 +110,9 @@ get_sources() {
 prepare_orig_tarball() {
   pushd ${BUILDDIR} >/dev/null
     ./bootstrap
-    curl -Ls --output lib/addons/script.module.pil/Imaging-1.1.7.tar.gz http://www.effbot.org/downloads/Imaging-1.1.7.tar.gz
+    if [ -z "$REMOVE_EXTERNAL" ]; then
+      curl -Ls --output lib/addons/script.module.pil/Imaging-1.1.7.tar.gz http://www.effbot.org/downloads/Imaging-1.1.7.tar.gz
+    fi
   popd >/dev/null
 
   if [ ! -z "$REMOVE_NONFREE" ]; then
