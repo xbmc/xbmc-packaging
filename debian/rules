@@ -19,7 +19,7 @@ endif
 ifeq (yes,$(XBMC_RELEASE))
   DEBUG_OPTIONS = --disable-debug --enable-optimizations
 else
-  DEBUG_OPTIONS = --enable-debug
+  DEBUG_OPTIONS = --enable-debug --disable-optimizations
 endif
 
 # Ubuntu or Debian specific options
