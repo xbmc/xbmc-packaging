@@ -51,15 +51,33 @@ XBMC_CONFIG_OPTIONS ?= --host=$(DEB_HOST_GNU_TYPE) \
   --build=$(DEB_BUILD_GNU_TYPE) \
   --prefix=/usr --docdir=/usr/share/doc/xbmc \
   $(DEBUG_OPTIONS) \
-  --enable-vdpau --disable-vaapi \
-  --disable-vdadecoder --disable-openmax --disable-tegra --disable-profiling \
-  --enable-joystick --enable-xrandr --enable-goom --disable-ccache \
-  --enable-pulse --enable-rtmp --enable-ffmpeg-libvorbis --disable-mid \
-  --disable-hal --enable-avahi --disable-asap-codec \
-  --enable-webserver \
   $(GL_CONFIG_OPTIONS) \
-  $(XBMC_CONFIG_EXTRA_OPTIONS) \
+  --enable-vdpau \
+  --enable-vaapi \
+  --enable-crystalhd \
+  --disable-vdadecoder \
+  --disable-vtbdecoder \
+  --disable-openmax \
+  --disable-tegra \
+  --disable-profiling \
+  --enable-joystick \
+  --enable-xrandr \
+  --enable-goom \
+  --disable-ccache \
+  --enable-pulse \
+  --enable-rtmp \
+  --enable-nfs \
+  --enable-ffmpeg-libvorbis \
+  --disable-mid \
+  --enable-hal \
+  --enable-avahi \
+  --enable-asap-codec \
+  --enable-webserver \
+  --enable-optical-drive \
+  --enable-libbluray \
+  --enable-texturepacker \
   $(DISTRO_SPECIFIC_OPTIONS) \
+  $(XBMC_CONFIG_EXTRA_OPTIONS) \
   $(ENV_OPTIONS)
 
 # Input files used for generating other files
