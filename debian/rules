@@ -37,8 +37,10 @@ endif
 # Enable gles for armel
 ifeq (,$(filter armel,$(DEB_HOST_ARCH)))
 GL_CONFIG_OPTIONS = --enable-gl --disable-gles
+OPENMAX_OPTIONS = --disable-openmax
 else
 GL_CONFIG_OPTIONS = --disable-gl --enable-gles
+OPENMAX_OPTIONS = --enable-openmax
 endif
 
 # Various environment variables to set
@@ -57,7 +59,7 @@ XBMC_CONFIG_OPTIONS ?= --host=$(DEB_HOST_GNU_TYPE) \
   --enable-crystalhd \
   --disable-vdadecoder \
   --disable-vtbdecoder \
-  --disable-openmax \
+  $(OPENMAX_OPTIONS) \
   --disable-tegra \
   --disable-profiling \
   --enable-joystick \
