@@ -25,6 +25,8 @@ Usage: xbmc-get-orig-source [OPTION]\n\
  --remove-libs               Remove libs not necessary for Linux build\n\
  --remove-external-libs      Remove optional external libs. When used,\n\
                              XBMC must be built with --enable-external-libraries\n\
+ --minimal                   This acts as a short hand for --remove-nonfree,\n\
+                             --remove-libs, and --remove-external-libs.\n\
  --revision [REV]            Build XBMC from the revision specified in [REV]\n\
                              If not specified, HEAD will be used\n\
  --branch [BRANCH]           Build XBMC from the tip of [BRANCH]\n\
@@ -45,6 +47,12 @@ while [ "$#" -gt "0" ]; do
       shift
       ;;
     --remove-external-libs)
+      REMOVE_EXTERNAL=1
+      shift
+      ;;
+    --minimal)
+      REMOVE_NONFREE=1
+      REMOVE_LIBS=1
       REMOVE_EXTERNAL=1
       shift
       ;;
