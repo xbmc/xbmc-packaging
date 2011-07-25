@@ -126,9 +126,8 @@ prepare_orig_tarball() {
   if [ ! -z "$REMOVE_NONFREE" ]; then
     # Remove non-free components
     echo "Removing non-free components"
-    rm -rf ${BUILDDIR}/xbmc/cores/dvdplayer/Codecs/libdvd/libdvdcss
-    rm -rf ${BUILDDIR}/xbmc/lib/UnrarXLib
-    rm -rf ${BUILDDIR}/xbmc/lib/libXBMS
+    rm -rf ${BUILDDIR}/lib/libdvd/libdvdcss
+    rm -rf ${BUILDDIR}/lib/UnrarXLib
   fi
   if [ ! -z "$REMOVE_LIBS" ]; then
     echo "Removing components not needed for Linux"
