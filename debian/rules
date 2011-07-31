@@ -68,7 +68,6 @@ XBMC_CONFIG_OPTIONS ?= --host=$(DEB_HOST_GNU_TYPE) \
   --disable-ccache \
   --enable-pulse \
   --enable-rtmp \
-  --enable-nfs \
   --enable-ffmpeg-libvorbis \
   --disable-mid \
   --enable-hal \
