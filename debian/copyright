@@ -1,6 +1,6 @@
 XBMC is downloaded from http://xbmc.org/.
-SVN snapshots are generated from
-https://xbmc.svn.sourceforge.net/svnroot/xbmc/trunk.
+GIT snapshots are generated from
+https://github.com/ceros/xbmc-packaging.
 
 Main Contact: "Team-XBMC" <team at xbmc dot org>
 
