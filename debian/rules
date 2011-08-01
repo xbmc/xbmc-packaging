@@ -30,7 +30,9 @@ ifeq (,$(filter i386 amd64,$(DEB_HOST_ARCH)))
   DISTRO_SPECIFIC_OPTIONS = --enable-external-libraries
 endif
 else
-  DISTRO_SPECIFIC_OPTIONS = --enable-external-libraries --disable-dvdcss \
+  DISTRO_SPECIFIC_OPTIONS = --enable-nfs \
+    --enable-external-libraries \
+    --disable-dvdcss \
     --disable-non-free
 endif
 

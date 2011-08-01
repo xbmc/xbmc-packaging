@@ -45,11 +45,6 @@ BUILD_DEPENDS="debhelper (>= 7.0.50~),
  libavahi-common-dev,
  libavahi-client-dev,
  libxrandr-dev,
- libavcodec-dev,
- libavfilter-dev,
- libavformat-dev,
- libavutil-dev,
- libswscale-dev,
  libmpeg2-4-dev,
  libass-dev (>= 0.9.8),
  libmpcdec-dev,
@@ -79,6 +74,25 @@ BUILD_DEPENDS="debhelper (>= 7.0.50~),
  libomxil-bellagio-dev [armel],
  libbluray-dev,
  python-imaging,"
+
+if [ "$(lsb_release -is)" = "Debian" ]; then
+BUILD_DEPENDS="$BUILD_DEPENDS
+ libavcodec-dev (>= 4:0.7),
+ libavfilter-dev (>= 4:0.7),
+ libavformat-dev (>= 4:0.7),
+ libavutil-dev (>= 4:0.7),
+ libpostproc-dev (>= 4:0.7),
+ libswscale-dev (>= 4:0.7),
+ libnfs-dev,"
+else
+BUILD_DEPENDS="$BUILD_DEPENDS
+ libavcodec-dev,
+ libavfilter-dev,
+ libavformat-dev,
+ libavutil-dev,
+ libpostproc-dev,
+ libswscale-dev,"
+fi
 
 case "$1" in
     BUILD_DEPENDS)
