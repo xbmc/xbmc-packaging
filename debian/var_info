@@ -73,7 +73,8 @@ BUILD_DEPENDS="debhelper (>= 7.0.50~),
  fpc,
  libomxil-bellagio-dev [armel],
  libbluray-dev,
- python-imaging,"
+ python-imaging,
+ libva-dev,"
 
 if [ "$(lsb_release -is)" = "Debian" ]; then
 BUILD_DEPENDS="$BUILD_DEPENDS
