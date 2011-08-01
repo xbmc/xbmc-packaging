@@ -2297,6 +2297,196 @@ DejaVu Fonts
     dealings in this Font Software without prior written authorization
     from Tavmjong Bah. For further information, contact: tavmjong @ free
 
+SlingboxLib - Library to communicate with Slingbox devices
+<http://www.stonyx.com>
+
+    Copyright (C) 2010-2011 Stonyx
+
+    This library is free software. You can redistribute it and/or modify it
+    under the terms of the GNU General Public License Version 2 (or at your
+    option any later version) as published by The Free Software Foundation.
+
+    This library is distributed in the hope that it will be useful, but
+    WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+    General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+ASAP (Another Slight Atari Player)
+<http://asap.sourceforge.net>
+
+    Copyright (C) 2005-2009  Piotr Fusik
+
+    ASAP is free software; you can redistribute it and/or modify it
+    under the terms of the GNU General Public License as published
+    by the Free Software Foundation; either version 2 of the License,
+    or (at your option) any later version.
+
+    ASAP is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty
+    of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+    See the GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+CMyth - C library for communicating with MythTv server
+<http://www.mvpmc.org>
+
+    Copyright (C) 2004-2006, Eric Lund, Jon Gettler
+
+    This library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Lesser General Public
+    License as published by the Free Software Foundation; either
+    version 2.1 of the License, or (at your option) any later version.
+
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+    Lesser General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+libapetag - Library for manipulating APE tags.
+<http://src.gnu-darwin.org/ports/audio/easytag/work/easytag-2.1/src/libapetag/>
+
+    Copyright (c) 2002 Artur Polaczynski (Ar't)  All rights reserved.
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as
+    published by the Free Software Foundation; either version 2.1
+    of the License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Lesser General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+libbluray - Blu-ray disc playback support library
+
+    Copyright (C) 2010, hpi1
+    Copyright (C) 2010, fraxinas
+    Copyright (C) 2010, John Stebbins
+    Copyright (C) 2010, Joakim
+    Copyright (C) 2010, Obliter0n
+    Copyright (C) 2010, William Hahne
+
+    This library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Lesser General Public
+    License as published by the Free Software Foundation; either
+    version 2.1 of the License, or (at your option) any later version.
+
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Lesser General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public License
+    along with this library. If not, see <http://www.gnu.org/licenses/>.
+
+libexif - library to parse EXIF files
+
+    Copyright (C) 2001-2009, Lutz Müller <urc8@rz.uni-karlsruhe.de>
+    Copyright (C) 2004-2009, Jan Patera <patera@users.sourceforge.net>
+    Copyright (C) 2004, Joerg Hoh<joerg@devone.org>
+    Copyright (C) 2005-2006, Hubert Figuiere <hub@figuiere.net>
+    Copyright (C) 2002-2005, Hans Ulrich Niedermann <gp@n-dimensional.de>
+    Copyright (C) 2007-2010, Dan Fandrich <dan@coneharvesters.com>
+
+    This library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Lesser General Public
+    License as published by the Free Software Foundation; either
+    version 2.1 of the License, or (at your option) any later version.
+
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Lesser General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public License
+    along with this library. If not, see <http://www.gnu.org/licenses/>.
+
+libnfs - NFS client library
+
+    Copyright (C) 2010-2011 Ronnie Sahlberg <ronniesahlberg@gmail.com>
+
+    This library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Lesser General Public
+    License as published by the Free Software Foundation; either
+    version 2.1 of the License, or (at your option) any later version.
+
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Lesser General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public License
+    along with this library. If not, see <http://www.gnu.org/licenses/>.
+
+librtmp - toolkit for RTMP streams
+
+    Copyright (C) 2009 Andrej Stepanchuk
+    Copyright (C) 2009-2010 Howard Chu
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+libsquish - Open source DXT compression library
+
+    Copyright (C) 2006 Simon Brown <si@sjbrown.co.uk>
+
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    "Software"), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+LZO Library - LZO real-time data compression library
+
+    Copyright (C) 1996-1997 Markus Franz Xaver Johannes Oberhumer
+
+    The LZO library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU General Public License as
+    published by the Free Software Foundation; either version 2 of
+    the License, or (at your option) any later version.
+
+    The LZO library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 Licenses:
 
 License: GPL
