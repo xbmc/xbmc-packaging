@@ -5,7 +5,7 @@ Maintainer: Team XBMC <team-xbmc@lists.launchpad.net>
 Uploaders: Andres Mejia <ceros@xbmc.org>
 DM-Upload-Allowed: yes
 Build-Depends: #BUILD_DEPENDS#
-Standards-Version: 3.9.1
+Standards-Version: 3.9.2
 Homepage: http://xbmc.org/
 Vcs-Git: git://github.com/xbmc/xbmc-packaging.git
 Vcs-Browser: https://github.com/xbmc/xbmc-packaging
