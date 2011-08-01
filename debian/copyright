@@ -1268,33 +1268,6 @@ PortAudio - portable cross-platform Audio API
     FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
     IN THE SOFTWARE.
 
-libXBMS
-
-    Copyright © 2002-2003 by PuhPuh
-
-    If what was meant is that we received permission to distributed this code
-    under the same terms as XBMC (i.e. under GPL-2 or later), than it's best to
-    remove the first notice. Here's the license below.
-
-    This code is copyrighted property of the author.  It can still
-    be used for any non-commercial purpose following conditions:
-
-        1) This copyright notice is not removed.
-        2) Source code follows any distribution of the software
-           if possible.
-        3) Copyright notice above is found in the documentation
-           of the distributed software.
-
-    Any express or implied warranties are disclaimed.  Author is
-    not liable for any direct or indirect damages caused by the use
-    of this software.
-
-    ----------------------------------------------------------------------
-
-    This code has been integrated into XBMC Media Center.
-    As such it can me copied, redistributed and modified under
-    the same conditions as the XBMC itself.
-
 Audioscrobbler - The Social Music Technology Playground
 <http://www.audioscrobbler.net/>
 
