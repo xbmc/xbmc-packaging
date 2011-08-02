@@ -27,7 +27,7 @@ BUILD_DEPENDS="debhelper (>= 7.0.50~),
  libfribidi-dev,
  libsqlite3-dev,
  libmysqlclient-dev,
- libasound-dev,
+ libasound2-dev | libasound-dev,
  libpng12-dev | libpng-dev,
  libpcre3-dev,
  liblzo2-dev,
@@ -47,7 +47,6 @@ BUILD_DEPENDS="debhelper (>= 7.0.50~),
  libxrandr-dev,
  libmpeg2-4-dev,
  libass-dev (>= 0.9.8),
- libmpcdec-dev,
  libflac-dev,
  python-dev,
  gawk,
@@ -74,7 +73,8 @@ BUILD_DEPENDS="debhelper (>= 7.0.50~),
  libomxil-bellagio-dev [armel],
  libbluray-dev,
  python-imaging,
- libva-dev,"
+ libva-dev,
+ libhal-storage-dev,"
 
 if [ "$(lsb_release -is)" = "Debian" ]; then
 BUILD_DEPENDS="$BUILD_DEPENDS
