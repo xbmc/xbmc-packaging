@@ -131,9 +131,8 @@ override_dh_install:
 	rm -f debian/xbmc/usr/share/xbmc/addons/script.recentlyadded/LICENSE.txt
 
 override_dh_makeshlibs:
-	# We don't install shared libraries in standard locations so don't edit
-	# postinst/postrm scripts to call ldconfig
-	dh_makeshlibs -n
+	# We don't install shared libraries in standard locations so don't run
+	# dh_makeshlibs
 
 override_dh_shlibdeps:
 	dh_shlibdeps -a -O--parallel \
