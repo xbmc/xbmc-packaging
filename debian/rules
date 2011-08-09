@@ -77,7 +77,6 @@ XBMC_CONFIG_OPTIONS ?= --host=$(DEB_HOST_GNU_TYPE) \
   --enable-asap-codec \
   --enable-webserver \
   --enable-optical-drive \
-  --enable-libbluray \
   --enable-texturepacker \
   $(DISTRO_SPECIFIC_OPTIONS) \
   $(XBMC_CONFIG_EXTRA_OPTIONS) \

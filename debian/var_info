@@ -71,7 +71,6 @@ BUILD_DEPENDS="debhelper (>= 7.0.50~),
  gdc,
  fpc,
  libomxil-bellagio-dev [armel],
- libbluray-dev,
  python-imaging,
  libva-dev,
  libhal-storage-dev,"
