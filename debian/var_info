@@ -82,8 +82,7 @@ BUILD_DEPENDS="$BUILD_DEPENDS
  libavformat-dev (>= 4:0.7),
  libavutil-dev (>= 4:0.7),
  libpostproc-dev (>= 4:0.7),
- libswscale-dev (>= 4:0.7),
- libnfs-dev,"
+ libswscale-dev (>= 4:0.7),"
 else
 BUILD_DEPENDS="$BUILD_DEPENDS
  libavcodec-dev,
