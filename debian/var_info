@@ -72,7 +72,6 @@ BUILD_DEPENDS="debhelper (>= 7.0.50~),
  fpc,
  libomxil-bellagio-dev [armel],
  python-imaging,
- libva-dev,
  libhal-storage-dev,"
 
 if [ "$(lsb_release -is)" = "Debian" ]; then
@@ -91,6 +90,17 @@ BUILD_DEPENDS="$BUILD_DEPENDS
  libavutil-dev,
  libpostproc-dev,
  libswscale-dev,"
+fi
+
+#Only Natty+ have supported+working libva-glx
+if [ "$(lsb_release -is)" = "Debian" ]; then
+BUILD_DEPENDS="$BUILD_DEPENDS
+ libva-dev,"
+else
+if [ "$(lsb_release -cs)" != "lucid" -a "$(lsb_release -cs)" != "maverick" ] ; then
+BUILD_DEPENDS="$BUILD_DEPENDS
+ libva-dev,"
+fi
 fi
 
 case "$1" in

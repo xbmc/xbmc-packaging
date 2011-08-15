@@ -56,7 +56,6 @@ XBMC_CONFIG_OPTIONS ?= --host=$(DEB_HOST_GNU_TYPE) \
   $(DEBUG_OPTIONS) \
   $(GL_CONFIG_OPTIONS) \
   --enable-vdpau \
-  --enable-vaapi \
   --enable-crystalhd \
   --disable-vdadecoder \
   --disable-vtbdecoder \
