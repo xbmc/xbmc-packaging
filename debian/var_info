@@ -72,6 +72,7 @@ BUILD_DEPENDS="debhelper (>= 7.0.50~),
  fpc,
  libomxil-bellagio-dev [armel],
  python-imaging,
+ libplist-dev,
  libhal-storage-dev,"
 
 if [ "$(lsb_release -is)" = "Debian" ]; then
