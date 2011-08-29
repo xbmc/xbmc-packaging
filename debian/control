@@ -2,6 +2,7 @@ Source: xbmc
 Section: video
 Priority: optional
 Maintainer: Team XBMC <team-xbmc@lists.launchpad.net>
+XSBC-Original-Maintainer: Team XBMC <team-xbmc@lists.launchpad.net>
 Uploaders: Andres Mejia <amejia@debian.org>
 DM-Upload-Allowed: yes
 Build-Depends: debhelper (>= 7.0.50~),
