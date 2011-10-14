@@ -186,12 +186,18 @@ create_source_packages() {
         # source format 3.0 (quilt) not supported in suites < lucid
         echo "1.0" >debian/source/format
       fi
+
+      #nasty hack. Export this so we can use build-deps for the right version
+      export XBMC_UBUNTU_PPA_VERSION=${UBUNTU_SUITES[$iter]}
+
       if [ "$iter" = "0" ]; then
         # First suite should always include source tarball
         dpkg-buildpackage -rfakeroot -us -uc -S -sa
       else
         dpkg-buildpackage -rfakeroot -us -uc -S -sd
       fi
+
+      XBMC_UBUNTU_PPA_VERSION=
 
       # Clean changelog
       perl -e 'local $/;

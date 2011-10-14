@@ -98,7 +98,7 @@ if [ "$(lsb_release -is)" = "Debian" ]; then
 BUILD_DEPENDS="$BUILD_DEPENDS
  libva-dev,"
 else
-if [ "$(lsb_release -is)" = "Ubuntu" -a "$(lsb_release -rs|tr -d .)" -ge 1104 ] ; then
+if [ "$(lsb_release -is)" = "Ubuntu" -a "${XBMC_UBUNTU_PPA_VERSION}" = "natty" ] ; then
 BUILD_DEPENDS="$BUILD_DEPENDS
  libbluray-dev,
  libva-dev,"
