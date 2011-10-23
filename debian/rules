@@ -45,7 +45,7 @@ OPENMAX_OPTIONS = --enable-openmax
 endif
 
 # Various environment variables to set
-ENV_OPTIONS = CFLAGS="$(DEB_CFLAGS)" CXXFLAGS="$(DEB_CXXFLAGS)"
+ENV_OPTIONS = CFLAGS="$(DEB_CFLAGS)" CXXFLAGS="-fpermissive $(DEB_CXXFLAGS)"
 
 # List of options to pass to configure. Can be overridden.
 # Extra options can simply be passed using XBMC_CONFIG_EXTRA_OPTIONS env
