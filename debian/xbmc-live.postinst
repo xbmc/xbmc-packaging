@@ -182,6 +182,13 @@ if [ $release -ge 910 ]; then
 		echo 'tty=8' >> /etc/uxlaunch/uxlaunch
 		echo 'session=/usr/bin/xbmc-standalone' >> /etc/uxlaunch/uxlaunch
 	fi
+	if [ $release -ge 1110 ]; then
+		echo "[SeatDefaults]" > /etc/lightdm/lightdm.conf
+		echo "autologin-user=$xbmcUser" >> /etc/lightdm/lightdm.conf
+		echo "autologin-user-timeout=0" >> /etc/lightdm/lightdm.conf
+		echo "user-session=xbmc-standalone" >> /etc/lightdm/lightdm.conf
+		echo "greeter-session=lightdm-gtk-greeter" >> /etc/lightdm/lightdm.conf
+	fi
 else
 	if [ -f "/etc/init/xbmc-live.conf" ]; then
 		rm /etc/init/xbmc-live.conf >/dev/null
