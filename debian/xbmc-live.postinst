@@ -6,15 +6,15 @@
 set -e
 release="$(lsb_release -r | cut -f2 | sed 's/\.//')"
 
+xbmcUser=xbmc
+# Read configuration variable file if it is present
+[ -r /etc/default/xbmc-live ] && . /etc/default/xbmc-live
+
 case "$1" in
     configure)
 	# TODO: What's the purpose of this line? As I see it, if 'xbmc' can't
 	# get a console session going, we're in trouble anyway. ceros
 	sed -i.bak-xbmc-live s/allowed_users=console/allowed_users=anybody/ /etc/X11/Xwrapper.config
-
-	xbmcUser=xbmc
-	# Read configuration variable file if it is present
-	[ -r /etc/default/xbmc-live ] && . /etc/default/xbmc-live
 
 	if ! getent passwd $xbmcUser >/dev/null; then
 		xbmcUser=$(getent passwd 1000 | sed -e 's/\:.*//')
@@ -178,7 +178,7 @@ if [ $release -ge 910 ]; then
 		sed -i '/^tty=*/ s/^/#/' /etc/uxlaunch/uxlaunch
 		sed -i '/^session=*/ s/^/#/' /etc/uxlaunch/uxlaunch
 
-		echo 'user=xbmc' >> /etc/uxlaunch/uxlaunch
+		echo "user=$xbmcUser" >> /etc/uxlaunch/uxlaunch
 		echo 'tty=8' >> /etc/uxlaunch/uxlaunch
 		echo 'session=/usr/bin/xbmc-standalone' >> /etc/uxlaunch/uxlaunch
 	fi
