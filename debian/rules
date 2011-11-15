@@ -75,6 +75,10 @@ XBMC_CONFIG_OPTIONS ?= --host=$(DEB_HOST_GNU_TYPE) \
   --enable-webserver \
   --enable-optical-drive \
   --enable-texturepacker \
+  --enable-nfs \
+  --enable-libcec \
+  --enable-afpclient \
+  --enable-airtunes \
   $(DISTRO_SPECIFIC_OPTIONS) \
   $(XBMC_CONFIG_EXTRA_OPTIONS) \
   $(ENV_OPTIONS)

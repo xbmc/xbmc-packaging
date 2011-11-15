@@ -73,7 +73,12 @@ BUILD_DEPENDS="debhelper (>= 7.0.50~),
  libomxil-bellagio-dev [armel],
  python-imaging,
  libplist-dev,
- libhal-storage-dev,"
+ libhal-storage-dev,
+ libcec-dev,
+ libudev-dev,
+ libafpclient-dev,
+ libshairport-dev,
+ libnfs-dev,"
 
 if [ "$(lsb_release -is)" = "Debian" ]; then
 BUILD_DEPENDS="$BUILD_DEPENDS
