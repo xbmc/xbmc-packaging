@@ -166,6 +166,11 @@ case "$1" in
           sed 's/^[^[:space:]]\+\?[[:space:]]\+\?[^[:space:]]\+\?[[:space:]]\+\?\(.*\)$/\1/')
         printf "$LIBRTMP_DEPENDS"
         ;;
+    LIBCEC_DEPENDS)
+        LIBCEC_DEPENDS=$(cat /var/lib/dpkg/info/libcec*.shlibs | \
+          sed 's/^[^[:space:]]\+\?[[:space:]]\+\?[^[:space:]]\+\?[[:space:]]\+\?\(.*\)$/\1/')
+        printf "$LIBCEC_DEPENDS"
+        ;;
 esac
 
 exit 0
