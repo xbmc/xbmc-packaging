@@ -115,7 +115,7 @@ case "$1" in
         printf "$BUILD_DEPENDS"
         ;;
     LIBCURL_DEPENDS)
-        LIBCURL_DEPENDS=$(cat /var/lib/dpkg/info/libcurl3-gnutls.shlibs | \
+        LIBCURL_DEPENDS=$(cat /var/lib/dpkg/info/libcurl3-gnutls*.shlibs | \
           sed 's/^[^[:space:]]\+\?[[:space:]]\+\?[^[:space:]]\+\?[[:space:]]\+\?\(.*\)$/\1/')
         printf "$LIBCURL_DEPENDS"
         ;;
@@ -162,9 +162,14 @@ case "$1" in
         printf "$LIBVDPAU_DEPENDS"
         ;;
     LIBRTMP_DEPENDS)
-        LIBRTMP_DEPENDS=$(cat /var/lib/dpkg/info/librtmp0.shlibs | \
+        LIBRTMP_DEPENDS=$(cat /var/lib/dpkg/info/librtmp0*.shlibs | \
           sed 's/^[^[:space:]]\+\?[[:space:]]\+\?[^[:space:]]\+\?[[:space:]]\+\?\(.*\)$/\1/')
         printf "$LIBRTMP_DEPENDS"
+        ;;
+    LIBCEC_DEPENDS)
+        LIBCEC_DEPENDS=$(cat /var/lib/dpkg/info/libcec*.shlibs | \
+          sed 's/^[^[:space:]]\+\?[[:space:]]\+\?[^[:space:]]\+\?[[:space:]]\+\?\(.*\)$/\1/')
+        printf "$LIBCEC_DEPENDS"
         ;;
 esac
 
