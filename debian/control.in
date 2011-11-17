@@ -59,6 +59,7 @@ Package: xbmc-bin
 Architecture: i386 amd64 powerpc ppc64 armel
 Depends: ${shlibs:Depends},
          ${misc:Depends}
+Recommends: ${shlibs:Recommends}
 Provides: xbmc-common, xbmc-eventclients-wiiremote
 Replaces: xbmc-common, xbmc-eventclients-wiiremote
 Conflicts: xbmc-common, xbmc-eventclients-wiiremote
