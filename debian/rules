@@ -98,7 +98,6 @@ DH_PARALLEL_OPT=$(shell dh_testdir --parallel 2>/dev/null && echo "--parallel")
 	@echo "Generating $$(echo $@ | sed 's/\.in$$//') from $@"
 	perl -p \
 	-e 's{#BUILD_DEPENDS#}{qx(sh debian/var_info BUILD_DEPENDS)}ge;' \
-	-e 's{#LIBCURL_DEPENDS#}{qx(sh debian/var_info LIBCURL_DEPENDS)}ge;' \
 	-e 's{#XBMC_LIVE_DEPENDS#}{qx(sh debian/var_info XBMC_LIVE_DEPENDS)}ge;' \
 	< $@ > $$(echo $@ | sed 's/\.in$$//')
 
@@ -134,18 +133,16 @@ override_dh_makeshlibs:
 	# We don't install shared libraries in standard locations so don't run
 	# dh_makeshlibs
 
-override_dh_shlibdeps:
+override_dh_shlibdeps: debian/tmp/xbmc-bin-dummy.so
 	dh_shlibdeps -a -O--parallel \
 		-l$(CURDIR)/debian/xbmc-bin/usr/lib/xbmc/system/players/dvdplayer
-
-override_dh_gencontrol:
-	dh_gencontrol
 	# Need to manually add dependencies for dlopened libs.
-	sed "s/^Depends:.*$$/&, $$(sh debian/var_info LIBCURL_DEPENDS)/" \
-		-i "debian/xbmc-bin/DEBIAN/control"
-	sed "s/^Depends:.*$$/&, $$(sh debian/var_info LIBVDPAU_DEPENDS)/" \
-		-i "debian/xbmc-bin/DEBIAN/control"
-	sed "s/^Depends:.*$$/&, $$(sh debian/var_info LIBRTMP_DEPENDS)/" \
-		-i "debian/xbmc-bin/DEBIAN/control"
-	sed "s/^Depends:.*$$/&, $$(sh debian/var_info LIBCEC_DEPENDS)/" \
-		-i "debian/xbmc-bin/DEBIAN/control"
+	dpkg-shlibdeps -dRecommends -edebian/tmp/xbmc-bin-dummy.so -xlibc6 -O >>debian/xbmc-bin.substvars
+
+debian/tmp/xbmc-bin-dummy.so:
+	mkdir -p debian/tmp
+	cc -xc -shared -Wl,--no-as-needed -o $@ /dev/null \
+		-lcurl-gnutls \
+		-lvdpau \
+		-lrtmp \
+		-lcec
