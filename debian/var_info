@@ -78,7 +78,8 @@ BUILD_DEPENDS="debhelper (>= 7.0.50~),
  libudev-dev,
  libafpclient-dev,
  libshairport-dev,
- libnfs-dev,"
+ libnfs-dev,
+ libltdl-dev,"
 
 if [ "$(lsb_release -is)" = "Debian" ]; then
 BUILD_DEPENDS="$BUILD_DEPENDS
