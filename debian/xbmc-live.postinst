@@ -186,7 +186,7 @@ if [ $release -ge 910 ]; then
 		echo "[SeatDefaults]" > /etc/lightdm/lightdm.conf
 		echo "autologin-user=$xbmcUser" >> /etc/lightdm/lightdm.conf
 		echo "autologin-user-timeout=0" >> /etc/lightdm/lightdm.conf
-		echo "user-session=xbmc-standalone" >> /etc/lightdm/lightdm.conf
+		echo "user-session=XBMC" >> /etc/lightdm/lightdm.conf
 		echo "greeter-session=lightdm-gtk-greeter" >> /etc/lightdm/lightdm.conf
 	fi
 else
