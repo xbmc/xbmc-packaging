@@ -109,6 +109,11 @@ BUILD_DEPENDS="$BUILD_DEPENDS
  libbluray-dev,
  libva-dev,"
 fi
+if [ "$(lsb_release -is)" = "Ubuntu" -a "${XBMC_UBUNTU_PPA_VERSION}" = "oneiric" ] ; then
+BUILD_DEPENDS="$BUILD_DEPENDS
+ libbluray-dev,
+ libva-dev,"
+fi
 fi
 
 case "$1" in
