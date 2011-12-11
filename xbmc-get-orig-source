@@ -8,7 +8,7 @@ XBMC_MAJOR_VERSION="11.0"
 EPOCH="2"
 PPA_REVISION="1"
 XBMC_GIT_URL="git://github.com/xbmc/xbmc.git"
-DEFAULT_XBMC_BRANCH="master"
+DEFAULT_XBMC_BRANCH="Eden"
 UBUNTU_SUITES=("oneiric" "natty" "maverick" "lucid")
 XBMC_SOURCE="./xbmc"
 # This is the where the XBMC source repo should be cloned. You can use a local
