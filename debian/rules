@@ -102,7 +102,7 @@ DH_PARALLEL_OPT=$(shell dh_testdir --parallel 2>/dev/null && echo "--parallel")
 	< $@ > $$(echo $@ | sed 's/\.in$$//')
 
 override_dh_clean:
-	dh_clean
+	dh_clean libtool xbmc/config.h xbmc/stamp-h1
 	find . -name config.status -o -name config.cache -o -name config.log \
 		-exec rm -f "{}" \;
 	debian/rules $(INPUT_FILES)
