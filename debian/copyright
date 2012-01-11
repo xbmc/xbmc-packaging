@@ -1,6 +1,7 @@
 XBMC is downloaded from http://xbmc.org/.
-GIT snapshots are generated from
-https://github.com/xbmc/xbmc-packaging.
+Orig tarballs are generated from the script located at
+https://github.com/xbmc/xbmc-packaging/blob/master/xbmc-get-orig-source. The
+orig tarball is generated using the sources in https://github.com/xbmc/xbmc.
 
 Main Contact: "Team-XBMC" <team at xbmc dot org>
 
