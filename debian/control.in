@@ -2,9 +2,7 @@ Source: xbmc
 Section: video
 Priority: optional
 Maintainer: Team XBMC <team-xbmc@lists.launchpad.net>
-XSBC-Original-Maintainer: Team XBMC <team-xbmc@lists.launchpad.net>
 Uploaders: Andres Mejia <amejia@debian.org>
-DM-Upload-Allowed: yes
 Build-Depends: #BUILD_DEPENDS#
 Standards-Version: 3.9.2
 Homepage: http://xbmc.org/
@@ -25,15 +23,9 @@ Depends: xbmc-bin (>= ${source:Version}),
          ${misc:Depends}
 Suggests: xbmc-test-helper
 Recommends: python-qt3
-Provides: xbmc-standalone, xbmc-data, xbmc-skin-confluence,
- xbmc-eventclients-common, xbmc-eventclients-dev, xbmc-eventclients-j2me,
- xbmc-eventclients-ps3, xbmc-eventclients-xbmc-send
-Replaces: xbmc-standalone, xbmc-data, xbmc-skin-confluence,
- xbmc-eventclients-common, xbmc-eventclients-dev, xbmc-eventclients-j2me,
- xbmc-eventclients-ps3, xbmc-eventclients-xbmc-send
-Conflicts: xbmc-standalone, xbmc-data, xbmc-skin-confluence,
- xbmc-eventclients-common, xbmc-eventclients-dev, xbmc-eventclients-j2me,
- xbmc-eventclients-ps3, xbmc-eventclients-xbmc-send
+Provides: xbmc-standalone, xbmc-data, xbmc-skin-confluence
+Replaces: xbmc-standalone, xbmc-data, xbmc-skin-confluence
+Conflicts: xbmc-standalone, xbmc-data, xbmc-skin-confluence
 Description: XBMC Media Center (arch-independent data package)
  XBMC, recursive acronym for "XBMC Media Center", is an award winning free and
  open source software media-player and entertainment hub for all your digital
@@ -60,9 +52,9 @@ Architecture: i386 amd64 powerpc ppc64 armel
 Depends: ${shlibs:Depends},
          ${misc:Depends}
 Recommends: ${shlibs:Recommends}
-Provides: xbmc-common, xbmc-eventclients-wiiremote
-Replaces: xbmc-common, xbmc-eventclients-wiiremote
-Conflicts: xbmc-common, xbmc-eventclients-wiiremote
+Provides: xbmc-common
+Replaces: xbmc-common
+Conflicts: xbmc-common
 Description: XBMC Media Center (binary data package)
  XBMC, recursive acronym for "XBMC Media Center", is an award winning free and
  open source software media-player and entertainment hub for all your digital
