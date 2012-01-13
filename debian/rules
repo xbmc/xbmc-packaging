@@ -151,4 +151,5 @@ debian/tmp/xbmc-bin-dummy.so:
 		-lshairport \
 		-lplist \
 		-lafpclient \
+		-lass \
 		-lcec
