@@ -128,8 +128,7 @@ case "$1" in
          adduser,
          sudo,
          whois,
-         \${misc:Depends},
-         \${shlibs:Depends},"
+         \${misc:Depends},"
         if [ $(lsb_release -cs) = "lucid" ]; then
             XBMC_LIVE_DEPENDS="$XBMC_LIVE_DEPENDS
          mkpasswd,"
