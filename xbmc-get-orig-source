@@ -96,7 +96,7 @@ if [ -z "${REVISION}" ]; then REVISION="${BRANCH}"; fi
 
 # export xbmc source
 get_sources() {
-  if [ "$(GIT_DIR="${XBMC_SOURCE}/.git" git config remote.origin.url)" = "${XBMC_GIT_URL}" ]; then
+  if [ -n "$(GIT_DIR="${XBMC_SOURCE}/.git" git config remote.origin.url)" ]; then
     GIT_DIR="${XBMC_SOURCE}/.git" git fetch origin
   else
     git clone --no-checkout "${XBMC_GIT_URL}" "${XBMC_SOURCE}"
