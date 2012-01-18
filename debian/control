@@ -102,7 +102,6 @@ Depends: xbmc-bin (>= ${source:Version}),
          python-imaging,
          ${python:Depends},
          ${misc:Depends}
-Suggests: xbmc-test-helper
 Recommends: python-qt3
 Provides: xbmc-standalone, xbmc-data, xbmc-skin-confluence
 Replaces: xbmc-standalone, xbmc-data, xbmc-skin-confluence
