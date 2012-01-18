@@ -177,7 +177,7 @@ Package: xbmc-eventclients-j2me
 Architecture: all
 Depends: xbmc-eventclients-common (= ${binary:Version}),
          ${python:Depends},
-         python-bluez,
+         python-bluez | python-lightblue,
          ${misc:Depends}
 Description: XBMC Media Center (Event Client J2ME package)
  XBMC, recursive acronym for "XBMC Media Center", is an award winning free and
