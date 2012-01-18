@@ -85,6 +85,7 @@ Build-Depends: debhelper (>= 7.0.50~),
  libavutil-dev (>= 4:0.7),
  libpostproc-dev (>= 4:0.7),
  libswscale-dev (>= 4:0.7),
+ libbluray-dev,
  libva-dev,
 Standards-Version: 3.9.2
 Homepage: http://xbmc.org/
