@@ -99,7 +99,6 @@ Depends: xbmc-bin (>= ${source:Version}),
          x11-utils,
          ttf-liberation,
          ttf-dejavu-core,
-         python-bluez | python-lightblue,
          python-imaging,
          ${python:Depends},
          ${misc:Depends}
