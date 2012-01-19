@@ -145,8 +145,4 @@ debian/tmp/xbmc-bin-dummy.so:
 		-lcurl-gnutls \
 		-lvdpau \
 		-lrtmp \
-		-lnfs \
-		-lshairport \
-		-lplist \
-		-lafpclient \
 		-lcec
