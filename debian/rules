@@ -71,7 +71,7 @@ XBMC_CONFIG_OPTIONS ?= --host=$(DEB_HOST_GNU_TYPE) \
   --disable-mid \
   --enable-hal \
   --enable-avahi \
-  --enable-asap-codec \
+  --disable-asap-codec \
   --enable-webserver \
   --enable-optical-drive \
   --enable-texturepacker \
@@ -89,6 +89,10 @@ INPUT_FILES = debian/control.in
 # Use --parallel option only if debhelper supports it
 DH_PARALLEL_OPT=$(shell dh_testdir --parallel 2>/dev/null && echo "--parallel")
 
+# Used to show what config options are enabled
+show-xbmc-config-options:
+	$(info $(XBMC_CONFIG_OPTIONS))
+
 %:
 	dh $@ $(DH_PARALLEL_OPT)
 
@@ -102,7 +106,7 @@ DH_PARALLEL_OPT=$(shell dh_testdir --parallel 2>/dev/null && echo "--parallel")
 	< $@ > $$(echo $@ | sed 's/\.in$$//')
 
 override_dh_clean:
-	dh_clean
+	dh_clean libtool xbmc/config.h xbmc/stamp-h1
 	find . -name config.status -o -name config.cache -o -name config.log \
 		-exec rm -f "{}" \;
 	debian/rules $(INPUT_FILES)
@@ -119,15 +123,13 @@ override_dh_auto_install:
 override_dh_install:
 	dh_install --sourcedir=$(CURDIR)/debian/tmp -XLICENCE \
 		-XLicence.txt -XLicense.txt -XLiberationSans-Regular.ttf \
-		-XDejaVuSans.ttf -XDejaVuSans-Bold.ttf
+		-XDejaVuSans.ttf -XDejaVuSans-Bold.ttf -XLICENSE.txt
 	# Add in scripts to packaging
 	mkdir -p debian/xbmc-live/usr/bin/
 	cp -f live-scripts/diskmounter live-scripts/runXBMC \
 		debian/xbmc-live/usr/bin/
 	mkdir -p debian/xbmc-live/etc/xbmc
 	cp -rf live-scripts/live.d debian/xbmc-live/etc/xbmc
-	# Delete license file from package
-	rm -f debian/xbmc/usr/share/xbmc/addons/script.recentlyadded/LICENSE.txt
 
 override_dh_makeshlibs:
 	# We don't install shared libraries in standard locations so don't run
@@ -145,4 +147,9 @@ debian/tmp/xbmc-bin-dummy.so:
 		-lcurl-gnutls \
 		-lvdpau \
 		-lrtmp \
+		-lnfs \
+		-lshairport \
+		-lplist \
+		-lafpclient \
+		-lass \
 		-lcec

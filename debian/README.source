@@ -1,10 +1,6 @@
-The following is done to the upstream tarball or SVN checkout when creating
-the orig tarball used in creating XBMC packages for Debian.
+A script is used to generate the orig source that is to be distributed with
+Debian. The script can be found at
+https://github.com/xbmc/xbmc-packaging/blob/master/xbmc-get-orig-source
 
-- libdvdcss is removed from xbmc/cores/dvdplayer/Codecs/libdvd/libdvdcss.
-- The empty directories xbmc/cores/dvdplayer/Codecs/libDVDCSS and
-  xbmc/cores/dvdplayer/Codecs/libdvdnav are removed.
-
-Also, the upstream source version is appended with '~debN' where 'N' is some
-integer. This is done to mark that the XBMC source in Debian is modified from
-upstream.
+The '--minimal' option is passed to the script to remove non-free libraries as
+well as libraries and other code not needed to build XBMC for Linux.

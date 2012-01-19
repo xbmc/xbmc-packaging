@@ -1,3 +1,3 @@
 version=3
-
+opts=uversionmangle=s/-.*$//,dversionmangle=s/[-.+~]?(git|snapshot|repack)(.*)$//i,pasv \
 http://mirrors.xbmc.org/releases/source/xbmc-(.*)\.tar\.gz

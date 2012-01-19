@@ -51,7 +51,7 @@ BUILD_DEPENDS="debhelper (>= 7.0.50~),
  python-dev,
  gawk,
  gperf,
- nasm [!amd64],
+ nasm [i386],
  yasm,
  libcwiid-dev,
  libbluetooth-dev,
@@ -68,8 +68,6 @@ BUILD_DEPENDS="debhelper (>= 7.0.50~),
  curl,
  libyajl-dev,
  libboost-thread-dev,
- gdc,
- fpc,
  libomxil-bellagio-dev [armel],
  python-imaging,
  libplist-dev,
@@ -102,6 +100,7 @@ fi
 #Only Natty+ have supported+working libva-glx
 if [ "$(lsb_release -is)" = "Debian" ]; then
 BUILD_DEPENDS="$BUILD_DEPENDS
+ libbluray-dev,
  libva-dev,"
 else
 if [ "$(lsb_release -is)" = "Ubuntu" -a "${XBMC_UBUNTU_PPA_VERSION}" = "natty" ] ; then
@@ -128,8 +127,7 @@ case "$1" in
          adduser,
          sudo,
          whois,
-         \${misc:Depends},
-         \${shlibs:Depends},"
+         \${misc:Depends},"
         if [ $(lsb_release -cs) = "lucid" ]; then
             XBMC_LIVE_DEPENDS="$XBMC_LIVE_DEPENDS
          mkpasswd,"
