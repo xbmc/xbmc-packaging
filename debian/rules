@@ -75,7 +75,7 @@ XBMC_CONFIG_OPTIONS ?= --host=$(DEB_HOST_GNU_TYPE) \
   --enable-webserver \
   --enable-optical-drive \
   --enable-texturepacker \
-  --disable-nfs \
+  --enable-nfs \
   --enable-libcec \
   --enable-afpclient \
   --enable-airtunes \
