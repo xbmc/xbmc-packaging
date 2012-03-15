@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: Team XBMC <team-xbmc@lists.launchpad.net>
 Uploaders: Andres Mejia <amejia@debian.org>
 Build-Depends: #BUILD_DEPENDS#
-Standards-Version: 3.9.2
+Standards-Version: 3.9.3
 Homepage: http://xbmc.org/
 Vcs-Git: git://github.com/xbmc/xbmc-packaging.git
 Vcs-Browser: https://github.com/xbmc/xbmc-packaging
