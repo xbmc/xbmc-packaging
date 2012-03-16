@@ -9,7 +9,7 @@ EPOCH="2"
 PPA_REVISION="1"
 XBMC_GIT_URL="git://github.com/xbmc/xbmc.git"
 DEFAULT_XBMC_BRANCH="master"
-UBUNTU_SUITES=("oneiric" "natty" "maverick" "lucid")
+UBUNTU_SUITES=${UBUNTU_SUITES:="oneiric natty maverick lucid"}
 XBMC_SOURCE="./xbmc"
 # This is the where the XBMC source repo should be cloned. You can use a local
 # tree if you have one. Origin will be updated, but it is otherwise read-only.
@@ -181,26 +181,28 @@ create_source_packages() {
   cp -r ./debian "${BUILDDIR}"
   if [ -n "${DPUT_HOST}" ]; then
     echo "Performing PPA upload."
-    for (( iter = 0 ; iter < ${#UBUNTU_SUITES[@]} ; iter++ )); do
+    need_tarball=1
+    for ubuntu_suite in ${UBUNTU_SUITES} ; do
       pushd ${BUILDDIR} >/dev/null
       # Update changelog for uploads to PPA.
-      dch --force-distribution -D ${UBUNTU_SUITES[$iter]} \
-        -b -v "${EPOCH}:${XBMC_VERSION}-0ubuntu1~ppa${PPA_REVISION}~${UBUNTU_SUITES[$iter]}" \
-        "Upload to XBMC PPA for Ubuntu ${UBUNTU_SUITES[$iter]}." 2>/dev/null
+      dch --force-distribution -D ${ubuntu_suite} \
+        -b -v "${EPOCH}:${XBMC_VERSION}-0ubuntu1~ppa${PPA_REVISION}~${ubuntu_suite}" \
+        "Upload to XBMC PPA for Ubuntu ${ubuntu_suite}." 2>/dev/null
 
       # Create source package
 
-      if [[ "${UBUNTU_SUITES[$iter]}:1:0" < "l" ]]; then
+      if [[ "${ubuntu_suite}:1:0" < "l" ]]; then
         # source format 3.0 (quilt) not supported in suites < lucid
         echo "1.0" >debian/source/format
       fi
 
       #nasty hack. Export this so we can use build-deps for the right version
-      export XBMC_UBUNTU_PPA_VERSION=${UBUNTU_SUITES[$iter]}
+      export XBMC_UBUNTU_PPA_VERSION=${ubuntu_suite}
 
-      if [ "$iter" = "0" ]; then
+      if [ "$need_tarball" = "1" ]; then
         # First suite should always include source tarball
         dpkg-buildpackage -rfakeroot -us -uc -S -sa
+        need_tarball=0
       else
         dpkg-buildpackage -rfakeroot -us -uc -S -sd
       fi
@@ -222,7 +224,7 @@ create_source_packages() {
 
       # Sign source package and upload.
       popd >/dev/null
-      local SOURCE_CHANGES="xbmc_${XBMC_VERSION}-0ubuntu1~ppa${PPA_REVISION}~${UBUNTU_SUITES[$iter]}_source.changes"
+      local SOURCE_CHANGES="xbmc_${XBMC_VERSION}-0ubuntu1~ppa${PPA_REVISION}~${ubuntu_suite}_source.changes"
       debsign "$SOURCE_CHANGES"
       dput "${DPUT_HOST}" "${SOURCE_CHANGES}"
     done
