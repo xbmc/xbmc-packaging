@@ -140,13 +140,25 @@ prepare_orig_tarball() {
   if [ ! -z "$REMOVE_LIBS" ]; then
     echo "Removing components not needed for Linux"
     # Remove components not needed for Linux
-    #TODO
+    rm -rf ${BUILDDIR}/lib/afpfs-ng
+    rm -rf ${BUILDDIR}/lib/libass
+    rm -rf ${BUILDDIR}/lib/libbluray
+    rm -rf ${BUILDDIR}/lib/libcec
+    rm -rf ${BUILDDIR}/lib/liblame
+    rm -rf ${BUILDDIR}/lib/libmad
+    rm -rf ${BUILDDIR}/lib/libmicrohttpd
+    rm -rf ${BUILDDIR}/lib/libmodplug
+    rm -rf ${BUILDDIR}/lib/libmpeg2
+    rm -rf ${BUILDDIR}/lib/libnfs
+    rm -rf ${BUILDDIR}/lib/librtmp
+    rm -rf ${BUILDDIR}/lib/libshairport
+    rm -rf ${BUILDDIR}/lib/win32
   fi
 
   if [ ! -z "$REMOVE_EXTERNAL" ]; then
     echo "Removing components not needed for Linux when using external libs"
     # Remove components not needed for Linux when using external libs
-    #TODO
+    rm -rf ${BUILDDIR}/lib/ffmpeg
   fi
 
   # Remove temp files and other cruft from source tarball
