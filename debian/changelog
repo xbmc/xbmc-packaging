@@ -1,55 +1,8 @@
-xbmc (2:11.0~git20111222.22ad8e4-1) experimental; urgency=low
+xbmc (2:11.0~git20120321.14feb09-1) unstable; urgency=low
 
-  * Package XBMC for Debian. (Closes: #469397)
-    (LP: #307162)
-  * Start using an epoch for use of better package versioning.
-  * Add Team XBMC to Maintainers field.
-  * Add myself to Uploaders field.
-  * Switch to debhelper 7.
-  * Switch to 3.0 (quilt) source format.
-  * Remove unused patches.
-  * Completely rewrite debian/rules to take advantage of debhelper 7 and quilt.
-  * Bump to Standards-Version 3.9.2.
-  * Changed Architecture field for arch-indep packages to 'all'.
-  * Included powerpc, ppc64, and armel for binary packages.
-  * Use ${shlibs:Depends} for all binary packages.
-  * Add ${misc:Depends} to all packages.
-  * Changed Section to video.
-  * Changed Priority to optional.
-  * No need for debian/dirs file, so removing.
-  * Rename docs to xbmc.docs so documentation installs to xbmc.
-  * Rename debug package.
-  * Use script to generate control file.
-  * Fix --prefix option when calling make install* in debian/rules.
-  * Ensure no 'Thumbs.db' files are installed.
-  * Do not use cp -a, just cp.
-  * Rewrite Description fields for each package.
-  * Add Depends on python-bluez | python-lightblue for xbmc-eventclients-ps3.
-  * Add manpages for the programs installed in /usr/bin.
-  * Split xmbc into xbmc-bin for binary data and xbmc for
-    arch-independent data. This is done to save space in the Debian archive.
-  * Add Provides, Replaces, and Conflicts field in xbmc for xbmc-common.
-  * being used in XBMC.
-  * Various fixes for lintian warnings and errors.
-    + Fix not-binnmuable-all-depends-any lintian errors.
-    + Fix not-binnmuable-any-depends-all lintian errors.
-    + Fix extended-description-line-too-long lintian warnings.
-    + Fix python-script-but-no-python-dep lintian errors.
-    + Fix maintainer-script-needs-depends-on-adduser lintian warning.
-    + Don't install License information as documentation. It will go in
-      debian/copyright.
-    + Rewrite copyright file.
-    + Include the same copyright file for all packages.
-    + Make sure the menu file is installed in xbmc-common package.
-    + Fix "needs" variable in menu file.
-    + Install the subdirectories of tools/EventClients/examples/ in examples for
-      xbmc-eventclients-dev package.
-    + Create a symlink to LiberationSans-Regular.ttf.
-  * Add Suggests of mesa-utils and x11-utils for use of glxinfo and xdpyinfo.
-  * Take advantage of FHS compliance support in XBMC.
-  * Support parallel builds.
+  * Package XBMC for Debian. (Closes: #469397) (LP: #307162)
 
- -- Andres Mejia <amejia@debian.org>  Mon, 01 Aug 2011 21:10:35 -0400
+ -- Andres Mejia <amejia@debian.org>  Fri, 30 Mar 2012 00:04:04 -0400
 
 xbmc (9.04.1.0.20670-jaunty1) jaunty; urgency=low
 
