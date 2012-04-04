@@ -153,9 +153,9 @@ prepare_orig_tarball() {
     rm -rf ${BUILDDIR}/lib/librtmp
     rm -rf ${BUILDDIR}/lib/libshairport
     rm -rf ${BUILDDIR}/lib/win32
-    find ${BUILDDIR} -iname *.so -o -iname *.exe -o -iname *.lib \
+    find ${BUILDDIR} \( \( -iname *.so -o -iname *.exe -o -iname *.lib \
       -o -iname *.dll -o -iname *.dylib -o -iname *.a \
-      -exec rm -rf "{}" \;
+      \) -exec rm -rf "{}" \; \)
   fi
 
   if [ ! -z "$REMOVE_EXTERNAL" ]; then
