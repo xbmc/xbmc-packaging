@@ -134,8 +134,8 @@ prepare_orig_tarball() {
   if [ ! -z "$REMOVE_NONFREE" ]; then
     # Remove non-free components
     echo "Removing non-free components"
-    rm -rf ${BUILDDIR}/lib/libdvd/libdvdcss
-    rm -rf ${BUILDDIR}/lib/UnrarXLib
+    find ${BUILDDIR} -iname *dvdcss* -exec rm -rf "{}" \;
+    find ${BUILDDIR} -iname *unrar* -exec rm -rf "{}" \;
   fi
   if [ ! -z "$REMOVE_LIBS" ]; then
     echo "Removing components not needed for Linux"
@@ -153,6 +153,9 @@ prepare_orig_tarball() {
     rm -rf ${BUILDDIR}/lib/librtmp
     rm -rf ${BUILDDIR}/lib/libshairport
     rm -rf ${BUILDDIR}/lib/win32
+    find ${BUILDDIR} -iname *.so -o -iname *.exe -o -iname *.lib \
+      -o -iname *.dll -o -iname *.dylib -o -iname *.a \
+      -exec rm -rf "{}" \;
   fi
 
   if [ ! -z "$REMOVE_EXTERNAL" ]; then
