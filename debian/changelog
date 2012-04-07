@@ -1,3 +1,9 @@
+xbmc (2:11.0~git20120403.ec33f1f+repack1-4) unstable; urgency=low
+
+  * Disable crystalhd on all platforms except i386 and amd64.
+
+ -- Andres Mejia <amejia@debian.org>  Sat, 07 Apr 2012 10:40:04 -0400
+
 xbmc (2:11.0~git20120403.ec33f1f+repack1-3) unstable; urgency=low
 
   * Disable afp support. XBMC cannot use latest afp library.

@@ -22,6 +22,12 @@ else
   DEBUG_OPTIONS = --enable-debug --disable-optimizations
 endif
 
+ifeq (,$(filter i386 amd64,$(DEB_HOST_ARCH)))
+  ARCH_SPECIFIC_OPTIONS = --disable-crystalhd
+else
+  ARCH_SPECIFIC_OPTIONS = --enable-crystalhd
+endif
+
 # Enable gles for armel
 ifeq (,$(filter armel,$(DEB_HOST_ARCH)))
 GL_CONFIG_OPTIONS = --enable-gl --disable-gles
@@ -43,7 +49,6 @@ XBMC_CONFIG_OPTIONS ?= --host=$(DEB_HOST_GNU_TYPE) \
   $(DEBUG_OPTIONS) \
   $(GL_CONFIG_OPTIONS) \
   --enable-vdpau \
-  --enable-crystalhd \
   --disable-vdadecoder \
   --disable-vtbdecoder \
   $(OPENMAX_OPTIONS) \
@@ -69,6 +74,7 @@ XBMC_CONFIG_OPTIONS ?= --host=$(DEB_HOST_GNU_TYPE) \
   --enable-external-libraries \
   --disable-dvdcss \
   --disable-non-free \
+  $(ARCH_SPECIFIC_OPTIONS) \
   $(XBMC_CONFIG_EXTRA_OPTIONS) \
   $(ENV_OPTIONS)
 

@@ -24,7 +24,9 @@ endif
 
 # Enable external libraries for all architectures except i386 and amd64
 ifeq (,$(filter i386 amd64,$(DEB_HOST_ARCH)))
-  ARCH_SPECIFIC_OPTIONS = --enable-external-libraries
+  ARCH_SPECIFIC_OPTIONS = --enable-external-libraries --disable-crystalhd
+else
+  ARCH_SPECIFIC_OPTIONS = --enable-crystalhd
 endif
 
 # Enable gles for armel
