@@ -80,6 +80,7 @@ BUILD_DEPENDS="debhelper (>= 7.0.50~),
  libltdl-dev,
  libtiff4-dev | libtiff-dev,
  libtinyxml-dev,"
+BUILD_DEPENDS_PPA="$BUILD_DEPENDS"
 
 if [ "$(lsb_release -is)" = "Debian" ]; then
 BUILD_DEPENDS="$BUILD_DEPENDS
@@ -90,7 +91,7 @@ BUILD_DEPENDS="$BUILD_DEPENDS
  libpostproc-dev (>= 4:0.7),
  libswscale-dev (>= 4:0.7),"
 else
-BUILD_DEPENDS="$BUILD_DEPENDS
+BUILD_DEPENDS_PPA="$BUILD_DEPENDS_PPA
  libavcodec-dev,
  libavfilter-dev,
  libavformat-dev,
@@ -106,12 +107,12 @@ BUILD_DEPENDS="$BUILD_DEPENDS
  libva-dev,"
 else
 if [ "$(lsb_release -is)" = "Ubuntu" -a "${XBMC_UBUNTU_PPA_VERSION}" = "natty" ] ; then
-BUILD_DEPENDS="$BUILD_DEPENDS
+BUILD_DEPENDS_PPA="$BUILD_DEPENDS_PPA
  libbluray-dev,
  libva-dev,"
 fi
 if [ "$(lsb_release -is)" = "Ubuntu" -a "${XBMC_UBUNTU_PPA_VERSION}" = "oneiric" ] ; then
-BUILD_DEPENDS="$BUILD_DEPENDS
+BUILD_DEPENDS_PPA="$BUILD_DEPENDS_PPA
  libbluray-dev,
  libva-dev,"
 fi
@@ -120,6 +121,9 @@ fi
 case "$1" in
     BUILD_DEPENDS)
         printf "$BUILD_DEPENDS"
+        ;;
+    BUILD_DEPENDS_PPA)
+        printf "$BUILD_DEPENDS_PPA"
         ;;
     XBMC_LIVE_DEPENDS)
         XBMC_LIVE_DEPENDS="xbmc (= \${binary:Version}),

@@ -22,6 +22,11 @@ else
   DEBUG_OPTIONS = --enable-debug --disable-optimizations
 endif
 
+# Enable external libraries for all architectures except i386 and amd64
+ifeq (,$(filter i386 amd64,$(DEB_HOST_ARCH)))
+  ARCH_SPECIFIC_OPTIONS = --enable-external-libraries
+endif
+
 # Enable gles for armel
 ifeq (,$(filter armel,$(DEB_HOST_ARCH)))
 GL_CONFIG_OPTIONS = --enable-gl --disable-gles
@@ -66,9 +71,7 @@ XBMC_CONFIG_OPTIONS ?= --host=$(DEB_HOST_GNU_TYPE) \
   --enable-libcec \
   --enable-afpclient \
   --enable-airtunes \
-  --enable-external-libraries \
-  --disable-dvdcss \
-  --disable-non-free \
+  $(ARCH_SPECIFIC_OPTIONS) \
   $(XBMC_CONFIG_EXTRA_OPTIONS) \
   $(ENV_OPTIONS)
 
@@ -86,6 +89,7 @@ override_dh_clean:
 	dh_clean libtool xbmc/config.h xbmc/stamp-h1
 	find . -name config.status -o -name config.cache -o -name config.log \
 		-exec rm -f "{}" \;
+	debian/rules $(INPUT_FILES)
 
 override_dh_auto_configure: configure
 	./configure $(XBMC_CONFIG_OPTIONS)

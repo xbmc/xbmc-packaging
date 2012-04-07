@@ -213,6 +213,15 @@ create_source_packages() {
       #nasty hack. Export this so we can use build-deps for the right version
       export XBMC_UBUNTU_PPA_VERSION=${UBUNTU_SUITES[$iter]}
 
+      # Create debian/control
+      perl -p \
+      -e 's{#BUILD_DEPENDS#}{qx(sh var_info BUILD_DEPENDS_PPA)}ge;' \
+      -e 's{#XBMC_LIVE_DEPENDS#}{qx(sh var_info XBMC_LIVE_DEPENDS)}ge;' \
+      < control.in > $(echo debian/control.in | sed 's/\.in$//')
+
+      # Place appropriate rules file in debian directory
+      cp -f rules.ppa debian/rules
+
       if [ "$iter" = "0" ]; then
         # First suite should always include source tarball
         dpkg-buildpackage -rfakeroot -us -uc -S -sa
@@ -243,6 +252,16 @@ create_source_packages() {
     done
   else
     pushd ${BUILDDIR} >/dev/null
+
+    # Create debian/control
+    perl -p \
+    -e 's{#BUILD_DEPENDS#}{qx(sh var_info BUILD_DEPENDS)}ge;' \
+    -e 's{#XBMC_LIVE_DEPENDS#}{qx(sh var_info XBMC_LIVE_DEPENDS)}ge;' \
+    < control.in > $(echo debian/control.in | sed 's/\.in$//')
+
+    # Place appropriate rules file in debian directory
+    cp -f rules.distro debian/rules
+
     dch --force-distribution -D "UNRELEASED" \
       -b -v "${EPOCH}:${XBMC_VERSION}-1" \
       "TEST PACKAGE! NOT MEANT FOR RELEASE." 2>/dev/null
