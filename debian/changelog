@@ -1,3 +1,9 @@
+xbmc (2:11.0~git20120403.ec33f1f+repack1-3) unstable; urgency=low
+
+  * Disable afp support. XBMC cannot use latest afp library.
+
+ -- Andres Mejia <amejia@debian.org>  Fri, 06 Apr 2012 23:55:49 -0400
+
 xbmc (2:11.0~git20120403.ec33f1f+repack1-2) unstable; urgency=low
 
   * Fixup packaging so that it can be synced to Ubuntu. (LP: #307162)
