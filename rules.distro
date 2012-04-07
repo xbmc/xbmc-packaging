@@ -64,7 +64,7 @@ XBMC_CONFIG_OPTIONS ?= --host=$(DEB_HOST_GNU_TYPE) \
   --enable-texturepacker \
   --enable-nfs \
   --enable-libcec \
-  --enable-afpclient \
+  --disable-afpclient \
   --enable-airtunes \
   --enable-external-libraries \
   --disable-dvdcss \

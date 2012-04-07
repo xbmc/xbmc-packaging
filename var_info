@@ -73,7 +73,6 @@ BUILD_DEPENDS="debhelper (>= 7.0.50~),
  libhal-storage-dev,
  libcec-dev (>= 1.1),
  libudev-dev,
- libafpclient-dev,
  libshairport-dev,
  libnfs-dev,
  libltdl-dev,
@@ -91,6 +90,7 @@ BUILD_DEPENDS="$BUILD_DEPENDS
  libswscale-dev (>= 4:0.7),"
 else
 BUILD_DEPENDS_PPA="$BUILD_DEPENDS_PPA
+ libafpclient-dev,
  libavcodec-dev,
  libavfilter-dev,
  libavformat-dev,
