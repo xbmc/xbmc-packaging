@@ -93,7 +93,8 @@ override_dh_clean:
 	find . -name config.status -o -name config.cache -o -name config.log \
 		-exec rm -f "{}" \;
 
-override_dh_auto_configure: configure
+override_dh_auto_configure:
+	./bootstrap
 	./configure $(XBMC_CONFIG_OPTIONS)
 
 override_dh_auto_install:
