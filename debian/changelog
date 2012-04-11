@@ -1,3 +1,9 @@
+xbmc (2:11.0~git20120403.ec33f1f+repack1-6) UNRELEASED; urgency=low
+
+  * Prepare new upload.
+
+ -- Andres Mejia <amejia@debian.org>  Tue, 10 Apr 2012 23:57:41 -0400
+
 xbmc (2:11.0~git20120403.ec33f1f+repack1-5) unstable; urgency=low
 
   * Disable building of xbmc for architectures other than amd64 and i386.
