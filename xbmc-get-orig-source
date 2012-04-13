@@ -193,10 +193,27 @@ create_tarball() {
 # than the version specified in <XBMC_VERSION>-<PPA_REVISION> and upload a
 # package for each supported Ubuntu suite if desired.
 create_source_packages() {
-  cp -r ./debian "${BUILDDIR}"
   if [ -n "${DPUT_HOST}" ]; then
     echo "Performing PPA upload."
     for (( iter = 0 ; iter < ${#UBUNTU_SUITES[@]} ; iter++ )); do
+      #nasty hack. Export this so we can use build-deps for the right version
+      export XBMC_UBUNTU_PPA_VERSION=${UBUNTU_SUITES[$iter]}
+
+      # Create debian/control
+      perl -p \
+      -e 's{#BUILD_DEPENDS#}{qx(sh var_info BUILD_DEPENDS_PPA)}ge;' \
+      -e 's{#XBMC_LIVE_DEPENDS#}{qx(sh var_info XBMC_LIVE_DEPENDS)}ge;' \
+      < control.in > $(echo debian/control.in | sed 's/\.in$//')
+
+      XBMC_UBUNTU_PPA_VERSION=
+
+      # Place appropriate rules file in debian directory
+      cp -f rules.ppa debian/rules
+
+      # Replace debian directory in build dir
+      rm -rf "${BUILDDIR}/debian"
+      cp -r ./debian "${BUILDDIR}"
+
       pushd ${BUILDDIR} >/dev/null
       # Update changelog for uploads to PPA.
       dch --force-distribution -D ${UBUNTU_SUITES[$iter]} \
@@ -210,18 +227,6 @@ create_source_packages() {
         echo "1.0" >debian/source/format
       fi
 
-      #nasty hack. Export this so we can use build-deps for the right version
-      export XBMC_UBUNTU_PPA_VERSION=${UBUNTU_SUITES[$iter]}
-
-      # Create debian/control
-      perl -p \
-      -e 's{#BUILD_DEPENDS#}{qx(sh var_info BUILD_DEPENDS_PPA)}ge;' \
-      -e 's{#XBMC_LIVE_DEPENDS#}{qx(sh var_info XBMC_LIVE_DEPENDS)}ge;' \
-      < control.in > $(echo debian/control.in | sed 's/\.in$//')
-
-      # Place appropriate rules file in debian directory
-      cp -f rules.ppa debian/rules
-
       if [ "$iter" = "0" ]; then
         # First suite should always include source tarball
         dpkg-buildpackage -rfakeroot -us -uc -S -sa
@@ -229,7 +234,6 @@ create_source_packages() {
         dpkg-buildpackage -rfakeroot -us -uc -S -sd
       fi
 
-      XBMC_UBUNTU_PPA_VERSION=
 
       # Clean changelog
       perl -e 'local $/;
@@ -246,13 +250,11 @@ create_source_packages() {
 
       # Sign source package and upload.
       popd >/dev/null
-      local SOURCE_CHANGES="xbmc_${XBMC_VERSION}-0ubuntu1~ppa${PPA_REVISION}~${UBUNTU_SUITES[$iter]}_source.changes"
-      debsign "$SOURCE_CHANGES"
-      dput "${DPUT_HOST}" "${SOURCE_CHANGES}"
+      echo local SOURCE_CHANGES="xbmc_${XBMC_VERSION}-0ubuntu1~ppa${PPA_REVISION}~${UBUNTU_SUITES[$iter]}_source.changes"
+      echo debsign "$SOURCE_CHANGES"
+      echo dput "${DPUT_HOST}" "${SOURCE_CHANGES}"
     done
   else
-    pushd ${BUILDDIR} >/dev/null
-
     # Create debian/control
     perl -p \
     -e 's{#BUILD_DEPENDS#}{qx(sh var_info BUILD_DEPENDS)}ge;' \
@@ -261,6 +263,12 @@ create_source_packages() {
 
     # Place appropriate rules file in debian directory
     cp -f rules.distro debian/rules
+
+    # Replace debian directory in build dir
+    rm -rf "${BUILDDIR}/debian"
+    cp -r ./debian "${BUILDDIR}"
+
+    pushd ${BUILDDIR} >/dev/null
 
     dch --force-distribution -D "UNRELEASED" \
       -b -v "${EPOCH}:${XBMC_VERSION}-1" \
