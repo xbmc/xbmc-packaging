@@ -250,9 +250,9 @@ create_source_packages() {
 
       # Sign source package and upload.
       popd >/dev/null
-      echo local SOURCE_CHANGES="xbmc_${XBMC_VERSION}-0ubuntu1~ppa${PPA_REVISION}~${UBUNTU_SUITES[$iter]}_source.changes"
-      echo debsign "$SOURCE_CHANGES"
-      echo dput "${DPUT_HOST}" "${SOURCE_CHANGES}"
+      local SOURCE_CHANGES="xbmc_${XBMC_VERSION}-0ubuntu1~ppa${PPA_REVISION}~${UBUNTU_SUITES[$iter]}_source.changes"
+      debsign "$SOURCE_CHANGES"
+      dput "${DPUT_HOST}" "${SOURCE_CHANGES}"
     done
   else
     # Create debian/control
