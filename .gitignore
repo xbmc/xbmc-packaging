@@ -1,1 +1,3 @@
 xbmc/
+debian/control
+debian/rules
