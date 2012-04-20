@@ -1,3 +1,10 @@
+xbmc (2:11.0~git20120416.a630a51-2) experimental; urgency=low
+
+  * Reenable builds for other architectures besides amd64 and i386.
+    (Closes: #668316)
+
+ -- Andres Mejia <amejia@debian.org>  Thu, 19 Apr 2012 21:51:44 -0400
+
 xbmc (2:11.0~git20120416.a630a51-1) unstable; urgency=low
 
   * New upload of Eden branch.
