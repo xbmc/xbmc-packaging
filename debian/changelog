@@ -1,8 +1,9 @@
-xbmc (2:11.0~git20120403.ec33f1f+repack1-6) UNRELEASED; urgency=low
+xbmc (2:11.0~git20120416.a630a51-1) unstable; urgency=low
 
-  * Prepare new upload.
+  * New upload of Eden branch.
+  * Use new patch to build/run XBMC with system tinyxml.
 
- -- Andres Mejia <amejia@debian.org>  Tue, 10 Apr 2012 23:57:41 -0400
+ -- Andres Mejia <amejia@debian.org>  Thu, 19 Apr 2012 21:17:34 -0400
 
 xbmc (2:11.0~git20120403.ec33f1f+repack1-5) unstable; urgency=low
 
