@@ -1,3 +1,10 @@
+xbmc (2:11.0~git20120423.cd20772-1) experimental; urgency=low
+
+  * New upload of Eden branch to experimental.
+  * Upload contains fixes to build ARM packages.
+
+ -- Andres Mejia <amejia@debian.org>  Mon, 23 Apr 2012 16:00:52 -0400
+
 xbmc (2:11.0~git20120416.a630a51-2) experimental; urgency=low
 
   * Re-enable builds for other architectures besides amd64 and i386.
