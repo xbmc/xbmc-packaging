@@ -22,7 +22,7 @@ Forwarded: https://github.com/xbmc/xbmc/pull/619
  
 --- a/configure.in
 +++ b/configure.in
-@@ -752,6 +752,9 @@
+@@ -749,6 +749,9 @@
  PKG_CHECK_MODULES([FREETYPE2],  [freetype2],
    [INCLUDES="$INCLUDES $FREETYPE2_CFLAGS"; LIBS="$LIBS $FREETYPE2_LIBS"],
    AC_MSG_ERROR($missing_library))
