@@ -132,6 +132,7 @@ case "$1" in
          adduser,
          sudo,
          whois,
+         lsb-release,
          \${misc:Depends},"
         if [ $(lsb_release -cs) = "lucid" ]; then
             XBMC_LIVE_DEPENDS="$XBMC_LIVE_DEPENDS
