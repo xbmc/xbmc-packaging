@@ -1,3 +1,12 @@
+xbmc (2:11.0~git20120423.cd20772-2) UNRELEASED; urgency=low
+
+  * Add lsb-release to xbmc-live dependencies.
+  * Have xbmc-live depend on policykit-1. (Closes: #669727)
+  * Only enable builds for amd64, i386, and armhf.
+  * Update README.Debian file about packages that are built.
+
+ -- Andres Mejia <amejia@debian.org>  Tue, 01 May 2012 12:37:55 -0400
+
 xbmc (2:11.0~git20120423.cd20772-1) experimental; urgency=low
 
   * New upload of Eden branch to experimental.
