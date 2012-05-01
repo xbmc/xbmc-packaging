@@ -3,6 +3,7 @@ XBMC for different Kernels and Architectures
 
 Currently, the configure scripts for XBMC is configured to only allow XBMC to
 build on i386, amd64, powerpc, powerpc64, and arm on Linux, and i386 and powerpc
-on Darwin. If you are able to build and run XBMC on other architectures and/or
-kernels, please provide patches to configure.in and any other files you may have
-modified to the Debian BTS.
+on Darwin. Furthermore, only i386, amd64, and armhf packages are built in Debian.
+If you are able to build and run XBMC on other architectures and/or kernels,
+please provide patches to configure.in and any other files you may have modified
+to the Debian BTS.
