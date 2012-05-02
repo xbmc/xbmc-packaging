@@ -7,8 +7,9 @@ xbmc (2:11.0~git20120423.cd20772-2) unstable; urgency=low
   * Don't set release variable if no version number is available.
     This fixes issue for Debian unstable which doesn't contain a version number.
   * Remove unused release variable in postrm script.
+  * Set $release to 0 in case no version is given. (Closes: #670482)
 
- -- Andres Mejia <amejia@debian.org>  Wed, 02 May 2012 14:22:22 -0400
+ -- Andres Mejia <amejia@debian.org>  Wed, 02 May 2012 15:31:38 -0400
 
 xbmc (2:11.0~git20120423.cd20772-1) experimental; urgency=low
 

@@ -5,6 +5,10 @@
 
 set -e
 release="$(lsb_release -r | cut -f2 | grep '[[:digit:]]' | sed 's/\.//')"
+# Set $release to 0 in case no version is given
+if [ -z $release ]; then
+  release=0
+fi
 
 xbmcUser=xbmc
 # Read configuration variable file if it is present
