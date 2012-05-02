@@ -4,7 +4,7 @@
 # see: dh_installdeb(1)
 
 set -e
-release="$(lsb_release -r | cut -f2 | sed 's/\.//')"
+release="$(lsb_release -r | cut -f2 | grep '[[:digit:]]' | sed 's/\.//')"
 
 xbmcUser=xbmc
 # Read configuration variable file if it is present
