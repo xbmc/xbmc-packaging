@@ -4,7 +4,6 @@
 # see: dh_installdeb(1)
 
 set -e
-release="$(lsb_release -r | cut -f2 | sed 's/\.//')"
 if [ "$1" = "purge" ]; then
 	SUDOERS_TEMPFILE=$(mktemp -q)
 
