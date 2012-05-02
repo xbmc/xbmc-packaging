@@ -4,8 +4,11 @@ xbmc (2:11.0~git20120423.cd20772-2) unstable; urgency=low
   * Have xbmc-live depend on policykit-1. (Closes: #669727)
   * Only enable builds for amd64, i386, and armhf.
   * Update README.Debian file about packages that are built.
+  * Don't set release variable if no version number is available.
+    This fixes issue for Debian unstable which doesn't contain a version number.
+  * Remove unused release variable in postrm script.
 
- -- Andres Mejia <amejia@debian.org>  Tue, 01 May 2012 13:08:11 -0400
+ -- Andres Mejia <amejia@debian.org>  Wed, 02 May 2012 14:22:22 -0400
 
 xbmc (2:11.0~git20120423.cd20772-1) experimental; urgency=low
 
