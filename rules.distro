@@ -106,12 +106,6 @@ override_dh_install:
 	dh_install --sourcedir=$(CURDIR)/debian/tmp -XLICENCE \
 		-XLicence.txt -XLicense.txt -XLiberationSans-Regular.ttf \
 		-XDejaVuSans.ttf -XDejaVuSans-Bold.ttf -XLICENSE.txt
-	# Add in scripts to packaging
-	mkdir -p debian/xbmc-live/usr/bin/
-	cp -f live-scripts/diskmounter live-scripts/runXBMC \
-		debian/xbmc-live/usr/bin/
-	mkdir -p debian/xbmc-live/etc/xbmc
-	cp -rf live-scripts/live.d debian/xbmc-live/etc/xbmc
 
 override_dh_makeshlibs:
 	# We don't install shared libraries in standard locations so don't run
