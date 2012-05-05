@@ -201,7 +201,6 @@ create_source_packages() {
       # Create debian/control
       perl -p \
       -e 's{#BUILD_DEPENDS#}{qx(sh var_info BUILD_DEPENDS_PPA)}ge;' \
-      -e 's{#XBMC_LIVE_DEPENDS#}{qx(sh var_info XBMC_LIVE_DEPENDS)}ge;' \
       < control.in > $(echo debian/control.in | sed 's/\.in$//')
 
       XBMC_UBUNTU_PPA_VERSION=
@@ -257,7 +256,6 @@ create_source_packages() {
     # Create debian/control
     perl -p \
     -e 's{#BUILD_DEPENDS#}{qx(sh var_info BUILD_DEPENDS)}ge;' \
-    -e 's{#XBMC_LIVE_DEPENDS#}{qx(sh var_info XBMC_LIVE_DEPENDS)}ge;' \
     < control.in > $(echo debian/control.in | sed 's/\.in$//')
 
     # Place appropriate rules file in debian directory
