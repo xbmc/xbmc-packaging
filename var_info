@@ -124,32 +124,6 @@ case "$1" in
     BUILD_DEPENDS_PPA)
         printf "$BUILD_DEPENDS_PPA"
         ;;
-    XBMC_LIVE_DEPENDS)
-        XBMC_LIVE_DEPENDS="xbmc (= \${binary:Version}),
-         openssh-server,
-         \${python:Depends},
-         python-apt,
-         adduser,
-         sudo,
-         whois,
-         lsb-release,
-         policykit-1,
-         \${misc:Depends},"
-        if [ $(lsb_release -cs) = "lucid" ]; then
-            XBMC_LIVE_DEPENDS="$XBMC_LIVE_DEPENDS
-         mkpasswd,"
-        fi
-        if [ $(lsb_release -cs) = "natty" ]; then
-            XBMC_LIVE_DEPENDS="$XBMC_LIVE_DEPENDS
-         uxlaunch,"
-        fi
-        if [ $(lsb_release -cs) = "oneiric" ]; then
-            XBMC_LIVE_DEPENDS="$XBMC_LIVE_DEPENDS
-         lightdm,"
-        fi
-
-        printf "$XBMC_LIVE_DEPENDS"
-        ;;
 esac
 
 exit 0
