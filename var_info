@@ -77,7 +77,7 @@ BUILD_DEPENDS="debhelper (>= 7.0.50~),
  libnfs-dev,
  libltdl-dev,
  libtiff4-dev | libtiff-dev,
- libtinyxml-dev,"
+ libtinyxml-dev (>= 2.6.2),"
 BUILD_DEPENDS_PPA="$BUILD_DEPENDS"
 
 if [ "$(lsb_release -is)" = "Debian" ]; then
