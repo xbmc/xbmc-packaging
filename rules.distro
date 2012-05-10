@@ -26,6 +26,7 @@ ifeq (,$(filter i386 amd64,$(DEB_HOST_ARCH)))
   ARCH_SPECIFIC_OPTIONS = --disable-crystalhd
 else
   ARCH_SPECIFIC_OPTIONS = --enable-crystalhd
+  ARCH_SPECIFIC_LIB_RECOMMENDS = -lcrystalhd
 endif
 
 # Enable gles for armel
@@ -133,4 +134,14 @@ debian/tmp/xbmc-bin-recommends-dummy.so:
 		-lplist \
 		-lass \
 		-lcec \
-		-lmodplug
+		-lmodplug \
+		-lFLAC \
+		-lvorbisfile \
+		-lmpeg2 \
+		-lmad \
+		-lmp3lame \
+		-logg \
+		-lvorbis \
+		-lvorbisenc \
+		-lbluray \
+		$(ARCH_SPECIFIC_LIB_RECOMMENDS)
