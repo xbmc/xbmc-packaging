@@ -127,21 +127,21 @@ debian/tmp/xbmc-bin-depends-dummy.so:
 debian/tmp/xbmc-bin-recommends-dummy.so:
 	mkdir -p debian/tmp
 	cc -xc -shared -Wl,--no-as-needed -o $@ /dev/null \
-		-lvdpau \
-		-lrtmp \
-		-lnfs \
-		-lshairport \
-		-lplist \
 		-lass \
+		-lbluray \
 		-lcec \
-		-lmodplug \
 		-lFLAC \
-		-lvorbisfile \
-		-lmpeg2 \
 		-lmad \
+		-lmodplug \
 		-lmp3lame \
+		-lmpeg2 \
+		-lnfs \
 		-logg \
+		-lplist \
+		-lrtmp \
+		-lshairport \
+		-lvdpau \
 		-lvorbis \
 		-lvorbisenc \
-		-lbluray \
+		-lvorbisfile \
 		$(ARCH_SPECIFIC_LIB_RECOMMENDS)
