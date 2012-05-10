@@ -128,4 +128,5 @@ debian/tmp/xbmc-bin-dummy.so:
 		-lplist \
 		-lafpclient \
 		-lass \
-		-lcec
+		-lcec \
+		-lmodplug
