@@ -17,7 +17,7 @@ xbmc (2:11.0~git20120510.82388d5-1) unstable; urgency=low
   * live isn't a valid package in the control.in file
   * remove other xbmc-live references, part of #670482
 
- -- Andres Mejia <amejia004@gmail.com>  Thu, 10 May 2012 17:37:39 -0400
+ -- Andres Mejia <amejia@debian.org>  Thu, 10 May 2012 17:37:39 -0400
 
 xbmc (2:11.0~git20120423.cd20772-2) unstable; urgency=low
 
