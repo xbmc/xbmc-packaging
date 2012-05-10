@@ -50,6 +50,7 @@ Description: XBMC Media Center (arch-independent data package)
 Package: xbmc-bin
 Architecture: i386 amd64 armhf
 Depends: ${shlibs:Depends},
+         ${dlopenlibs:Depends},
          ${misc:Depends}
 Recommends: ${shlibs:Recommends}
 Provides: xbmc-common

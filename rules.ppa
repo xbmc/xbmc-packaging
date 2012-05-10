@@ -111,22 +111,26 @@ override_dh_makeshlibs:
 	# We don't install shared libraries in standard locations so don't run
 	# dh_makeshlibs
 
-override_dh_shlibdeps: debian/tmp/xbmc-bin-dummy.so
+override_dh_shlibdeps: debian/tmp/xbmc-bin-depends-dummy.so debian/tmp/xbmc-bin-recommends-dummy.so
 	dh_shlibdeps -a -O--parallel \
 		-l$(CURDIR)/debian/xbmc-bin/usr/lib/xbmc/system/players/dvdplayer
 	# Need to manually add dependencies for dlopened libs.
-	dpkg-shlibdeps -dRecommends -edebian/tmp/xbmc-bin-dummy.so -xlibc6 -O >>debian/xbmc-bin.substvars
+	dpkg-shlibdeps -pdlopenlibs -edebian/tmp/xbmc-bin-depends-dummy.so -xlibc6 -O >>debian/xbmc-bin.substvars
+	dpkg-shlibdeps -dRecommends -edebian/tmp/xbmc-bin-recommends-dummy.so -xlibc6 -O >>debian/xbmc-bin.substvars
 
-debian/tmp/xbmc-bin-dummy.so:
+debian/tmp/xbmc-bin-depends-dummy.so:
 	mkdir -p debian/tmp
 	cc -xc -shared -Wl,--no-as-needed -o $@ /dev/null \
-		-lcurl-gnutls \
+		-lcurl-gnutls
+
+debian/tmp/xbmc-bin-recommends-dummy.so:
+	mkdir -p debian/tmp
+	cc -xc -shared -Wl,--no-as-needed -o $@ /dev/null \
 		-lvdpau \
 		-lrtmp \
 		-lnfs \
 		-lshairport \
 		-lplist \
-		-lafpclient \
 		-lass \
 		-lcec \
 		-lmodplug
