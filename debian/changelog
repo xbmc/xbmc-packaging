@@ -1,3 +1,24 @@
+xbmc (2:11.0~git20120510.82388d5-1) unstable; urgency=low
+
+  [ Andres Mejia ]
+  * New upload of Eden branch.
+  * Don't provide xbmc-live package anymore. (Closes: #668404)
+    (Closes: #671275) (Closes: #671668)
+  * Require libtinyxml-dev (>= 2.6.2).
+  * Include libmodplug library in Recommends.
+  * Make libcurl-gnutls a strict dependency for xbmc-bin.
+  * Add other recommended libraries used by xbmc.
+  * Alphabetize lists of recommended dependencies.
+  * Remove patches directory. All patches applied in Eden branch.
+
+  [ Piethein Strengholt ]
+  * remove live-scripts directory, part of #670482
+  * no longer copy the live-scripts dir when building
+  * live isn't a valid package in the control.in file
+  * remove other xbmc-live references, part of #670482
+
+ -- Andres Mejia <amejia004@gmail.com>  Thu, 10 May 2012 17:37:39 -0400
+
 xbmc (2:11.0~git20120423.cd20772-2) unstable; urgency=low
 
   * Add lsb-release to xbmc-live dependencies.
