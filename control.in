@@ -21,8 +21,8 @@ Depends: xbmc-bin (>= ${source:Version}),
          ${python:Depends},
          ${misc:Depends}
 Recommends: python-qt3
-Provides: xbmc-standalone, xbmc-data, xbmc-skin-confluence
-Replaces: xbmc-standalone, xbmc-data, xbmc-skin-confluence
+Provides: xbmc-standalone, xbmc-data, xbmc-skin-confluence, xbmc-live
+Replaces: xbmc-standalone, xbmc-data, xbmc-skin-confluence, xbmc-live
 Breaks: xbmc-standalone (<< 2:11.0~git20111222.22ad8e4),
         xbmc-data (<< 2:11.0~git20111222.22ad8e4),
         xbmc-skin-confluence (<< 2:11.0~git20111222.22ad8e4)
