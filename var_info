@@ -116,6 +116,11 @@ BUILD_DEPENDS_PPA="$BUILD_DEPENDS_PPA
  libbluray-dev,
  libva-dev,"
 fi
+if [ "$(lsb_release -is)" = "Ubuntu" -a "${XBMC_UBUNTU_PPA_VERSION}" = "precise" ] ; then
+BUILD_DEPENDS_PPA="$BUILD_DEPENDS_PPA
+ libbluray-dev,
+ libva-dev,"
+fi
 fi
 
 case "$1" in
