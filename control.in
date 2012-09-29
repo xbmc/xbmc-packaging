@@ -1,7 +1,7 @@
 Source: xbmc
 Section: video
 Priority: optional
-Maintainer: Team XBMC <team-xbmc@lists.launchpad.net>
+Maintainer: Debian XBMC Packaging Team <pkg-xbmc-maintainers@lists.alioth.debian.org>
 Uploaders: Andres Mejia <amejia@debian.org>
 Build-Depends: #BUILD_DEPENDS#
 Standards-Version: 3.9.3
