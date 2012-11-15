@@ -4,12 +4,12 @@
 # generate it into an orig source tarball for Debian.
 
 # Common variables used to ease maintenance of this script
-XBMC_MAJOR_VERSION="11.0"
+XBMC_MAJOR_VERSION="12.0"
 EPOCH="2"
 PPA_REVISION="1"
 XBMC_GIT_URL="git://github.com/xbmc/xbmc.git"
 DEFAULT_XBMC_BRANCH="master"
-UBUNTU_SUITES=("oneiric" "natty" "maverick" "lucid" "precise")
+UBUNTU_SUITES=("oneiric" "precise" "quantal")
 XBMC_SOURCE="./xbmc"
 # This is the where the XBMC source repo should be cloned. You can use a local
 # tree if you have one. Origin will be updated, but it is otherwise read-only.
@@ -151,6 +151,7 @@ prepare_orig_tarball() {
     rm -rf ${BUILDDIR}/lib/libnfs
     rm -rf ${BUILDDIR}/lib/librtmp
     rm -rf ${BUILDDIR}/lib/libshairport
+    rm -rf ${BUILDDIR}/lib/taglib
     rm -rf ${BUILDDIR}/lib/win32
     find ${BUILDDIR} \( \( -iname *.so -o -iname *.exe -o -iname *.lib \
       -o -iname *.dll -o -iname *.dylib -o -iname *.a \
