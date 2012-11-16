@@ -161,7 +161,7 @@ prepare_orig_tarball() {
   if [ ! -z "$REMOVE_EXTERNAL" ]; then
     echo "Removing components not needed for Linux when using external libs"
     # Remove components not needed for Linux when using external libs
-    rm -rf ${BUILDDIR}/lib/ffmpeg
+    # rm -rf ${BUILDDIR}/lib/ffmpeg
   fi
 
   # Remove temp files and other cruft from source tarball

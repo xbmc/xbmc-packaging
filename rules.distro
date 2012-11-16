@@ -70,7 +70,7 @@ XBMC_CONFIG_OPTIONS ?= --host=$(DEB_HOST_GNU_TYPE) \
   --enable-libcec \
   --disable-afpclient \
   --enable-airtunes \
-  --enable-external-libraries \
+  --disable-external-libraries \
   --disable-dvdcss \
   --disable-non-free \
   $(ARCH_SPECIFIC_OPTIONS) \
