@@ -1,3 +1,13 @@
+xbmc (2:12.0~git20121117.0151446-1) experimental; urgency=low
+
+  * New upload for beta packages of XBMC Frodo.
+    (Closes: #668901)
+    (Closes: #681264)
+    (Closes: #682312)
+  * Recommends of python-qt3 is removed. (Closes: #685076)
+
+ -- Andres Mejia <amejia@debian.org>  Sat, 17 Nov 2012 13:49:18 -0500
+
 xbmc (2:11.0~git20120510.82388d5-1) unstable; urgency=low
 
   [ Andres Mejia ]
