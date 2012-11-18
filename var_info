@@ -85,23 +85,9 @@ BUILD_DEPENDS="debhelper (>= 7.0.50~),
  default-jre,"
 BUILD_DEPENDS_PPA="$BUILD_DEPENDS"
 
-if [ "$(lsb_release -is)" = "Debian" ]; then
-BUILD_DEPENDS="$BUILD_DEPENDS
- libavcodec-dev (>= 4:0.7),
- libavfilter-dev (>= 4:0.7),
- libavformat-dev (>= 4:0.7),
- libavutil-dev (>= 4:0.7),
- libpostproc-dev (>= 4:0.7),
- libswscale-dev (>= 4:0.7),"
-else
+if [ "$(lsb_release -is)" != "Debian" ]; then
 BUILD_DEPENDS_PPA="$BUILD_DEPENDS_PPA
- libafpclient-dev,
- libavcodec-dev,
- libavfilter-dev,
- libavformat-dev,
- libavutil-dev,
- libpostproc-dev,
- libswscale-dev,"
+ libafpclient-dev,"
 fi
 
 #Only Natty+ have supported+working libva-glx
