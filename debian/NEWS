@@ -1,4 +1,4 @@
-xbmc (2:12.0~git20121117.0151446-1) experimental; urgency=low
+xbmc (2:12.0~git20121119.22795bc-1) experimental; urgency=low
 
   * For XBMC Frodo (v12.0), XBMC will be built and run using XBMC's internal
     fork of FFMpeg. The specific branch that the fork is forked from is
@@ -11,4 +11,4 @@ xbmc (2:12.0~git20121117.0151446-1) experimental; urgency=low
     working with FFMpeg installed as system libraries, since Debian
     currently only has Libav.
 
- -- Andres Mejia <amejia@debian.org>  Sat, 17 Nov 2012 13:49:40 -0500
+ -- Andres Mejia <amejia@debian.org>  Mon, 19 Nov 2012 17:56:50 -0500
