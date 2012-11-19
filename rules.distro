@@ -37,7 +37,13 @@ GL_CONFIG_OPTIONS = --disable-gl --enable-gles
 endif
 
 # Various environment variables to set
-ENV_OPTIONS = CFLAGS="$(DEB_CFLAGS)" CXXFLAGS="$(DEB_CXXFLAGS)"
+DEB_CFLAGS ?=  $(shell dpkg-buildflags --get CPPFLAGS) \
+  $(filter-out -g -O2, $(shell dpkg-buildflags --get CFLAGS))
+DEB_CXXFLAGS ?= $(shell dpkg-buildflags --get CPPFLAGS) \
+  $(filter-out -g -O2, $(shell dpkg-buildflags --get CXXFLAGS))
+DEB_LDFLAGS ?= $(shell dpkg-buildflags --get LDFLAGS)
+ENV_OPTIONS = CFLAGS="$(DEB_CFLAGS)" CXXFLAGS="$(DEB_CXXFLAGS)" \
+  LDFLAGS="$(DEB_LDFLAGS)"
 
 # List of options to pass to configure. Can be overridden.
 # Extra options can simply be passed using XBMC_CONFIG_EXTRA_OPTIONS env
