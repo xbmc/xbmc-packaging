@@ -76,8 +76,10 @@ Description: XBMC Media Center (binary data package)
  This package contains all the binary data needed to have a working XBMC.
 
 Package: xbmc-dev-tools
-Architecture: all
-Depends: ${misc:Depends}
+Architecture: i386 amd64 armhf
+Depends: ${misc:Depends},
+         liblzo2-2,
+         libsdl-image1.2
 Description: XBMC Media Center (developer tools)
  XBMC, recursive acronym for "XBMC Media Center", is an award winning free and
  open source software media-player and entertainment hub for all your digital
