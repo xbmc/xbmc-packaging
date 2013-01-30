@@ -1,3 +1,9 @@
+xbmc (2:12.0~git20130127.fb595f2-1) experimental; urgency=low
+
+  * New upload for XBMC 12.0 Frodo.
+
+ -- Andres Mejia <amejia@debian.org>  Tue, 29 Jan 2013 20:13:05 -0500
+
 xbmc (2:12.0~git20121210.baaa51c-1) experimental; urgency=low
 
   * New upload for XBMC Frodo RC 1.
