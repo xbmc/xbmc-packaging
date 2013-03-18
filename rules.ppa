@@ -11,7 +11,7 @@ DEB_HOST_ARCH ?= $(shell dpkg-architecture -qDEB_HOST_ARCH)
 # NOTE: DEB_BUILD_OPTIONS must have 'nostrip' otherwise debugging symbols will
 # be stripped from binaries.
 XBMC_RELEASE ?= yes
-ifneq (,$(findstring nostrip,$(DEB_BUILD_OPTIONS)))
+ifneq (nostrip,$(findstring nostrip,$(DEB_BUILD_OPTIONS)))
 XBMC_RELEASE ?= no
 endif
 
