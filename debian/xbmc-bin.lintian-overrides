@@ -3,4 +3,7 @@
 xbmc-bin: embedded-library usr/lib/xbmc/system/players/dvdplayer/avcodec-53-x86_64-linux.so: libavcodec
 xbmc-bin: embedded-library usr/lib/xbmc/system/players/dvdplayer/avfilter-2-x86_64-linux.so: libavfilter
 xbmc-bin: embedded-library usr/lib/xbmc/system/players/dvdplayer/avutil-51-x86_64-linux.so: libavutil
+xbmc-bin: embedded-library usr/lib/xbmc/system/players/dvdplayer/avcodec-54-x86_64-linux.so: libavcodec
+xbmc-bin: embedded-library usr/lib/xbmc/system/players/dvdplayer/avfilter-3-x86_64-linux.so: libavfilter
+xbmc-bin: embedded-library usr/lib/xbmc/system/players/dvdplayer/avutil-52-x86_64-linux.so: libavutil
 xbmc-bin: embedded-library usr/lib/xbmc/system/players/dvdplayer/postproc-52-x86_64-linux.so: libpostproc
