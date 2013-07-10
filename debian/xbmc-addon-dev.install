@@ -2,3 +2,6 @@ usr/include/xbmc/libXBMC_addon.h
 usr/include/xbmc/xbmc_addon_cpp_dll.h
 usr/include/xbmc/xbmc_addon_dll.h
 usr/include/xbmc/xbmc_addon_types.h
+usr/include/xbmc/xbmc_codec_types.h
+usr/include/xbmc/libXBMC_codec.h
+usr/include/xbmc/libXBMC_gui.h
