@@ -2,3 +2,4 @@ usr/include/xbmc/libXBMC_pvr.h
 usr/include/xbmc/xbmc_epg_types.h
 usr/include/xbmc/xbmc_pvr_dll.h
 usr/include/xbmc/xbmc_pvr_types.h
+usr/include/xbmc/DVDDemuxPacket.h
