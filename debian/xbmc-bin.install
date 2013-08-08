@@ -1,1 +1,4 @@
-usr/lib/xbmc
+usr/lib/xbmc/system
+usr/lib/xbmc/addons
+usr/lib/xbmc/xbmc-xrandr
+usr/lib/xbmc/xbmc.bin
