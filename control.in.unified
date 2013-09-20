@@ -34,12 +34,13 @@ Depends: xbmc-bin (>= ${source:Version}),
          libaacs0,
          libflac8,
          libcec2 (>= 2.1.1),
+         librtmp0,
          ${python:Depends},
          ${misc:Depends}
-Suggests: xbmc-test-helper,
+Recommends: libvdpau1,
          libva-intel-vaapi-driver,
          libva1
-Recommends: libvdpau1,
+Suggests: xbmc-test-helper,
          xbmc-pvr-mythtv-cmyth,
          xbmc-pvr-vuplus,
          xbmc-pvr-vdr-vnsi,
@@ -48,7 +49,8 @@ Recommends: libvdpau1,
          xbmc-pvr-mediaportal-tvserver,
          xbmc-pvr-tvheadend-hts,
          xbmc-pvr-dvbviewer,
-         xbmc-pvr-argustv
+         xbmc-pvr-argustv,
+         xbmc-pvr-iptvsimple
 Provides: xbmc-standalone, xbmc-data, xbmc-skin-confluence
 Replaces: xbmc-standalone, xbmc-data, xbmc-skin-confluence
 Breaks: xbmc-standalone (<< 2:11.0~git20111222.22ad8e4),
