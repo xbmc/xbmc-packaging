@@ -1,3 +1,15 @@
+xbmc (2:12.2-1.1) experimental; urgency=low
+
+  * Non-maintainer upload.
+  * XBMC 12.2 Frodo. Closes: #716806
+  * Disable hal support. Closes: #676702 Closes: #668486
+  * Add 01-Compile-against-system-libavcodec.patch and
+    02-Fix-avcodec-vdpau-detection.patch
+    (Closes: #706193)
+  * Fix typo in package description: "archiecture". Closes: #706826 
+
+ -- macmenot <notmemac@gmail.com>  Thu, 03 Oct 2013 21:05:29 +0100
+
 xbmc (2:12.0~git20130127.fb595f2-1) experimental; urgency=low
 
   * New upload for XBMC 12.0 Frodo.

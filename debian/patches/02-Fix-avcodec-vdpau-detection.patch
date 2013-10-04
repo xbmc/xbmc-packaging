@@ -1,0 +1,20 @@
+--- a/configure.in
++++ b/configure.in
+@@ -1574,7 +1574,7 @@
+   AC_DEFINE([USE_EXTERNAL_FFMPEG], [1], [Whether to use external FFmpeg libraries.])
+ 
+   # Disable vdpau support if external libavcodec doesn't have it
+-  AC_CHECK_LIB([avcodec], [ff_vdpau_vc1_decode_picture],,
++  AC_CHECK_LIB([avcodec], [avcodec_open2],,
+     [if test "x$use_vdpau" = "xyes"; then
+       AC_MSG_ERROR($ffmpeg_vdpau_not_supported)
+     else
+@@ -1642,7 +1642,7 @@
+     USE_VDPAU=0
+   else
+     USE_VDPAU=1
+-    AC_CHECK_HEADER([vdpau/vdpau.h],AC_DEFINE([HAVE_LIBVDPAU], [],
++    AC_CHECK_HEADER([vdpau/vdpau.h],AC_DEFINE([HAVE_LIBVDPAU], [1],
+       [Define to 1 if you have the 'vdpau' library (-lvdpau).]),
+     [if test "x$use_vdpau" = "xyes"; then
+       USE_VDPAU=0

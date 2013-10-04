@@ -50,7 +50,7 @@ XBMC_CONFIG_OPTIONS ?= --host=$(DEB_HOST_GNU_TYPE) \
   --enable-rtmp \
   --enable-ffmpeg-libvorbis \
   --disable-mid \
-  --enable-hal \
+  --disable-hal \
   --enable-avahi \
   --disable-asap-codec \
   --enable-webserver \

@@ -9,6 +9,7 @@ BUILD_DEPENDS="debhelper (>= 7.0.50~),
  autotools-dev,
  autoconf,
  automake,
+ dh-autoreconf,
  unzip,
  libboost-dev,
  zip,
@@ -70,7 +71,6 @@ BUILD_DEPENDS="debhelper (>= 7.0.50~),
  libomxil-bellagio-dev [armel],
  python-imaging,
  libplist-dev,
- libhal-storage-dev,
  libcec-dev (>= 2),
  libudev-dev,
  udev,
@@ -101,6 +101,13 @@ if [ "$(lsb_release -is)" = "Ubuntu" -a "${XBMC_UBUNTU_PPA_VERSION}" > "l" ] ; t
 BUILD_DEPENDS_PPA="$BUILD_DEPENDS_PPA
  libbluray-dev,
  libva-dev,"
+ libavcodec-dev,
+ libavfilter-dev,
+ libavformat-dev,
+ libavresample-dev,
+ libavutil-dev,
+ libpostproc-dev,
+ libswscale-dev,
 fi
 fi
 
