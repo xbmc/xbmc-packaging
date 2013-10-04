@@ -1,0 +1,456 @@
+Description: Modify XBMC to compile against system libavcodec
+ DllAvFilter: * insert a format filter to force output format.
+              * use av_buffersink_read()
+              * use av_buffersrc_write_frame().
+              * use avfilter_graph_parse2().
+ DllAvFormat: * remove bindings for url_feof()
+ DllSwResample: * fix avresample support.
+ DVDAudioCodecFFmpeg: * do not reopen the resample context for each frame.
+ DVDVideoCodecFFmpeg: * AVFilterBufferRefVideoProps.sample_aspect_ratio is
+                        named pixel_aspect in libav
+Author: Anton Khirnov <anton@khirnov.net>
+Origin: http://git.khirnov.net/cgit.cgi/xbmc/
+Reviewed-by: Reinhard Tartler <siretart@tauware.de>
+Last-Update: 2013-10-03
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+--- a/lib/DllAvFormat.h
++++ b/lib/DllAvFormat.h
+@@ -62,7 +62,6 @@
+   virtual ~DllAvFormatInterface() {}
+   virtual void av_register_all_dont_call(void)=0;
+   virtual AVInputFormat *av_find_input_format(const char *short_name)=0;
+-  virtual int url_feof(AVIOContext *s)=0;
+   virtual void avformat_close_input(AVFormatContext **s)=0;
+   virtual int av_read_frame(AVFormatContext *s, AVPacket *pkt)=0;
+   virtual void av_read_frame_flush(AVFormatContext *s)=0;
+@@ -114,7 +113,6 @@
+   } 
+   virtual void av_register_all_dont_call() { *(volatile int* )0x0 = 0; } 
+   virtual AVInputFormat *av_find_input_format(const char *short_name) { return ::av_find_input_format(short_name); }
+-  virtual int url_feof(AVIOContext *s) { return ::url_feof(s); }
+   virtual void avformat_close_input(AVFormatContext **s) { ::avformat_close_input(s); }
+   virtual int av_read_frame(AVFormatContext *s, AVPacket *pkt) { return ::av_read_frame(s, pkt); }
+   virtual void av_read_frame_flush(AVFormatContext *s) { ::av_read_frame_flush(s); }
+@@ -175,7 +173,6 @@
+ 
+   DEFINE_METHOD0(void, av_register_all_dont_call)
+   DEFINE_METHOD1(AVInputFormat*, av_find_input_format, (const char *p1))
+-  DEFINE_METHOD1(int, url_feof, (AVIOContext *p1))
+   DEFINE_METHOD1(void, avformat_close_input, (AVFormatContext **p1))
+   DEFINE_METHOD1(int, av_read_play, (AVFormatContext *p1))
+   DEFINE_METHOD1(int, av_read_pause, (AVFormatContext *p1))
+@@ -212,7 +209,6 @@
+   BEGIN_METHOD_RESOLVE()
+     RESOLVE_METHOD_RENAME(av_register_all, av_register_all_dont_call)
+     RESOLVE_METHOD(av_find_input_format)
+-    RESOLVE_METHOD(url_feof)
+     RESOLVE_METHOD(avformat_close_input)
+     RESOLVE_METHOD(av_read_frame)
+     RESOLVE_METHOD(av_read_play)
+--- a/lib/DllSwResample.h
++++ b/lib/DllSwResample.h
+@@ -113,7 +113,7 @@
+   }
+   virtual int swr_init(struct SwrContext *s) { return ::avresample_open(s); }
+   virtual void swr_free(struct SwrContext **s){ ::avresample_close(*s); *s = NULL; }
+-  virtual int swr_convert(struct SwrContext *s, uint8_t **out, int out_count, const uint8_t **in , int in_count){ return ::avresample_convert(s, (void**)out, 0, out_count, (void**)in, 0,in_count); }
++  virtual int swr_convert(struct SwrContext *s, uint8_t **out, int out_count, const uint8_t **in , int in_count){ return ::avresample_convert(s, out, 0, out_count, (uint8_t**)in, 0,in_count); }
+ };
+ #endif
+ 
+--- a/lib/DllAvFilter.h
++++ b/lib/DllAvFilter.h
+@@ -45,7 +45,7 @@
+   #if (defined HAVE_LIBAVFILTER_AVFILTER_H)
+     #include <libavfilter/avfiltergraph.h>
+     #include <libavfilter/buffersink.h>
+-    #include <libavfilter/avcodec.h>
++    #include <libavfilter/buffersrc.h>
+   #elif (defined HAVE_FFMPEG_AVFILTER_H)
+     #include <ffmpeg/avfiltergraph.h>
+     #include <ffmpeg/buffersink.h>
+@@ -72,18 +72,12 @@
+   virtual AVFilterGraph *avfilter_graph_alloc(void)=0;
+   virtual AVFilterInOut *avfilter_inout_alloc()=0;
+   virtual void avfilter_inout_free(AVFilterInOut **inout)=0;
+-  virtual int avfilter_graph_parse(AVFilterGraph *graph, const char *filters, AVFilterInOut **inputs, AVFilterInOut **outputs, void *log_ctx)=0;
++  virtual int avfilter_graph_parse2(AVFilterGraph *graph, const char *filters, AVFilterInOut **inputs, AVFilterInOut **outputs)=0;
+   virtual int avfilter_graph_config(AVFilterGraph *graphctx, void *log_ctx)=0;
+-#if LIBAVFILTER_VERSION_INT < AV_VERSION_INT(3,0,0)
+-  virtual int av_vsrc_buffer_add_frame(AVFilterContext *buffer_filter, AVFrame *frame, int flags)=0;
+-#else
+-  virtual int av_buffersrc_add_frame(AVFilterContext *buffer_filter, AVFrame *frame, int flags)=0;
+-#endif
++  virtual int av_buffersrc_write_frame(AVFilterContext *buffer_filter, const AVFrame *frame)=0;
+   virtual void avfilter_unref_buffer(AVFilterBufferRef *ref)=0;
+   virtual int avfilter_link(AVFilterContext *src, unsigned srcpad, AVFilterContext *dst, unsigned dstpad)=0;
+-  virtual int av_buffersink_get_buffer_ref(AVFilterContext *buffer_sink, AVFilterBufferRef **bufref, int flags)=0;
+-  virtual AVBufferSinkParams *av_buffersink_params_alloc()=0;
+-  virtual int av_buffersink_poll_frame(AVFilterContext *ctx)=0;
++  virtual int av_buffersink_read(AVFilterContext *buffer_sink, AVFilterBufferRef **bufref)=0;
+ };
+ 
+ #if (defined USE_EXTERNAL_FFMPEG) || (defined TARGET_DARWIN)
+@@ -125,25 +119,19 @@
+     CSingleLock lock(DllAvCodec::m_critSection);
+     ::avfilter_inout_free(inout);
+   }
+-  virtual int avfilter_graph_parse(AVFilterGraph *graph, const char *filters, AVFilterInOut **inputs, AVFilterInOut **outputs, void *log_ctx)
++  virtual int avfilter_graph_parse2(AVFilterGraph *graph, const char *filters, AVFilterInOut **inputs, AVFilterInOut **outputs)
+   {
+     CSingleLock lock(DllAvCodec::m_critSection);
+-    return ::avfilter_graph_parse(graph, filters, inputs, outputs, log_ctx);
++    return ::avfilter_graph_parse2(graph, filters, inputs, outputs);
+   }
+   virtual int avfilter_graph_config(AVFilterGraph *graphctx, void *log_ctx)
+   {
+     return ::avfilter_graph_config(graphctx, log_ctx);
+   }
+-#if LIBAVFILTER_VERSION_INT < AV_VERSION_INT(3,0,0)
+-  virtual int av_vsrc_buffer_add_frame(AVFilterContext *buffer_filter, AVFrame *frame, int flags) { return ::av_vsrc_buffer_add_frame(buffer_filter, frame, flags); }
+-#else
+-  virtual int av_buffersrc_add_frame(AVFilterContext *buffer_filter, AVFrame* frame, int flags) { return ::av_buffersrc_add_frame(buffer_filter, frame, flags); }
+-#endif
++  virtual int av_buffersrc_write_frame(AVFilterContext *buffer_filter, const AVFrame* frame) { return ::av_buffersrc_write_frame(buffer_filter, frame); }
+   virtual void avfilter_unref_buffer(AVFilterBufferRef *ref) { ::avfilter_unref_buffer(ref); }
+   virtual int avfilter_link(AVFilterContext *src, unsigned srcpad, AVFilterContext *dst, unsigned dstpad) { return ::avfilter_link(src, srcpad, dst, dstpad); }
+-  virtual int av_buffersink_get_buffer_ref(AVFilterContext *buffer_sink, AVFilterBufferRef **bufref, int flags) { return ::av_buffersink_get_buffer_ref(buffer_sink, bufref, flags); }
+-  virtual AVBufferSinkParams *av_buffersink_params_alloc() { return ::av_buffersink_params_alloc(); }
+-  virtual int av_buffersink_poll_frame(AVFilterContext *ctx) { return ::av_buffersink_poll_frame(ctx); }
++  virtual int av_buffersink_read(AVFilterContext *buffer_sink, AVFilterBufferRef **bufref) { return ::av_buffersink_read(buffer_sink, bufref); }
+   // DLL faking.
+   virtual bool ResolveExports() { return true; }
+   virtual bool Load() {
+@@ -170,18 +158,12 @@
+   DEFINE_METHOD0(AVFilterGraph*, avfilter_graph_alloc)
+   DEFINE_METHOD0(AVFilterInOut*, avfilter_inout_alloc_dont_call)
+   DEFINE_METHOD1(void, avfilter_inout_free_dont_call, (AVFilterInOut **p1))
+-  DEFINE_FUNC_ALIGNED5(int, __cdecl, avfilter_graph_parse_dont_call, AVFilterGraph *, const char *, AVFilterInOut **, AVFilterInOut **, void *)
++  DEFINE_FUNC_ALIGNED4(int, __cdecl, avfilter_graph_parse2_dont_call, AVFilterGraph *, const char *, AVFilterInOut **, AVFilterInOut **)
+   DEFINE_FUNC_ALIGNED2(int, __cdecl, avfilter_graph_config_dont_call, AVFilterGraph *, void *)
+-#if LIBAVFILTER_VERSION_INT < AV_VERSION_INT(3,0,0)
+-  DEFINE_METHOD3(int, av_vsrc_buffer_add_frame, (AVFilterContext *p1, AVFrame *p2, int p3))
+-#else
+-  DEFINE_METHOD3(int, av_buffersrc_add_frame, (AVFilterContext *p1, AVFrame *p2, int p3))
+-#endif
++  DEFINE_METHOD2(int, av_buffersrc_write_frame, (AVFilterContext *p1, const AVFrame *p2))
+   DEFINE_METHOD1(void, avfilter_unref_buffer, (AVFilterBufferRef *p1))
+   DEFINE_METHOD4(int, avfilter_link, (AVFilterContext *p1, unsigned p2, AVFilterContext *p3, unsigned p4))
+-  DEFINE_FUNC_ALIGNED3(int                , __cdecl, av_buffersink_get_buffer_ref, AVFilterContext *, AVFilterBufferRef **, int);
+-  DEFINE_FUNC_ALIGNED0(AVBufferSinkParams*, __cdecl, av_buffersink_params_alloc);
+-  DEFINE_FUNC_ALIGNED1(int                , __cdecl, av_buffersink_poll_frame, AVFilterContext *);
++  DEFINE_FUNC_ALIGNED2(int                , __cdecl, av_buffersink_read, (AVFilterContext *p1, AVFilterBufferRef **p2));
+ 
+   BEGIN_METHOD_RESOLVE()
+     RESOLVE_METHOD_RENAME(avfilter_open, avfilter_open_dont_call)
+@@ -193,18 +175,12 @@
+     RESOLVE_METHOD(avfilter_graph_alloc)
+     RESOLVE_METHOD_RENAME(avfilter_inout_alloc, avfilter_inout_alloc_dont_call)
+     RESOLVE_METHOD_RENAME(avfilter_inout_free, avfilter_inout_free_dont_call)
+-    RESOLVE_METHOD_RENAME(avfilter_graph_parse, avfilter_graph_parse_dont_call)
++    RESOLVE_METHOD_RENAME(avfilter_graph_parse2, avfilter_graph_parse2_dont_call)
+     RESOLVE_METHOD_RENAME(avfilter_graph_config, avfilter_graph_config_dont_call)
+-#if LIBAVFILTER_VERSION_INT < AV_VERSION_INT(3,0,0)
+-    RESOLVE_METHOD(av_vsrc_buffer_add_frame)
+-#else
+-    RESOLVE_METHOD(av_buffersrc_add_frame)
+-#endif
++    RESOLVE_METHOD(av_buffersrc_write_frame)
+     RESOLVE_METHOD(avfilter_unref_buffer)
+     RESOLVE_METHOD(avfilter_link)
+-    RESOLVE_METHOD(av_buffersink_get_buffer_ref)
+-    RESOLVE_METHOD(av_buffersink_params_alloc)
+-    RESOLVE_METHOD(av_buffersink_poll_frame)
++    RESOLVE_METHOD(av_buffersink_read)
+   END_METHOD_RESOLVE()
+ 
+   /* dependencies of libavfilter */
+@@ -238,10 +214,10 @@
+     CSingleLock lock(DllAvCodec::m_critSection);
+     return avfilter_inout_alloc_dont_call();
+   }
+-  int avfilter_graph_parse(AVFilterGraph *graph, const char *filters, AVFilterInOut **inputs, AVFilterInOut **outputs, void *log_ctx)
++  int avfilter_graph_parse(AVFilterGraph *graph, const char *filters, AVFilterInOut **inputs, AVFilterInOut **outputs)
+   {
+     CSingleLock lock(DllAvCodec::m_critSection);
+-    return avfilter_graph_parse_dont_call(graph, filters, inputs, outputs, log_ctx);
++    return avfilter_graph_parse2_dont_call(graph, filters, inputs, outputs);
+   }
+   void avfilter_inout_free(AVFilterInOut **inout)
+   {
+--- a/xbmc/cores/dvdplayer/DVDCodecs/Video/DVDVideoCodecFFmpeg.cpp
++++ b/xbmc/cores/dvdplayer/DVDCodecs/Video/DVDVideoCodecFFmpeg.cpp
+@@ -576,7 +576,11 @@
+   /* use variable in the frame */
+   AVRational pixel_aspect = m_pCodecContext->sample_aspect_ratio;
+   if (m_pBufferRef)
++#if LIBAVFILTER_VERSION_MICRO >= 100
+     pixel_aspect = m_pBufferRef->video->sample_aspect_ratio;
++#else
++    pixel_aspect = m_pBufferRef->video->pixel_aspect;
++#endif
+ 
+   if (pixel_aspect.num == 0)
+     aspect_ratio = 0;
+@@ -676,7 +680,6 @@
+ int CDVDVideoCodecFFmpeg::FilterOpen(const CStdString& filters, bool scale)
+ {
+   int result;
+-  AVBufferSinkParams *buffersink_params;
+ 
+   if (m_pFilterGraph)
+     FilterClose();
+@@ -697,6 +700,7 @@
+   }
+ 
+   AVFilter* srcFilter = m_dllAvFilter.avfilter_get_by_name("buffer");
++  AVFilter *format_filter = m_dllAvFilter.avfilter_get_by_name("format");
+   AVFilter* outFilter = m_dllAvFilter.avfilter_get_by_name("buffersink"); // should be last filter in the graph for now
+ 
+   CStdString args;
+@@ -716,47 +720,62 @@
+     return result;
+   }
+ 
+-  buffersink_params = m_dllAvFilter.av_buffersink_params_alloc();
+-  buffersink_params->pixel_fmts = &m_formats[0];
+-#ifdef FF_API_OLD_VSINK_API
+-  if ((result = m_dllAvFilter.avfilter_graph_create_filter(&m_pFilterOut, outFilter, "out", NULL, (void*)buffersink_params->pixel_fmts, m_pFilterGraph)) < 0)
+-#else
+-  if ((result = m_dllAvFilter.avfilter_graph_create_filter(&m_pFilterOut, outFilter, "out", NULL, buffersink_params, m_pFilterGraph)) < 0)
+-#endif
++  CStdString format_args;
++  enum AVPixelFormat *pix_fmt = &m_formats[0];
++  while (*pix_fmt != AV_PIX_FMT_NONE) {
++      if (format_args.GetLength())
++        format_args += ",";
++      format_args += av_get_pix_fmt_name(*pix_fmt);
++      pix_fmt++;
++  }
++
++  AVFilterContext *format_ctx;
++  if ((result = m_dllAvFilter.avfilter_graph_create_filter(&format_ctx, format_filter, "format", format_args, NULL, m_pFilterGraph)) < 0)
++  {
++    CLog::Log(LOGERROR, "CDVDVideoCodecFFmpeg::FilterOpen - avfilter_graph_create_filter: format");
++    return result;
++  }
++
++  if ((result = m_dllAvFilter.avfilter_graph_create_filter(&m_pFilterOut, outFilter, "out", NULL, NULL, m_pFilterGraph)) < 0)
+   {
+-    m_dllAvUtil.av_freep(&buffersink_params);
+     CLog::Log(LOGERROR, "CDVDVideoCodecFFmpeg::FilterOpen - avfilter_graph_create_filter: out");
+     return result;
+   }
+-  m_dllAvUtil.av_freep(&buffersink_params);
++
++  m_dllAvFilter.avfilter_link(format_ctx, 0, m_pFilterOut, 0);
+ 
+   if (!filters.empty())
+   {
+-    AVFilterInOut* outputs = m_dllAvFilter.avfilter_inout_alloc();
+-    AVFilterInOut* inputs  = m_dllAvFilter.avfilter_inout_alloc();
+-
+-    outputs->name    = m_dllAvUtil.av_strdup("in");
+-    outputs->filter_ctx = m_pFilterIn;
+-    outputs->pad_idx = 0;
+-    outputs->next    = NULL;
+-
+-    inputs->name    = m_dllAvUtil.av_strdup("out");
+-    inputs->filter_ctx = m_pFilterOut;
+-    inputs->pad_idx = 0;
+-    inputs->next    = NULL;
++    AVFilterInOut* outputs;
++    AVFilterInOut* inputs;
+ 
+-    if ((result = m_dllAvFilter.avfilter_graph_parse(m_pFilterGraph, (const char*)m_filters.c_str(), &inputs, &outputs, NULL)) < 0)
++    if ((result = m_dllAvFilter.avfilter_graph_parse2(m_pFilterGraph, (const char*)m_filters.c_str(), &inputs, &outputs)) < 0)
+     {
+-      CLog::Log(LOGERROR, "CDVDVideoCodecFFmpeg::FilterOpen - avfilter_graph_parse");
++      CLog::Log(LOGERROR, "CDVDVideoCodecFFmpeg::FilterOpen - avfilter_graph_parse2");
+       return result;
+     }
++    if (!outputs || outputs->next || !inputs || inputs->next)
++    {
++      CLog::Log(LOGERROR, "The filtergraph does not have exactly one input and one output.");
++      m_dllAvFilter.avfilter_inout_free(&outputs);
++      m_dllAvFilter.avfilter_inout_free(&inputs);
++      return AVERROR(EINVAL);
++    }
++
++    if ((result = m_dllAvFilter.avfilter_link(m_pFilterIn, 0, inputs->filter_ctx, inputs->pad_idx)) < 0 ||
++        (result = m_dllAvFilter.avfilter_link(outputs->filter_ctx, outputs->pad_idx, m_pFilterOut, 0)) < 0)
++    {
++      CLog::Log(LOGERROR, "CDVDVideoCodecFFmpeg::FilterOpen - avfilter_link");
++    }
+ 
+     m_dllAvFilter.avfilter_inout_free(&outputs);
+     m_dllAvFilter.avfilter_inout_free(&inputs);
++    if (result < 0)
++        return result;
+   }
+   else
+   {
+-    if ((result = m_dllAvFilter.avfilter_link(m_pFilterIn, 0, m_pFilterOut, 0)) < 0)
++    if ((result = m_dllAvFilter.avfilter_link(m_pFilterIn, 0, format_ctx, 0)) < 0)
+     {
+       CLog::Log(LOGERROR, "CDVDVideoCodecFFmpeg::FilterOpen - avfilter_link");
+       return result;
+@@ -792,22 +811,14 @@
+ 
+ int CDVDVideoCodecFFmpeg::FilterProcess(AVFrame* frame)
+ {
+-  int result, frames;
++  int result;
+ 
+   if (frame)
+   {
+-#if LIBAVFILTER_VERSION_INT < AV_VERSION_INT(3,0,0)
+-    result = m_dllAvFilter.av_vsrc_buffer_add_frame(m_pFilterIn, frame, 0);
+-#else
+-    result = m_dllAvFilter.av_buffersrc_add_frame(m_pFilterIn, frame, 0);
+-#endif
++    result = m_dllAvFilter.av_buffersrc_write_frame(m_pFilterIn, frame);
+     if (result < 0)
+     {
+-#if LIBAVFILTER_VERSION_INT < AV_VERSION_INT(3,0,0)
+-      CLog::Log(LOGERROR, "CDVDVideoCodecFFmpeg::FilterProcess - av_vsrc_buffer_add_frame");
+-#else
+-      CLog::Log(LOGERROR, "CDVDVideoCodecFFmpeg::FilterProcess - av_buffersrc_add_frame");
+-#endif
++      CLog::Log(LOGERROR, "CDVDVideoCodecFFmpeg::FilterProcess - av_buffersrc_write_frame");
+       return VC_ERROR;
+     }
+   }
+@@ -818,40 +829,26 @@
+     m_pBufferRef = NULL;
+   }
+ 
+-  if ((frames = m_dllAvFilter.av_buffersink_poll_frame(m_pFilterOut)) < 0)
+-  {
+-    CLog::Log(LOGERROR, "CDVDVideoCodecFFmpeg::FilterProcess - av_buffersink_poll_frame");
+-    return VC_ERROR;
+-  }
+-
+-  if (frames > 0)
+-  {
+-
+-    result = m_dllAvFilter.av_buffersink_get_buffer_ref(m_pFilterOut, &m_pBufferRef, 0);
+-    if(!m_pBufferRef)
+-    {
++  result = m_dllAvFilter.av_buffersink_read(m_pFilterOut, &m_pBufferRef);
++  if (result == AVERROR(EAGAIN) || result == AVERROR_EOF)
++      return VC_BUFFER;
++  else if (result < 0) {
+       CLog::Log(LOGERROR, "CDVDVideoCodecFFmpeg::FilterProcess - cur_buf");
+       return VC_ERROR;
+-    }
++  }
+ 
+-    if(frame == NULL)
++  if(frame == NULL)
+       m_pFrame->reordered_opaque = 0;
+-    else
+-      m_pFrame->repeat_pict      = -(frames - 1);
+-
+-    m_pFrame->interlaced_frame = m_pBufferRef->video->interlaced;
+-    m_pFrame->top_field_first  = m_pBufferRef->video->top_field_first;
++  else
++      m_pFrame->repeat_pict      = 0;
+ 
+-    memcpy(m_pFrame->linesize, m_pBufferRef->linesize, 4*sizeof(int));
+-    memcpy(m_pFrame->data    , m_pBufferRef->data    , 4*sizeof(uint8_t*));
++  m_pFrame->interlaced_frame = m_pBufferRef->video->interlaced;
++  m_pFrame->top_field_first  = m_pBufferRef->video->top_field_first;
+ 
+-    if(frames > 1)
+-      return VC_PICTURE;
+-    else
+-      return VC_PICTURE | VC_BUFFER;
+-  }
++  memcpy(m_pFrame->linesize, m_pBufferRef->linesize, 4*sizeof(int));
++  memcpy(m_pFrame->data    , m_pBufferRef->data    , 4*sizeof(uint8_t*));
+ 
+-  return VC_BUFFER;
++  return VC_PICTURE | VC_BUFFER;
+ }
+ 
+ unsigned CDVDVideoCodecFFmpeg::GetConvergeCount()
+--- a/lib/DllAvUtil.h
++++ b/lib/DllAvUtil.h
+@@ -44,6 +44,7 @@
+     #include <libavutil/samplefmt.h>
+     // for LIBAVCODEC_VERSION_INT:
+     #include <libavcodec/avcodec.h>
++    #include <libavutil/pixdesc.h>
+   #elif (defined HAVE_FFMPEG_AVUTIL_H)
+     #include <ffmpeg/avutil.h>
+     // for av_get_default_channel_layout
+@@ -118,6 +119,11 @@
+   virtual int av_dict_set(AVDictionary **pm, const char *key, const char *value, int flags)=0;
+   virtual int av_samples_get_buffer_size (int *linesize, int nb_channels, int nb_samples, enum AVSampleFormat sample_fmt, int align) = 0;
+   virtual int64_t av_get_default_channel_layout(int nb_channels)=0;
++#if LIBAVUTIL_VERSION_INT >= AV_VERSION_INT(51, 42, 0)
++  virtual const char *av_get_pix_fmt_name(enum AVPixelFormat pix_fmt) = 0;
++#else
++  virtual const char *av_get_pix_fmt_name(enum PixelFormat pix_fmt) = 0;
++#endif
+ };
+ 
+ #if defined (USE_EXTERNAL_FFMPEG) || (defined TARGET_DARWIN)
+@@ -155,6 +161,11 @@
+   virtual int av_samples_get_buffer_size (int *linesize, int nb_channels, int nb_samples, enum AVSampleFormat sample_fmt, int align)
+     { return ::av_samples_get_buffer_size(linesize, nb_channels, nb_samples, sample_fmt, align); }
+   virtual int64_t av_get_default_channel_layout(int nb_channels) { return ::av_get_default_channel_layout(nb_channels); }
++#if LIBAVUTIL_VERSION_INT >= AV_VERSION_INT(51, 42, 0)
++  virtual const char *av_get_pix_fmt_name(enum AVPixelFormat pix_fmt) {return ::av_get_pix_fmt_name(pix_fmt);}
++#else
++  virtual const char *av_get_pix_fmt_name(enum PixelFormat pix_fmt) {return ::av_get_pix_fmt_name(pix_fmt);}
++#endif
+ 
+    // DLL faking.
+    virtual bool ResolveExports() { return true; }
+@@ -199,6 +210,11 @@
+   DEFINE_METHOD4(int, av_dict_set, (AVDictionary **p1, const char *p2, const char *p3, int p4));
+   DEFINE_METHOD5(int, av_samples_get_buffer_size, (int *p1, int p2, int p3, enum AVSampleFormat p4, int p5))
+   DEFINE_METHOD1(int64_t, av_get_default_channel_layout, (int p1))
++#if LIBAVUTIL_VERSION_INT >= AV_VERSION_INT(51, 42, 0)
++  DEFINE_METHOD1(const char*, av_get_pix_fmt_name, (enum AVPixelFormat p1))
++#else
++  DEFINE_METHOD1(const char*, av_get_pix_fmt_name, (enum PixelFormat p1))
++#endif
+ 
+   public:
+   BEGIN_METHOD_RESOLVE()
+@@ -226,6 +242,7 @@
+     RESOLVE_METHOD(av_dict_set)
+     RESOLVE_METHOD(av_samples_get_buffer_size)
+     RESOLVE_METHOD(av_get_default_channel_layout)
++    RESOLVE_METHOD(av_get_pix_fmt_name)
+   END_METHOD_RESOLVE()
+ };
+ 
+--- a/xbmc/cores/dvdplayer/DVDCodecs/Audio/DVDAudioCodecFFmpeg.cpp
++++ b/xbmc/cores/dvdplayer/DVDCodecs/Audio/DVDAudioCodecFFmpeg.cpp
+@@ -195,14 +195,14 @@
+                       m_dllAvUtil.av_get_default_channel_layout(m_pCodecContext->channels), AV_SAMPLE_FMT_FLT, m_pCodecContext->sample_rate,
+                       m_dllAvUtil.av_get_default_channel_layout(m_pCodecContext->channels), m_pCodecContext->sample_fmt, m_pCodecContext->sample_rate,
+                       0, NULL);
+-    }
+ 
+-    if(!m_pConvert || m_dllSwResample.swr_init(m_pConvert) < 0)
+-    {
+-      CLog::Log(LOGERROR, "CDVDAudioCodecFFmpeg::Decode - Unable to convert %d to AV_SAMPLE_FMT_FLT", m_pCodecContext->sample_fmt);
+-      m_iBufferSize1 = 0;
+-      m_iBufferSize2 = 0;
+-      return;
++      if(!m_pConvert || m_dllSwResample.swr_init(m_pConvert) < 0)
++      {
++          CLog::Log(LOGERROR, "CDVDAudioCodecFFmpeg::Decode - Unable to convert %d to AV_SAMPLE_FMT_FLT", m_pCodecContext->sample_fmt);
++          m_iBufferSize1 = 0;
++          m_iBufferSize2 = 0;
++          return;
++      }
+     }
+ 
+     int len = m_iBufferSize1 / m_dllAvUtil.av_get_bytes_per_sample(m_pCodecContext->sample_fmt);

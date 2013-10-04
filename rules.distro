@@ -66,7 +66,7 @@ XBMC_CONFIG_OPTIONS ?= --host=$(DEB_HOST_GNU_TYPE) \
   --enable-rtmp \
   --enable-ffmpeg-libvorbis \
   --disable-mid \
-  --enable-hal \
+  --disable-hal \
   --enable-avahi \
   --disable-asap-codec \
   --enable-webserver \
@@ -77,6 +77,8 @@ XBMC_CONFIG_OPTIONS ?= --host=$(DEB_HOST_GNU_TYPE) \
   --disable-afpclient \
   --enable-airtunes \
   --disable-external-libraries \
+  --enable-external-ffmpeg \
+  --disable-dependency-tracking \
   --disable-dvdcss \
   --disable-non-free \
   $(ARCH_SPECIFIC_OPTIONS) \
@@ -91,7 +93,7 @@ show-xbmc-config-options:
 	$(info $(XBMC_CONFIG_OPTIONS))
 
 %:
-	dh $@ $(DH_PARALLEL_OPT)
+	dh $@ --with autoreconf $(DH_PARALLEL_OPT)
 
 override_dh_clean:
 	dh_clean libtool xbmc/config.h xbmc/stamp-h1
