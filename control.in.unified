@@ -72,7 +72,7 @@ Description: XBMC Media Center (arch-independent data package)
  theater. Once installed, your computer will become a fully functional
  multimedia jukebox.
  .
- This package contains all the archiecture independent data needed to have a
+ This package contains all the architecture independent data needed to have a
  working XBMC.
 
 Package: xbmc-bin
