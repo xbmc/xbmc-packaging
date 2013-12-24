@@ -36,6 +36,7 @@ Depends: xbmc-bin (>= ${source:Version}),
          libcec2 (>= 2.1.1),
          librtmp0,
          libgnutls26 | libgnutls28,
+         libxslt1.1,
          ${python:Depends},
          ${misc:Depends}
 Recommends: libvdpau1,
