@@ -46,7 +46,7 @@ XBMC_CONFIG_OPTIONS ?= --host=$(DEB_HOST_GNU_TYPE) \
   --enable-joystick \
   --enable-xrandr \
   --disable-ccache \
-  --disable-pulse \
+  --enable-pulse \
   --enable-rtmp \
   --enable-ffmpeg-libvorbis \
   --disable-mid \
