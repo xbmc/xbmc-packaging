@@ -117,5 +117,4 @@ override_dh_shlibdeps: debian/tmp/xbmc-bin-dummy.so
 debian/tmp/xbmc-bin-dummy.so:
 	mkdir -p debian/tmp
 	cc -xc -shared -Wl,--no-as-needed -o $@ /dev/null \
-		-lcurl-gnutls \
 		-lrtmp \

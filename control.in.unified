@@ -14,6 +14,7 @@ Package: xbmc
 Architecture: all
 Depends: xbmc-bin (>= ${source:Version}),
          xbmc-bin (<< ${source:Version}.1~),
+         curl,
          mesa-utils,
          x11-utils,
          ttf-liberation | fonts-liberation,
