@@ -1,11 +1,9 @@
 Source: xbmc
 Section: video
 Priority: optional
-Maintainer: Debian XBMC Packaging Team <pkg-xbmc-maintainers@lists.alioth.debian.org>
-Uploaders: Andres Mejia <amejia@debian.org>,
-           wsnipex <wsnipex@xbmc.org>
+Maintainer: wsnipex <wsnipex@xbmc.org>
 Build-Depends: #BUILD_DEPENDS#
-Standards-Version: 3.9.3
+Standards-Version: 3.9.4
 Homepage: http://xbmc.org/
 Vcs-Git: git://github.com/xbmc/xbmc-packaging.git
 Vcs-Browser: https://github.com/xbmc/xbmc-packaging

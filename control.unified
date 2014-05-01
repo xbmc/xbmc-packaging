@@ -1,9 +1,7 @@
 Source: xbmc
 Section: video
 Priority: optional
-Maintainer: Debian XBMC Packaging Team <pkg-xbmc-maintainers@lists.alioth.debian.org>
-Uploaders: Andres Mejia <amejia@debian.org>,
-           wsnipex <wsnipex@xbmc.org>
+Maintainer: wsnipex <wsnipex@xbmc.org>
 Build-Depends: debhelper (>= 7.0.50~),
  autoconf,
  automake,
