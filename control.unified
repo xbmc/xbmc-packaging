@@ -139,7 +139,10 @@ Suggests: xbmc-test-helper,
          xbmc-pvr-tvheadend-hts,
          xbmc-pvr-dvbviewer,
          xbmc-pvr-argustv,
-         xbmc-pvr-iptvsimple
+         xbmc-pvr-iptvsimple,
+         xbmc-audioencoder-vorbis,
+         xbmc-audioencoder-flac,
+         xbmc-audioencoder-lame
 Provides: xbmc-standalone, xbmc-data, xbmc-skin-confluence
 Replaces: xbmc-standalone, xbmc-data, xbmc-skin-confluence
 Breaks: xbmc-standalone (<< 2:11.0~git20111222.22ad8e4),
