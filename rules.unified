@@ -24,6 +24,20 @@ else
 GL_CONFIG_OPTIONS = --disable-gl --enable-gles
 endif
 
+# Enable gles for armhf
+ifeq (,$(filter armhf,$(DEB_HOST_ARCH)))
+GL_CONFIG_OPTIONS = --enable-gl --disable-gles
+else
+GL_CONFIG_OPTIONS = --disable-gl --enable-gles
+endif
+
+# Disable VAAPI for armhf
+ifeq (,$(filter armhf,$(DEB_HOST_ARCH)))
+  HW_DECODER_OPTIONS = --enable-vdpau --enable-vaapi --enable-crystalhd
+else
+  HW_DECODER_OPTIONS = --disable-vdpau --disable-vaapi --disable-crystalhd
+endif
+
 # Various environment variables to set
 ENV_OPTIONS = CFLAGS="$(DEB_CFLAGS)" CXXFLAGS="$(DEB_CXXFLAGS)"
 
@@ -35,9 +49,7 @@ XBMC_CONFIG_OPTIONS ?= --host=$(DEB_HOST_GNU_TYPE) \
   --prefix=/usr --docdir=/usr/share/doc/xbmc \
   $(DEBUG_OPTIONS) \
   $(GL_CONFIG_OPTIONS) \
-  --enable-vdpau \
-  --enable-vaapi \
-  --enable-crystalhd \
+  $(HW_DECODER_OPTIONS) \
   --disable-vdadecoder \
   --disable-vtbdecoder \
   --disable-openmax \
