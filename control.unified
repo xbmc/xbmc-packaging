@@ -1,4 +1,4 @@
-Source: xbmc
+Source: kodi
 Section: video
 Priority: optional
 Maintainer: wsnipex <wsnipex@xbmc.org>
@@ -58,6 +58,7 @@ Build-Depends: debhelper (>= 7.0.50~),
  libpcre3-dev,
  libplist-dev,
  libpng12-dev | libpng-dev,
+ libpostproc-dev,
  libpulse-dev,
  librtmp-dev,
  libsamplerate-dev,
@@ -92,15 +93,16 @@ Build-Depends: debhelper (>= 7.0.50~),
  yasm,
  zip,
  zlib1g-dev
-Standards-Version: 3.9.3
-Homepage: http://xbmc.org/
+Standards-Version: 3.9.4
+Homepage: http://kodi.tv/
 Vcs-Git: git://github.com/xbmc/xbmc-packaging.git
 Vcs-Browser: https://github.com/xbmc/xbmc-packaging
 
-Package: xbmc
+Package: kodi
 Architecture: all
-Depends: xbmc-bin (>= ${source:Version}),
-         xbmc-bin (<< ${source:Version}.1~),
+Depends: kodi-bin (>= ${source:Version}),
+         kodi-bin (<< ${source:Version}.1~),
+         curl,
          mesa-utils,
          x11-utils,
          ttf-liberation | fonts-liberation,
@@ -111,7 +113,6 @@ Depends: xbmc-bin (>= ${source:Version}),
          libmad0,
          libass4,
          libssh-4 | libssh2-1,
-         swig,
          libnfs1,
          libbluray1,
          libshairport1,
@@ -129,8 +130,7 @@ Depends: xbmc-bin (>= ${source:Version}),
 Recommends: libvdpau1,
          libva-intel-vaapi-driver,
          libva1
-Suggests: xbmc-test-helper,
-         xbmc-pvr-mythtv-cmyth,
+Suggests: xbmc-pvr-mythtv-cmyth,
          xbmc-pvr-vuplus,
          xbmc-pvr-vdr-vnsi,
          xbmc-pvr-njoy,
@@ -143,324 +143,332 @@ Suggests: xbmc-test-helper,
          xbmc-audioencoder-vorbis,
          xbmc-audioencoder-flac,
          xbmc-audioencoder-lame
-Provides: xbmc-standalone, xbmc-data, xbmc-skin-confluence
+Provides: kodi-standalone, kodi-data, kodi-skin-confluence, xbmc-standalone, xbmc-data, xbmc-skin-confluence
 Replaces: xbmc-standalone, xbmc-data, xbmc-skin-confluence
-Breaks: xbmc-standalone (<< 2:11.0~git20111222.22ad8e4),
-        xbmc-data (<< 2:11.0~git20111222.22ad8e4),
-        xbmc-skin-confluence (<< 2:11.0~git20111222.22ad8e4)
-Description: XBMC Media Center (arch-independent data package)
- XBMC, recursive acronym for "XBMC Media Center", is an award winning free and
+Breaks: xbmc-standalone, xbmc-data, xbmc-skin-confluence
+Description: Kodi Media Center (arch-independent data package)
+ Kodi, formerly known as XBMC Media Center, is an award winning free and
  open source software media-player and entertainment hub for all your digital
- media. XBMC is available for Linux, Mac OS X (Leopard, Tiger and Apple TV)
+ media. Kodi is available for Linux, Mac OS X (Leopard, Tiger and Apple TV)
  and Microsoft Windows, as well as the original Xbox game console. Created in
- 2003 by a group of like minded programmers, XBMC is a non-profit project run
+ 2003 by a group of like minded programmers, Kodi is a non-profit project run
  and developed by volunteers located around the world. More than 50 software
- developers have contributed to XBMC, and 100-plus translators have worked to
+ developers have contributed to Kodi, and 100-plus translators have worked to
  expand its reach, making it available in more than 30 languages.
  .
- While XBMC functions very well as a standard media player application for
+ While Kodi functions very well as a standard media player application for
  your computer, it has been designed to be the perfect companion for your
  HTPC. Supporting an almost endless range of remote controls, and combined
- with its beautiful interface and powerful skinning engine, XBMC feels very
+ with its beautiful interface and powerful skinning engine, Kodi feels very
  natural to use from the couch and is the ideal solution for your home
  theater. Once installed, your computer will become a fully functional
  multimedia jukebox.
  .
  This package contains all the architecture independent data needed to have a
- working XBMC.
+ working Kodi.
 
-Package: xbmc-bin
+Package: kodi-bin
 Architecture: i386 amd64 armhf
 Depends: ${shlibs:Depends},
          ${misc:Depends}
 Recommends: ${shlibs:Recommends}
-Provides: xbmc-common
-Replaces: xbmc-common
-Conflicts: xbmc-common
-Description: XBMC Media Center (binary data package)
- XBMC, recursive acronym for "XBMC Media Center", is an award winning free and
+Provides: kodi-common, kodi-bin, xbmc-common, xbmc-bin
+Replaces: xbmc-common, xbmc-bin
+Description: Kodi Media Center (binary data package)
+ Kodi, formerly known as XBMC Media Center, is an award winning free and
  open source software media-player and entertainment hub for all your digital
- media. XBMC is available for Linux, Mac OS X (Leopard, Tiger and Apple TV)
+ media. Kodi is available for Linux, Mac OS X (Leopard, Tiger and Apple TV)
  and Microsoft Windows, as well as the original Xbox game console. Created in
- 2003 by a group of like minded programmers, XBMC is a non-profit project run
+ 2003 by a group of like minded programmers, Kodi is a non-profit project run
  and developed by volunteers located around the world. More than 50 software
- developers have contributed to XBMC, and 100-plus translators have worked to
+ developers have contributed to Kodi, and 100-plus translators have worked to
  expand its reach, making it available in more than 30 languages.
  .
- While XBMC functions very well as a standard media player application for
+ While Kodi functions very well as a standard media player application for
  your computer, it has been designed to be the perfect companion for your
  HTPC. Supporting an almost endless range of remote controls, and combined
- with its beautiful interface and powerful skinning engine, XBMC feels very
+ with its beautiful interface and powerful skinning engine, Kodi feels very
  natural to use from the couch and is the ideal solution for your home
  theater. Once installed, your computer will become a fully functional
  multimedia jukebox.
  .
- This package contains all the binary data needed to have a working XBMC.
+ This package contains all the binary data needed to have a working Kodi.
 
-Package: xbmc-eventclients-common
+Package: kodi-eventclients-common
+Provides: xbmc-eventclients-common
 Architecture: all
 Depends: ${python:Depends}, ${misc:Depends}
-Description: XBMC Media Center (Event Client Common package)
- XBMC, recursive acronym for "XBMC Media Center", is an award winning free and
+Description: Kodi Media Center (Event Client Common package)
+ Kodi, formerly known as XBMC Media Center, is an award winning free and
  open source software media-player and entertainment hub for all your digital
- media. XBMC is available for Linux, Mac OS X (Leopard, Tiger and Apple TV)
+ media. Kodi is available for Linux, Mac OS X (Leopard, Tiger and Apple TV)
  and Microsoft Windows, as well as the original Xbox game console. Created in
- 2003 by a group of like minded programmers, XBMC is a non-profit project run
+ 2003 by a group of like minded programmers, Kodi is a non-profit project run
  and developed by volunteers located around the world. More than 50 software
- developers have contributed to XBMC, and 100-plus translators have worked to
+ developers have contributed to Kodi, and 100-plus translators have worked to
  expand its reach, making it available in more than 30 languages.
  .
- While XBMC functions very well as a standard media player application for
+ While Kodi functions very well as a standard media player application for
  your computer, it has been designed to be the perfect companion for your
  HTPC. Supporting an almost endless range of remote controls, and combined
- with its beautiful interface and powerful skinning engine, XBMC feels very
+ with its beautiful interface and powerful skinning engine, Kodi feels very
  natural to use from the couch and is the ideal solution for your home
  theater. Once installed, your computer will become a fully functional
  multimedia jukebox.
  .
- This package is the common package for XBMC Event Client.
+ This package is the common package for Kodi Event Client.
 
-Package: xbmc-eventclients-dev
+Package: kodi-eventclients-dev
+Provides: xbmc-eventclients-dev
 Architecture: all
 Section: libdevel
-Depends: xbmc-eventclients-common (= ${binary:Version}),
+Depends: kodi-eventclients-common (= ${binary:Version}),
          ${misc:Depends}
-Description: XBMC Media Center (Event Client Dev package)
- XBMC, recursive acronym for "XBMC Media Center", is an award winning free and
+Description: Kodi Media Center (Event Client Dev package)
+ Kodi, formerly known as XBMC Media Center, is an award winning free and
  open source software media-player and entertainment hub for all your digital
- media. XBMC is available for Linux, Mac OS X (Leopard, Tiger and Apple TV)
+ media. Kodi is available for Linux, Mac OS X (Leopard, Tiger and Apple TV)
  and Microsoft Windows, as well as the original Xbox game console. Created in
- 2003 by a group of like minded programmers, XBMC is a non-profit project run
+ 2003 by a group of like minded programmers, Kodi is a non-profit project run
  and developed by volunteers located around the world. More than 50 software
- developers have contributed to XBMC, and 100-plus translators have worked to
+ developers have contributed to Kodi, and 100-plus translators have worked to
  expand its reach, making it available in more than 30 languages.
  .
- While XBMC functions very well as a standard media player application for
+ While Kodi functions very well as a standard media player application for
  your computer, it has been designed to be the perfect companion for your
  HTPC. Supporting an almost endless range of remote controls, and combined
- with its beautiful interface and powerful skinning engine, XBMC feels very
+ with its beautiful interface and powerful skinning engine, Kodi feels very
  natural to use from the couch and is the ideal solution for your home
  theater. Once installed, your computer will become a fully functional
  multimedia jukebox.
  .
- This is the Development package for XBMC Event Client.
+ This is the Development package for Kodi Event Client.
 
-Package: xbmc-eventclients-wiiremote
+Package: kodi-eventclients-wiiremote
+Provides: xbmc-eventclients-wiiremote
 Architecture: i386 amd64 armhf
-Depends: xbmc-eventclients-common (= ${source:Version}),
+Depends: kodi-eventclients-common (= ${source:Version}),
          ${shlibs:Depends},
          ${misc:Depends}
-Description: XBMC Media Center (Event Client WII Remote support package)
- XBMC, recursive acronym for "XBMC Media Center", is an award winning free and
+Description: Kodi Media Center (Event Client WII Remote support package)
+ Kodi, formerly known as XBMC Media Center, is an award winning free and
  open source software media-player and entertainment hub for all your digital
- media. XBMC is available for Linux, Mac OS X (Leopard, Tiger and Apple TV)
+ media. Kodi is available for Linux, Mac OS X (Leopard, Tiger and Apple TV)
  and Microsoft Windows, as well as the original Xbox game console. Created in
- 2003 by a group of like minded programmers, XBMC is a non-profit project run
+ 2003 by a group of like minded programmers, Kodi is a non-profit project run
  and developed by volunteers located around the world. More than 50 software
- developers have contributed to XBMC, and 100-plus translators have worked to
+ developers have contributed to Kodi, and 100-plus translators have worked to
  expand its reach, making it available in more than 30 languages.
  .
- While XBMC functions very well as a standard media player application for
+ While Kodi functions very well as a standard media player application for
  your computer, it has been designed to be the perfect companion for your
  HTPC. Supporting an almost endless range of remote controls, and combined
- with its beautiful interface and powerful skinning engine, XBMC feels very
+ with its beautiful interface and powerful skinning engine, Kodi feels very
  natural to use from the couch and is the ideal solution for your home
  theater. Once installed, your computer will become a fully functional
  multimedia jukebox.
  .
- This package is the Wii Remote client package for XBMC.
+ This package is the Wii Remote client package for Kodi.
 
-Package: xbmc-eventclients-j2me
+Package: kodi-eventclients-j2me
+Provides: xbmc-eventclients-j2me
 Architecture: all
-Depends: xbmc-eventclients-common (= ${binary:Version}),
+Depends: kodi-eventclients-common (= ${binary:Version}),
          ${python:Depends},
          python-bluez | python-lightblue,
          ${misc:Depends}
-Description: XBMC Media Center (Event Client J2ME package)
- XBMC, recursive acronym for "XBMC Media Center", is an award winning free and
+Description: Kodi Media Center (Event Client J2ME package)
+ Kodi, formerly known as XBMC Media Center, is an award winning free and
  open source software media-player and entertainment hub for all your digital
- media. XBMC is available for Linux, Mac OS X (Leopard, Tiger and Apple TV)
+ media. Kodi is available for Linux, Mac OS X (Leopard, Tiger and Apple TV)
  and Microsoft Windows, as well as the original Xbox game console. Created in
- 2003 by a group of like minded programmers, XBMC is a non-profit project run
+ 2003 by a group of like minded programmers, Kodi is a non-profit project run
  and developed by volunteers located around the world. More than 50 software
- developers have contributed to XBMC, and 100-plus translators have worked to
+ developers have contributed to Kodi, and 100-plus translators have worked to
  expand its reach, making it available in more than 30 languages.
  .
- While XBMC functions very well as a standard media player application for
+ While Kodi functions very well as a standard media player application for
  your computer, it has been designed to be the perfect companion for your
  HTPC. Supporting an almost endless range of remote controls, and combined
- with its beautiful interface and powerful skinning engine, XBMC feels very
+ with its beautiful interface and powerful skinning engine, Kodi feels very
  natural to use from the couch and is the ideal solution for your home
  theater. Once installed, your computer will become a fully functional
  multimedia jukebox.
  .
- This package is the J2ME package for XBMC Event Client. This is meant to
+ This package is the J2ME package for Kodi Event Client. This is meant to
  provide a server that communicate with a mobile tool supporting Java ME.
 
-Package: xbmc-eventclients-ps3
+Package: kodi-eventclients-ps3
+Provides: xbmc-eventclients-ps3
 Architecture: all
-Depends: xbmc-eventclients-common (= ${binary:Version}),
+Depends: kodi-eventclients-common (= ${binary:Version}),
          python-bluez | python-lightblue,
          ${python:Depends},
          ${misc:Depends}
-Description: XBMC Media Center (Event Client PS3 package)
- XBMC, recursive acronym for "XBMC Media Center", is an award winning free and
+Description: Kodi Media Center (Event Client PS3 package)
+ Kodi, formerly known as XBMC Media Center, is an award winning free and
  open source software media-player and entertainment hub for all your digital
- media. XBMC is available for Linux, Mac OS X (Leopard, Tiger and Apple TV)
+ media. Kodi is available for Linux, Mac OS X (Leopard, Tiger and Apple TV)
  and Microsoft Windows, as well as the original Xbox game console. Created in
- 2003 by a group of like minded programmers, XBMC is a non-profit project run
+ 2003 by a group of like minded programmers, Kodi is a non-profit project run
  and developed by volunteers located around the world. More than 50 software
- developers have contributed to XBMC, and 100-plus translators have worked to
+ developers have contributed to Kodi, and 100-plus translators have worked to
  expand its reach, making it available in more than 30 languages.
  .
- While XBMC functions very well as a standard media player application for
+ While Kodi functions very well as a standard media player application for
  your computer, it has been designed to be the perfect companion for your
  HTPC. Supporting an almost endless range of remote controls, and combined
- with its beautiful interface and powerful skinning engine, XBMC feels very
+ with its beautiful interface and powerful skinning engine, Kodi feels very
  natural to use from the couch and is the ideal solution for your home
  theater. Once installed, your computer will become a fully functional
  multimedia jukebox.
  .
- This package is the PS3 package for XBMC Event Client.
+ This package is the PS3 package for Kodi Event Client.
 
-Package: xbmc-eventclients-xbmc-send
+Package: kodi-eventclients-xbmc-send
+Provides: xbmc-eventclients-xbmc-send
 Architecture: all
-Depends: xbmc-eventclients-common (= ${binary:Version}),
+Depends: kodi-eventclients-common (= ${binary:Version}),
          ${python:Depends},
          ${misc:Depends}
-Description: XBMC Media Center (Event Client XBMC-SEND package)
- XBMC, recursive acronym for "XBMC Media Center", is an award winning free and
+Description: Kodi Media Center (Event Client Kodi-SEND package)
+ Kodi, formerly known as XBMC Media Center, is an award winning free and
  open source software media-player and entertainment hub for all your digital
- media. XBMC is available for Linux, Mac OS X (Leopard, Tiger and Apple TV)
+ media. Kodi is available for Linux, Mac OS X (Leopard, Tiger and Apple TV)
  and Microsoft Windows, as well as the original Xbox game console. Created in
- 2003 by a group of like minded programmers, XBMC is a non-profit project run
+ 2003 by a group of like minded programmers, Kodi is a non-profit project run
  and developed by volunteers located around the world. More than 50 software
- developers have contributed to XBMC, and 100-plus translators have worked to
+ developers have contributed to Kodi, and 100-plus translators have worked to
  expand its reach, making it available in more than 30 languages.
  .
- While XBMC functions very well as a standard media player application for
+ While Kodi functions very well as a standard media player application for
  your computer, it has been designed to be the perfect companion for your
  HTPC. Supporting an almost endless range of remote controls, and combined
- with its beautiful interface and powerful skinning engine, XBMC feels very
+ with its beautiful interface and powerful skinning engine, Kodi feels very
  natural to use from the couch and is the ideal solution for your home
  theater. Once installed, your computer will become a fully functional
  multimedia jukebox.
  .
- This package is the XBMC-SEND package for XBMC Event Client.
+ This package is the Kodi-SEND package for Kodi Event Client.
 
-Package: xbmc-addon-dev
+Package: kodi-addon-dev
+Provides: xbmc-addon-dev
 Architecture: all
 Section: libdevel
-Recommends: xbmc-pvr-dev, xbmc-audio-dev, xbmc-screensaver-dev, xbmc-visualization-dev
-Description: XBMC Media Center (General Add-on Dev package)
- XBMC, recursive acronym for "XBMC Media Center", is an award winning free and
+Recommends: kodi-pvr-dev, kodi-audio-dev, kodi-screensaver-dev, kodi-visualization-dev
+Description: Kodi Media Center (General Add-on Dev package)
+ Kodi, formerly known as XBMC Media Center, is an award winning free and
  open source software media-player and entertainment hub for all your digital
- media. XBMC is available for Linux, Mac OS X (Leopard, Tiger and Apple TV)
+ media. Kodi is available for Linux, Mac OS X (Leopard, Tiger and Apple TV)
  and Microsoft Windows, as well as the original Xbox game console. Created in
- 2003 by a group of like minded programmers, XBMC is a non-profit project run
+ 2003 by a group of like minded programmers, Kodi is a non-profit project run
  and developed by volunteers located around the world. More than 50 software
- developers have contributed to XBMC, and 100-plus translators have worked to
+ developers have contributed to Kodi, and 100-plus translators have worked to
  expand its reach, making it available in more than 30 languages.
  .
- While XBMC functions very well as a standard media player application for
+ While Kodi functions very well as a standard media player application for
  your computer, it has been designed to be the perfect companion for your
  HTPC. Supporting an almost endless range of remote controls, and combined
- with its beautiful interface and powerful skinning engine, XBMC feels very
+ with its beautiful interface and powerful skinning engine, Kodi feels very
  natural to use from the couch and is the ideal solution for your home
  theater. Once installed, your computer will become a fully functional
  multimedia jukebox.
  .
- This is the Development package for XBMC add-ons.
+ This is the Development package for Kodi add-ons.
 
-Package: xbmc-screensaver-dev
+Package: kodi-screensaver-dev
+Provides: xbmc-screensaver-dev
 Architecture: all
 Section: libdevel
-Description: XBMC Media Center (Screensaver Add-on Dev package)
- XBMC, recursive acronym for "XBMC Media Center", is an award winning free and
+Description: Kodi Media Center (Screensaver Add-on Dev package)
+ Kodi, formerly known as XBMC Media Center, is an award winning free and
  open source software media-player and entertainment hub for all your digital
- media. XBMC is available for Linux, Mac OS X (Leopard, Tiger and Apple TV)
+ media. Kodi is available for Linux, Mac OS X (Leopard, Tiger and Apple TV)
  and Microsoft Windows, as well as the original Xbox game console. Created in
- 2003 by a group of like minded programmers, XBMC is a non-profit project run
+ 2003 by a group of like minded programmers, Kodi is a non-profit project run
  and developed by volunteers located around the world. More than 50 software
- developers have contributed to XBMC, and 100-plus translators have worked to
+ developers have contributed to Kodi, and 100-plus translators have worked to
  expand its reach, making it available in more than 30 languages.
  .
- While XBMC functions very well as a standard media player application for
+ While Kodi functions very well as a standard media player application for
  your computer, it has been designed to be the perfect companion for your
  HTPC. Supporting an almost endless range of remote controls, and combined
- with its beautiful interface and powerful skinning engine, XBMC feels very
+ with its beautiful interface and powerful skinning engine, Kodi feels very
  natural to use from the couch and is the ideal solution for your home
  theater. Once installed, your computer will become a fully functional
  multimedia jukebox.
  .
- This is the Development package for XBMC screensaver add-ons.
+ This is the Development package for Kodi screensaver add-ons.
 
-Package: xbmc-visualization-dev
+Package: kodi-visualization-dev
+Provides: xbmc-visualization-dev
 Architecture: all
 Section: libdevel
-Description: XBMC Media Center (Visualization Add-on Dev package)
- XBMC, recursive acronym for "XBMC Media Center", is an award winning free and
+Description: Kodi Media Center (Visualization Add-on Dev package)
+ Kodi, formerly known as XBMC Media Center, is an award winning free and
  open source software media-player and entertainment hub for all your digital
- media. XBMC is available for Linux, Mac OS X (Leopard, Tiger and Apple TV)
+ media. Kodi is available for Linux, Mac OS X (Leopard, Tiger and Apple TV)
  and Microsoft Windows, as well as the original Xbox game console. Created in
- 2003 by a group of like minded programmers, XBMC is a non-profit project run
+ 2003 by a group of like minded programmers, Kodi is a non-profit project run
  and developed by volunteers located around the world. More than 50 software
- developers have contributed to XBMC, and 100-plus translators have worked to
+ developers have contributed to Kodi, and 100-plus translators have worked to
  expand its reach, making it available in more than 30 languages.
  .
- While XBMC functions very well as a standard media player application for
+ While Kodi functions very well as a standard media player application for
  your computer, it has been designed to be the perfect companion for your
  HTPC. Supporting an almost endless range of remote controls, and combined
- with its beautiful interface and powerful skinning engine, XBMC feels very
+ with its beautiful interface and powerful skinning engine, Kodi feels very
  natural to use from the couch and is the ideal solution for your home
  theater. Once installed, your computer will become a fully functional
  multimedia jukebox.
  .
- This is the Development package for XBMC visualization add-ons.
+ This is the Development package for Kodi visualization add-ons.
 
-Package: xbmc-pvr-dev
+Package: kodi-pvr-dev
+Provides: xbmc-pvr-dev
 Architecture: all
 Section: libdevel
-Description: XBMC Media Center (PVR Add-on Dev package)
- XBMC, recursive acronym for "XBMC Media Center", is an award winning free and
+Description: Kodi Media Center (PVR Add-on Dev package)
+ Kodi, formerly known as XBMC Media Center, is an award winning free and
  open source software media-player and entertainment hub for all your digital
- media. XBMC is available for Linux, Mac OS X (Leopard, Tiger and Apple TV)
+ media. Kodi is available for Linux, Mac OS X (Leopard, Tiger and Apple TV)
  and Microsoft Windows, as well as the original Xbox game console. Created in
- 2003 by a group of like minded programmers, XBMC is a non-profit project run
+ 2003 by a group of like minded programmers, Kodi is a non-profit project run
  and developed by volunteers located around the world. More than 50 software
- developers have contributed to XBMC, and 100-plus translators have worked to
+ developers have contributed to Kodi, and 100-plus translators have worked to
  expand its reach, making it available in more than 30 languages.
  .
- While XBMC functions very well as a standard media player application for
+ While Kodi functions very well as a standard media player application for
  your computer, it has been designed to be the perfect companion for your
  HTPC. Supporting an almost endless range of remote controls, and combined
- with its beautiful interface and powerful skinning engine, XBMC feels very
+ with its beautiful interface and powerful skinning engine, Kodi feels very
  natural to use from the couch and is the ideal solution for your home
  theater. Once installed, your computer will become a fully functional
  multimedia jukebox.
  .
- This is the Development package for XBMC PVR add-ons.
+ This is the Development package for Kodi PVR add-ons.
 
-Package: xbmc-audio-dev
+Package: kodi-audio-dev
+Provides: xbmc-audio-dev
 Architecture: all
 Section: libdevel
-Description: XBMC Media Center (Audio Add-on Dev package)
- XBMC, recursive acronym for "XBMC Media Center", is an award winning free and
+Description: Kodi Media Center (Audio Add-on Dev package)
+ Kodi, formerly known as XBMC Media Center, is an award winning free and
  open source software media-player and entertainment hub for all your digital
- media. XBMC is available for Linux, Mac OS X (Leopard, Tiger and Apple TV)
+ media. Kodi is available for Linux, Mac OS X (Leopard, Tiger and Apple TV)
  and Microsoft Windows, as well as the original Xbox game console. Created in
- 2003 by a group of like minded programmers, XBMC is a non-profit project run
+ 2003 by a group of like minded programmers, Kodi is a non-profit project run
  and developed by volunteers located around the world. More than 50 software
- developers have contributed to XBMC, and 100-plus translators have worked to
+ developers have contributed to Kodi, and 100-plus translators have worked to
  expand its reach, making it available in more than 30 languages.
  .
- While XBMC functions very well as a standard media player application for
+ While Kodi functions very well as a standard media player application for
  your computer, it has been designed to be the perfect companion for your
  HTPC. Supporting an almost endless range of remote controls, and combined
- with its beautiful interface and powerful skinning engine, XBMC feels very
+ with its beautiful interface and powerful skinning engine, Kodi feels very
  natural to use from the couch and is the ideal solution for your home
  theater. Once installed, your computer will become a fully functional
  multimedia jukebox.
  .
- This is the Development package for XBMC audio add-ons.
+ This is the Development package for Kodi audio add-ons.
 

@@ -1,6 +1,6 @@
 # -*- sh -*-
 # This is a file run by sh used for replacing certain variables from input
-# files in the XBMC packaging.
+# files in the Kodi packaging.
 
 BUILD_DEPENDS="debhelper (>= 7.0.50~),
  autoconf,
