@@ -54,8 +54,8 @@ Suggests: xbmc-pvr-mythtv-cmyth,
          xbmc-audioencoder-flac,
          xbmc-audioencoder-lame
 Provides: kodi-standalone, kodi-data, kodi-skin-confluence, xbmc, xbmc-standalone, xbmc-data, xbmc-skin-confluence
-Replaces: xbmc, xbmc-standalone, xbmc-data, xbmc-skin-confluence
-Breaks: xbmc, xbmc-standalone, xbmc-data, xbmc-skin-confluence
+Replaces: xbmc (<< 2:14.0~git20141131), xbmc-standalone, xbmc-data, xbmc-skin-confluence
+Breaks: xbmc (<< 2:14.0~git20141131), xbmc-standalone, xbmc-data, xbmc-skin-confluence
 Description: Kodi Media Center (arch-independent data package)
  Kodi, formerly known as XBMC Media Center, is an award winning free and
  open source software media-player and entertainment hub for all your digital
@@ -83,7 +83,8 @@ Depends: ${shlibs:Depends},
          ${misc:Depends}
 Recommends: ${shlibs:Recommends}
 Provides: kodi-common, kodi-bin, xbmc-common, xbmc-bin
-Replaces: xbmc-bin, xbmc-common
+Replaces: xbmc-bin (<< 2:14.0~git20141131), xbmc-common
+Breaks: xbmc-bin (<< 2:14.0~git20141131), xbmc-common
 Description: Kodi Media Center (binary data package)
  Kodi, formerly known as XBMC Media Center, is an award winning free and
  open source software media-player and entertainment hub for all your digital
@@ -382,3 +383,10 @@ Description: Kodi Media Center (Audio Add-on Dev package)
  .
  This is the Development package for Kodi audio add-ons.
 
+Package: xbmc
+Depends: kodi, ${misc:Depends}
+Architecture: all
+Priority: extra
+Section: oldlibs
+Description: transitional dummy package
+  This is a transitional dummy package. It can safely be removed.
