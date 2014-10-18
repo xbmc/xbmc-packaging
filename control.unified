@@ -111,18 +111,18 @@ Depends: kodi-bin (>= ${source:Version}),
          python-imaging,
          python-simplejson,
          libmad0,
-         libass4,
+         libass5 | libass4,
          libssh-4 | libssh2-1,
-         libnfs1,
+         libnfs4 | libnfs1,
          libbluray1,
-         libshairport1,
+         libshairport2 | libshairport1,
          libshairplay0,
          libmp3lame0,
          libvorbisfile3,
          libaacs0,
          libflac8,
          libcec2 (>= 2.1.1),
-         librtmp0,
+         librtmp1 | librtmp0,
          libgnutls26 | libgnutls28,
          libxslt1.1,
          ${python:Depends},
@@ -144,8 +144,8 @@ Suggests: xbmc-pvr-mythtv-cmyth,
          xbmc-audioencoder-flac,
          xbmc-audioencoder-lame
 Provides: kodi-standalone, kodi-data, kodi-skin-confluence, xbmc, xbmc-standalone, xbmc-data, xbmc-skin-confluence
-Replaces: xbmc (<< 2:14.0~git20141231), xbmc-standalone, xbmc-data, xbmc-skin-confluence
-Breaks: xbmc (<< 2:14.0~git20141231), xbmc-standalone, xbmc-data, xbmc-skin-confluence
+Replaces: xbmc (<< 2:14.0~git20141019), xbmc-standalone, xbmc-data, xbmc-skin-confluence
+Breaks: xbmc (<< 2:14.0~git20141019), xbmc-standalone, xbmc-data, xbmc-skin-confluence
 Description: Kodi Media Center (arch-independent data package)
  Kodi, formerly known as XBMC Media Center, is an award winning free and
  open source software media-player and entertainment hub for all your digital
@@ -173,8 +173,8 @@ Depends: ${shlibs:Depends},
          ${misc:Depends}
 Recommends: ${shlibs:Recommends}
 Provides: kodi-common, kodi-bin, xbmc-common, xbmc-bin
-Replaces: xbmc-bin (<< 2:14.0~git20141231), xbmc-common
-Breaks: xbmc-bin (<< 2:14.0~git20141231), xbmc-common
+Replaces: xbmc-bin (<< 2:14.0~git20141019), xbmc-common
+Breaks: xbmc-bin (<< 2:14.0~git20141019), xbmc-common
 Description: Kodi Media Center (binary data package)
  Kodi, formerly known as XBMC Media Center, is an award winning free and
  open source software media-player and entertainment hub for all your digital
