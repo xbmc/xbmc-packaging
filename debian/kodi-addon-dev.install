@@ -1,0 +1,10 @@
+usr/include/kodi/xbmc_addon_cpp_dll.h
+usr/include/kodi/xbmc_addon_dll.h
+usr/include/kodi/xbmc_addon_types.h
+usr/include/kodi/xbmc_codec_types.h
+usr/include/kodi/xbmc_stream_utils.hpp
+usr/include/kodi/libXBMC_addon.h
+usr/include/kodi/libXBMC_codec.h
+usr/include/kodi/libXBMC_gui.h
+usr/include/xbmc
+usr/lib/kodi/*.cmake
