@@ -77,8 +77,8 @@ function generate_packaging() {
 	pkgversion=`head -1 debian/changelog | sed -e "s;.*(;;g" -e "s;).*;;g" -e "s;.*:;;g"`
 
 	# source tarball required
-	if [ ! -e kodi_$srcversion.orig.tar.gz ]; then
-		echo "Not building source package because kodi_$srcversion.orig.tar.gz is missing!"
+	if [ ! -e kodi_$srcversion.orig.tar.gz ] && [ ! -e kodi_$srcversion.orig.tar.xz ]; then
+		echo "Not building source package because kodi_$srcversion.orig.tar.{gz,xz} is missing!"
 		return 0
 	fi
 
