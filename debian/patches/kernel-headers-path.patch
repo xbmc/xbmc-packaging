@@ -1,0 +1,13 @@
+--- a/configure.ac
++++ b/configure.ac
+@@ -1972,8 +1972,8 @@
+       AC_CHECK_HEADER([imx-mm/vpu/vpu_wrapper.h],, AC_MSG_ERROR($missing_headers))
+       AC_CHECK_LIB([vpu], main, LIBS="$LIBS -lfslvpuwrap -lvpu -lg2d", AC_MSG_ERROR($missing_library))
+       XB_ADD_CODEC([IMXVPU], [imxvpu], [$codecs])
+-      CXXFLAGS="$CXXFLAGS -Wno-psabi -DLINUX "
+-      CFLAGS="$CFLAGS -DLINUX"
++      CXXFLAGS="$CXXFLAGS -Wno-psabi -DLINUX -I/usr/src/kernel-headers-3.14.14-cubox-i/include "
++      CFLAGS="$CFLAGS -DLINUX -I/usr/src/kernel-headers-3.14.14-cubox-i/include "
+       if test "$use_x11" = "no"; then
+         CXXFLAGS="$CXXFLAGS -DEGL_API_FB"
+         CFLAGS="$CFLAGS -DEGL_API_FB"

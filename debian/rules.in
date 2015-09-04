@@ -1,0 +1,146 @@
+#!/usr/bin/make -f
+
+# import standard compile flags
+include /usr/share/dpkg/buildflags.mk
+
+# build configuration variables:
+# KODI_RELEASE [yes,no]
+# KODI_GL [gl,gles]
+# KODI_WS [x11,fb]
+# KODI_TARGET [imx]
+
+KODI_GL = @KODI_GL@
+KODI_WS = @KODI_WS@
+KODI_TARGET = @KODI_TARGET@
+
+# choose some reasonable defaults
+# perform release build unless told otherwise
+KODI_RELEASE ?= yes
+
+# on arm, default to gles
+ifeq (arm,$(shell dpkg-architecture -qDEB_HOST_ARCH_CPU))
+  KODI_GL ?= gles
+else
+  KODI_GL ?= gl
+endif
+
+# always default to x11
+KODI_WS ?= x11
+
+# build for i.MX SoC
+KODI_TARGET ?= imx
+
+# set generic build options
+KODI_CONFIG_OPTIONS = \
+  --disable-profiling \
+  --disable-asap-codec \
+  --disable-mid \
+  --disable-ccache \
+  --disable-mdnsembedded
+
+# release / debug build
+ifeq (yes,$(KODI_RELEASE))
+  KODI_CONFIG_OPTIONS += --disable-debug --enable-optimizations
+else
+  KODI_CONFIG_OPTIONS += --enable-debug --disable-optimizations
+endif
+
+# enable as many features as possible
+KODI_CONFIG_OPTIONS += \
+  --enable-joystick \
+  --enable-pulse \
+  --enable-rtmp \
+  --enable-avahi \
+  --enable-webserver \
+  --enable-optical-drive \
+  --enable-texturepacker \
+  --enable-nfs \
+  --enable-libcec \
+  --enable-afpclient \
+  --enable-airtunes \
+  --enable-libbluray
+
+# select renderer-specific options
+ifeq (gles, $(KODI_GL))
+  KODI_CONFIG_OPTIONS += \
+    --disable-gl \
+    --disable-vdpau \
+    --disable-vaapi \
+    --enable-gles
+else
+  KODI_CONFIG_OPTIONS += \
+    --disable-gles \
+    --disable-openmax \
+    --disable-vtbdecoder \
+    --enable-gl \
+    --enable-vaapi \
+    --enable-vdpau
+endif
+
+# select window-system-specific options
+ifeq (x11, $(KODI_WS))
+  KODI_CONFIG_OPTIONS += \
+    --enable-x11 \
+    --enable-xrandr
+endif
+ifeq (fb, $(KODI_WS))
+  KODI_CONFIG_OPTIONS += \
+    --disable-x11 \
+    --disable-xrandr
+endif
+
+# additional compile flags
+KODI_EXTRA_CFLAGS=
+
+# target-specific options
+ifeq (imx, $(KODI_TARGET))
+  # openmax is broken by vivante egl headers
+  KODI_CONFIG_OPTIONS += --disable-openmax
+
+  # vivante EGL requires LINUX to be defined
+  KODI_EXTRA_CFLAGS += -DLINUX
+
+  # select window-system (for vivante EGL)
+  ifeq (x11, $(KODI_WS))
+    KODI_EXTRA_CFLAGS += -DEGL_API_X11
+  endif
+  ifeq (fb, $(KODI_WS))
+    KODI_EXTRA_CFLAGS += -DEGL_API_FB
+  endif
+
+  # enable VPU
+  # currently only works on framebuffer
+  ifeq (fb, $(KODI_WS))
+    KODI_EXTRA_CFLAGS += --enable-codec=imxvpu
+  endif
+endif
+
+# sourcesdir for OBS builds
+SOURCESDIRS = /usr/src/packages/SOURCES/ ~/
+
+%:
+	dh $@ --parallel
+
+override_dh_clean:
+	dh_clean
+	find . -name config.status -o -name config.cache -o -name config.log -delete
+	find tools/depends/target -iname "*.tar.gz" -delete
+
+override_dh_auto_configure: 
+	./bootstrap
+	find $(SOURCESDIRS) -maxdepth 1 -name ffmpeg-2.6.0-fix-Isengard-alpha.tar.gz -exec cp -v {} ./tools/depends/target/ffmpeg/ \; -quit 2>/dev/null || true
+	dh_auto_configure -- $(KODI_CONFIG_OPTIONS) CFLAGS="$(CFLAGS) $(KODI_EXTRA_CFLAGS)" CXXFLAGS="$(CXXFLAGS) $(KODI_EXTRA_CFLAGS)"
+
+override_dh_auto_install:
+	dh_auto_install
+	$(MAKE) eventclients DESTDIR=$(CURDIR)/debian/tmp WII_EXTRA_OPTS=-DCWIID_OLD
+
+override_dh_install:
+	dh_install --list-missing -XLICENSE.txt -XLicense.txt
+
+override_dh_makeshlibs:
+	# We don't install shared libraries in standard locations so don't run
+	# dh_makeshlibs
+
+override_dh_auto_test:
+	# Do not run unittests, as they fail
