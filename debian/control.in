@@ -106,9 +106,9 @@ Build-Depends: debhelper (>= 7.0.50~),
  libvpu-imx6-dev,
  libfslvpuwrap-dev,
 #if KODI_WS == __KODI_WS_FB
- gpu-viv-bin-fb-dev (>= 5),
+ imx-gpu-viv-fb-dev (>= 5),
 #elif KODI_WS == __KODI_WS_X11
- gpu-viv-bin-x11-dev (>= 5),
+ imx-gpu-viv-x11-dev (>= 5),
 #endif
 #endif
 Standards-Version: 3.9.4
