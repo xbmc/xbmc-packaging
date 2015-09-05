@@ -111,7 +111,7 @@ ifeq (imx, $(KODI_TARGET))
   # enable VPU
   # currently only works on framebuffer
   ifeq (fb, $(KODI_WS))
-    KODI_EXTRA_CFLAGS += --enable-codec=imxvpu
+    KODI_CONFIG_OPTIONS += --enable-codec=imxvpu
   endif
 endif
 
