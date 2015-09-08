@@ -1,3 +1,10 @@
+kodi (2:16.0-1) stable; urgency=medium
+
+  * update to 16.0a2
+  * new packaging
+
+ -- Josua Mayer <unknown>  Fri, 04 Sep 2015 19:51:26 +0200
+
 kodi (2:14.0~git20141010-1) trusty; urgency=low
 
   * initial Kodi release
