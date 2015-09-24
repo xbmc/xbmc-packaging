@@ -55,7 +55,7 @@ KODI_CONFIG_OPTIONS ?= --host=$(DEB_HOST_GNU_TYPE) \
   --enable-nfs \
   --enable-libcec \
   --enable-afpclient \
-  --enable-airtunes \
+  # --enable-airtunes
   --enable-libbluray \
   $(DISTRO_SPECIFIC_OPTIONS) \
   $(KODI_CONFIG_EXTRA_OPTIONS) \
