@@ -30,6 +30,7 @@ ENV_OPTIONS = CFLAGS="$(DEB_CFLAGS)" CXXFLAGS="$(DEB_CXXFLAGS)"
 # List of options to pass to configure. Can be overridden.
 # Extra options can simply be passed using KODI_CONFIG_EXTRA_OPTIONS env
 # variable.
+
 KODI_CONFIG_OPTIONS ?= --host=$(DEB_HOST_GNU_TYPE) \
   --build=$(DEB_BUILD_GNU_TYPE) \
   --prefix=/usr --docdir=/usr/share/doc/kodi \
