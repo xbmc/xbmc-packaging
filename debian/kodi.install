@@ -1,9 +1,8 @@
-usr/bin/kodi
-usr/bin/xbmc
-usr/share/kodi
-usr/share/xbmc
+usr/share/kodi/addons
+usr/share/kodi/media
+usr/share/kodi/privacy-policy.txt
+usr/share/kodi/system
+usr/share/kodi/userdata
 usr/share/icons
 usr/share/applications
-usr/share/kodi/addons/skin.confluence
-usr/bin/kodi-standalone
 usr/share/xsessions

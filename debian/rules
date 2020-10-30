@@ -1,1 +1,98 @@
-../rules
+#!/usr/bin/make -f
+
+# These are used for cross-compiling and for saving the configure script
+# from having to guess our platform (since we know it already)
+DEB_HOST_GNU_TYPE   ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
+DEB_BUILD_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
+DEB_HOST_ARCH ?= $(shell dpkg-architecture -qDEB_HOST_ARCH)
+DEB_HOST_MULTIARCH ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
+#export DEB_CFLAGS_MAINT_STRIP  = -O2
+#export DEB_CFLAGS_MAINT_APPEND  = -O3
+#export DEB_CXXFLAGS_MAINT_STRIP  = -O2
+#export DEB_CXXFLAGS_MAINT_APPEND  = -O3
+
+USE_LTO ?= yes
+
+NUMCPU := $(shell grep -c processor /proc/cpuinfo)
+ifeq ($(USE_LTO),no)
+  NUMCPU = OFF
+endif
+
+DVDREAD = $(shell ls -1tr tools/depends/target/libdvdread/libdvdread-*.tar.gz | tail -1)
+DVDNAV = $(shell ls -1tr tools/depends/target/libdvdnav/libdvdnav-*.tar.gz | tail -1)
+DVDCSS = $(shell ls -1tr tools/depends/target/libdvdcss/libdvdcss-*.tar.gz | tail -1)
+FFMPEG = $(shell ls -1tr tools/depends/target/ffmpeg/ffmpeg-*.tar.gz | tail -1)
+DAVID = $(shell ls -1tr tools/depends/target/dav1d/dav1d-*.tar.gz | tail -1)
+
+ifeq ($(DEB_HOST_ARCH),i386)
+  EXTRA_FLAGS += -DFFMPEG_EXTRA_FLAGS=--disable-filter=atadenoise
+endif
+
+KODI_OPTS=\
+-DVERBOSE=1 \
+-DUSE_LTO=${NUMCPU} \
+-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+-DCMAKE_INSTALL_PREFIX=/usr \
+-DENABLE_AIRTUNES=ON \
+-DENABLE_ALSA=ON \
+-DENABLE_AVAHI=ON \
+-DENABLE_BLURAY=ON \
+-DENABLE_CEC=ON \
+-DENABLE_DBUS=ON \
+-DENABLE_DVDCSS=ON \
+-DENABLE_EGL=ON \
+-DENABLE_EVENTCLIENTS=ON \
+-DENABLE_INTERNAL_DAV1D=ON \
+-DENABLE_INTERNAL_FFMPEG=ON \
+-DENABLE_INTERNAL_CROSSGUID=OFF \
+-DENABLE_MICROHTTPD=ON \
+-DENABLE_MYSQLCLIENT=ON \
+-DENABLE_NFS=ON \
+-DENABLE_OPTICAL=ON \
+-DENABLE_PULSEAUDIO=ON \
+-DENABLE_SMBCLIENT=ON \
+-DENABLE_UDEV=ON \
+-DENABLE_UPNP=ON \
+-DENABLE_VAAPI=ON \
+-DENABLE_VDPAU=ON \
+-DENABLE_XSLT=ON \
+-DENABLE_LIRCCLIENT=ON \
+-DAPP_RENDER_SYSTEM=gl \
+-DLIBDVDREAD_URL=${DVDREAD} \
+-DLIBDVDNAV_URL=${DVDNAV} \
+-DLIBDVDCSS_URL=${DVDCSS} \
+-DDAV1D_URL=${DAVID} \
+-DFFMPEG_URL=${FFMPEG} \
+$(EXTRA_FLAGS)
+
+%:
+	dh $@ --parallel --buildsystem cmake
+
+
+override_dh_auto_configure:
+	dh_auto_configure --builddir kodi_build -- ${KODI_OPTS}
+
+override_dh_auto_build:
+	dh_auto_build --builddir kodi_build
+
+override_dh_auto_install:
+	dh_auto_install --builddir kodi_build --destdir debian/tmp
+
+override_dh_install:
+	mkdir -p debian/tmp/usr/lib/${DEB_HOST_MULTIARCH}/kodi/ffmpeg/lib/pkgconfig
+	cp -r kodi_build/build/lib/lib*.a debian/tmp/usr/lib/${DEB_HOST_MULTIARCH}/kodi/ffmpeg/lib && \
+          chmod 644 debian/tmp/usr/lib/${DEB_HOST_MULTIARCH}/kodi/ffmpeg/lib/*
+	cp kodi_build/build/lib/pkgconfig/*.pc debian/tmp/usr/lib/${DEB_HOST_MULTIARCH}/kodi/ffmpeg/lib/pkgconfig && \
+          chmod 644 debian/tmp/usr/lib/${DEB_HOST_MULTIARCH}/kodi/ffmpeg/lib/pkgconfig/* && \
+          sed -i \
+            -e 's|^prefix=.*$$|prefix=/usr/lib/${DEB_HOST_MULTIARCH}/kodi/ffmpeg|' \
+            -e 's|^libdir=.*$$|libdir=/usr/lib/${DEB_HOST_MULTIARCH}/kodi/ffmpeg/lib|' \
+            -e 's| -L/.* -ldav1d| -L/usr/lib/${DEB_HOST_MULTIARCH}/kodi/ffmpeg/lib -ldav1d|' \
+            -e 's|includedir=.*$$|includedir=/usr/include/kodi|' debian/tmp/usr/lib/${DEB_HOST_MULTIARCH}/kodi/ffmpeg/lib/pkgconfig/*.pc
+	cp -r kodi_build/build/include/lib* debian/tmp/usr/include/kodi
+	cp -r kodi_build/build/include/dav1d* debian/tmp/usr/include/kodi
+	dh_install
+
+override_dh_auto_test:
+	@cd kodi_build && $(MAKE) kodi-test && KODI_HOME=${CURDIR}/kodi_build ./kodi-test --gtest_filter="-TestDateTime.FileTimeOperators:TestDateTime.SetFromUTCDateTime:TestDateTime.GetAsTimeStamp" || :
+

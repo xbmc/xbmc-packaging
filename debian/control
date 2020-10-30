@@ -1,1 +1,403 @@
-../control
+Source: kodi
+Section: video
+Priority: optional
+Maintainer: wsnipex <wsnipex@a1.net>
+Build-Depends: debhelper (>= 10.0.0~),
+ autoconf,
+ automake,
+ autopoint,
+ gettext,
+ autotools-dev,
+ cmake,
+ curl,
+ default-jre | openjdk-8-jre,
+ gawk,
+ gcc (>= 4:7.0.0),
+ g++ (>= 4:7.0.0),
+ cpp (>= 4:7.0.0),
+ libflatbuffers-dev | flatbuffers-dev,
+ gdc,
+ gperf,
+ libasound2-dev | libasound-dev,
+ libass-dev (>= 0.9.8),
+ libavahi-client-dev,
+ libavahi-common-dev,
+ libbluetooth-dev,
+ libbluray-dev,
+ libbz2-dev,
+ libcdio-dev,
+ libcec-dev (>= 4.0.0) | libcec4-dev,
+ libp8-platform-dev,
+ libcrossguid-dev,
+ libcurl4-openssl-dev | libcurl4-gnutls-dev | libcurl-dev,
+ libcwiid-dev,
+ libdrm-dev,
+ libdbus-1-dev,
+ libegl1-mesa-dev,
+ libenca-dev,
+ libflac-dev,
+ libfontconfig-dev,
+ libfmt-dev (>= 6.1.2),
+ libfreetype6-dev,
+ libfribidi-dev,
+ libfstrcmp-dev,
+ libgbm-dev,
+ libgcrypt-dev,
+ libgif-dev (>= 5.0.5),
+ libgl1-mesa-dev | libgl-dev,
+ libglew-dev,
+ libglu1-mesa-dev | libglu-dev,
+ libgnutls-dev | libgnutls28-dev,
+ libgpg-error-dev,
+ libgtest-dev (>= 1.10.0),
+ libinput-dev,
+ libiso9660-dev,
+ libjpeg-dev,
+ liblcms2-dev,
+ liblirc-dev | liblircclient-dev,
+ libltdl-dev,
+ liblzo2-dev,
+ libmicrohttpd-dev,
+ libmariadbclient-dev | libmysqlclient-dev,
+ libmariadbclient-dev-compat | libmysqlclient-dev,
+ libnfs-dev,
+ libogg-dev,
+ libomxil-bellagio-dev [armel],
+ libpcre3-dev,
+ libplist-dev,
+ libpng12-dev | libpng-dev,
+ libpulse-dev,
+ libshairplay-dev,
+ libsmbclient-dev,
+ libspdlog-dev (>= 1:1.5.0),
+ libsqlite3-dev,
+ libssh-dev,
+ libssl-dev,
+ libtag1-dev (>= 1.8) | libtag1x8,
+ libtiff5-dev | libtiff-dev | libtiff4-dev,
+ libtinyxml-dev,
+ libtool,
+ libudev-dev,
+ libudfread-dev,
+ libunistring-dev,
+ libva-dev,
+ libvdpau-dev,
+ libvorbis-dev,
+ libxkbcommon-dev,
+ libxmu-dev,
+ libxrandr-dev,
+ libxslt1-dev | libxslt-dev,
+ libxt-dev,
+ meson,
+ ninja-build,
+ waylandpp-dev,
+ wayland-protocols,
+ lsb-release,
+ nasm,
+ python3-dev,
+ python3-pil,
+ rapidjson-dev,
+ swig,
+ unzip,
+ uuid-dev,
+ yasm,
+ zip,
+ zlib1g-dev
+Standards-Version: 3.9.8
+Homepage: http://kodi.tv/
+Vcs-Git: git://github.com/xbmc/xbmc-packaging.git
+Vcs-Browser: https://github.com/xbmc/xbmc-packaging
+
+Package: kodi
+Architecture: all
+Depends: kodi-bin,
+         kodi-bin (<< ${source:Version}.1~),
+         mesa-utils,
+         x11-utils,
+         fonts-liberation | ttf-liberation,
+         fonts-dejavu-core | ttf-dejavu-core,
+         python3-bluez | python-bluez,
+         python3-pycryptodome,
+         python3-pil,
+         python3-simplejson,
+         libbluray2 | libbluray1,
+         libshairplay0,
+         libvorbisfile3,
+         libaacs0,
+         libcec4,
+         libegl-mesa0 | libegl1-mesa,
+         libxslt1.1,
+         ${python:Depends},
+         ${misc:Depends}
+Recommends: libvdpau1,
+         i965-va-driver,
+         libva2,
+         mesa-vdpau-drivers,
+         kodi-peripheral-joystick,
+         kodi-inputstream-adaptive,
+         kodi-inputstream-rtmp
+Suggests: kodi-pvr-mythtv,
+         kodi-pvr-vdr-vnsi,
+         kodi-pvr-tvheadend-hts,
+         kodi-pvr-dvbviewer,
+         kodi-pvr-iptvsimple,
+         kodi-audioencoder-vorbis,
+         kodi-audioencoder-flac,
+         kodi-audioencoder-lame
+Provides: kodi-standalone, kodi-data, kodi-skin-estuary, xbmc, xbmc-standalone, xbmc-data, kodi-data, kodi-repository-kodi
+Replaces: xbmc (<< 2:14.0~git20141019), xbmc-standalone, xbmc-data, kodi-data, kodi-repository-kodi
+Breaks: xbmc (<< 2:14.0~git20141019), xbmc-standalone, xbmc-data, kodi-data, kodi-repository-kodi
+Description: Kodi Media Center (arch-independent data package)
+ Kodi, formerly known as XBMC Media Center, is an award winning free and
+ open source software media-player and entertainment hub for all your digital
+ media. Kodi is available for Linux, Mac OS X (Leopard, Tiger and Apple TV)
+ and Microsoft Windows, as well as the original Xbox game console. Created in
+ 2003 by a group of like minded programmers, Kodi is a non-profit project run
+ and developed by volunteers located around the world. More than 50 software
+ developers have contributed to Kodi, and 100-plus translators have worked to
+ expand its reach, making it available in more than 30 languages.
+ .
+ While Kodi functions very well as a standard media player application for
+ your computer, it has been designed to be the perfect companion for your
+ HTPC. Supporting an almost endless range of remote controls, and combined
+ with its beautiful interface and powerful skinning engine, Kodi feels very
+ natural to use from the couch and is the ideal solution for your home
+ theater. Once installed, your computer will become a fully functional
+ multimedia jukebox.
+ .
+ This package contains all the architecture independent data needed to have a
+ working Kodi.
+
+Package: kodi-bin
+Architecture: i386 amd64 armhf
+Depends: kodi (= ${binary:Version}),
+         ${shlibs:Depends},
+         ${misc:Depends}
+Recommends: ${shlibs:Recommends}
+Provides: kodi-bin, kodi-x11, kodi-wayland, kodi-gbm, kodi-common, kodi-bin, xbmc-common, xbmc-bin
+Replaces: kodi-x11, kodi-wayland, kodi-gbm, xbmc-bin (<< 2:14.0~git20141019), xbmc-common
+Breaks: xbmc-bin (<< 2:14.0~git20141019), xbmc-common
+Description: Kodi Media Center for X11 (binary data package)
+ Kodi, formerly known as XBMC Media Center, is an award winning free and
+ open source software media-player and entertainment hub for all your digital
+ media. Kodi is available for Linux, Mac OS X (Leopard, Tiger and Apple TV)
+ and Microsoft Windows, as well as the original Xbox game console. Created in
+ 2003 by a group of like minded programmers, Kodi is a non-profit project run
+ and developed by volunteers located around the world. More than 50 software
+ developers have contributed to Kodi, and 100-plus translators have worked to
+ expand its reach, making it available in more than 30 languages.
+ .
+ While Kodi functions very well as a standard media player application for
+ your computer, it has been designed to be the perfect companion for your
+ HTPC. Supporting an almost endless range of remote controls, and combined
+ with its beautiful interface and powerful skinning engine, Kodi feels very
+ natural to use from the couch and is the ideal solution for your home
+ theater. Once installed, your computer will become a fully functional
+ multimedia jukebox.
+ .
+ This package contains all the binary data needed to have a working Kodi
+ on X11, Wayland and Generic Buffer Manager.
+
+Package: kodi-eventclients-common
+Provides: xbmc-eventclients-common
+Architecture: all
+Depends: ${python:Depends}, ${misc:Depends}
+Description: Kodi Media Center (Event Client Common package)
+ Kodi, formerly known as XBMC Media Center, is an award winning free and
+ open source software media-player and entertainment hub for all your digital
+ media. Kodi is available for Linux, Mac OS X (Leopard, Tiger and Apple TV)
+ and Microsoft Windows, as well as the original Xbox game console. Created in
+ 2003 by a group of like minded programmers, Kodi is a non-profit project run
+ and developed by volunteers located around the world. More than 50 software
+ developers have contributed to Kodi, and 100-plus translators have worked to
+ expand its reach, making it available in more than 30 languages.
+ .
+ While Kodi functions very well as a standard media player application for
+ your computer, it has been designed to be the perfect companion for your
+ HTPC. Supporting an almost endless range of remote controls, and combined
+ with its beautiful interface and powerful skinning engine, Kodi feels very
+ natural to use from the couch and is the ideal solution for your home
+ theater. Once installed, your computer will become a fully functional
+ multimedia jukebox.
+ .
+ This package is the common package for Kodi Event Client.
+
+Package: kodi-eventclients-dev
+Provides: xbmc-eventclients-dev
+Architecture: all
+Section: libdevel
+Depends: kodi-eventclients-common (= ${binary:Version}),
+         ${misc:Depends}
+Description: Kodi Media Center (Event Client Dev package)
+ Kodi, formerly known as XBMC Media Center, is an award winning free and
+ open source software media-player and entertainment hub for all your digital
+ media. Kodi is available for Linux, Mac OS X (Leopard, Tiger and Apple TV)
+ and Microsoft Windows, as well as the original Xbox game console. Created in
+ 2003 by a group of like minded programmers, Kodi is a non-profit project run
+ and developed by volunteers located around the world. More than 50 software
+ developers have contributed to Kodi, and 100-plus translators have worked to
+ expand its reach, making it available in more than 30 languages.
+ .
+ While Kodi functions very well as a standard media player application for
+ your computer, it has been designed to be the perfect companion for your
+ HTPC. Supporting an almost endless range of remote controls, and combined
+ with its beautiful interface and powerful skinning engine, Kodi feels very
+ natural to use from the couch and is the ideal solution for your home
+ theater. Once installed, your computer will become a fully functional
+ multimedia jukebox.
+ .
+ This is the Development package for Kodi Event Client.
+
+Package: kodi-eventclients-wiiremote
+Provides: xbmc-eventclients-wiiremote
+Architecture: i386 amd64 armhf
+Depends: kodi-eventclients-common (= ${source:Version}),
+         ${shlibs:Depends},
+         ${misc:Depends}
+Description: Kodi Media Center (Event Client WII Remote support package)
+ Kodi, formerly known as XBMC Media Center, is an award winning free and
+ open source software media-player and entertainment hub for all your digital
+ media. Kodi is available for Linux, Mac OS X (Leopard, Tiger and Apple TV)
+ and Microsoft Windows, as well as the original Xbox game console. Created in
+ 2003 by a group of like minded programmers, Kodi is a non-profit project run
+ and developed by volunteers located around the world. More than 50 software
+ developers have contributed to Kodi, and 100-plus translators have worked to
+ expand its reach, making it available in more than 30 languages.
+ .
+ While Kodi functions very well as a standard media player application for
+ your computer, it has been designed to be the perfect companion for your
+ HTPC. Supporting an almost endless range of remote controls, and combined
+ with its beautiful interface and powerful skinning engine, Kodi feels very
+ natural to use from the couch and is the ideal solution for your home
+ theater. Once installed, your computer will become a fully functional
+ multimedia jukebox.
+ .
+ This package is the Wii Remote client package for Kodi.
+
+Package: kodi-eventclients-ps3
+Provides: xbmc-eventclients-ps3
+Architecture: all
+Depends: kodi-eventclients-common (= ${binary:Version}),
+         python3-bluez | python-bluez,
+         ${python:Depends},
+         ${misc:Depends}
+Description: Kodi Media Center (Event Client PS3 package)
+ Kodi, formerly known as XBMC Media Center, is an award winning free and
+ open source software media-player and entertainment hub for all your digital
+ media. Kodi is available for Linux, Mac OS X (Leopard, Tiger and Apple TV)
+ and Microsoft Windows, as well as the original Xbox game console. Created in
+ 2003 by a group of like minded programmers, Kodi is a non-profit project run
+ and developed by volunteers located around the world. More than 50 software
+ developers have contributed to Kodi, and 100-plus translators have worked to
+ expand its reach, making it available in more than 30 languages.
+ .
+ While Kodi functions very well as a standard media player application for
+ your computer, it has been designed to be the perfect companion for your
+ HTPC. Supporting an almost endless range of remote controls, and combined
+ with its beautiful interface and powerful skinning engine, Kodi feels very
+ natural to use from the couch and is the ideal solution for your home
+ theater. Once installed, your computer will become a fully functional
+ multimedia jukebox.
+ .
+ This package is the PS3 package for Kodi Event Client.
+
+Package: kodi-eventclients-kodi-send
+Provides: xbmc-eventclients-kodi-send, kodi-eventclients-xbmc-send
+Replaces: kodi-eventclients-xbmc-send
+Architecture: all
+Depends: kodi-eventclients-common (= ${binary:Version}),
+         ${python:Depends},
+         ${misc:Depends}
+Description: Kodi Media Center (Event Client Kodi-SEND package)
+ Kodi, formerly known as XBMC Media Center, is an award winning free and
+ open source software media-player and entertainment hub for all your digital
+ media. Kodi is available for Linux, Mac OS X (Leopard, Tiger and Apple TV)
+ and Microsoft Windows, as well as the original Xbox game console. Created in
+ 2003 by a group of like minded programmers, Kodi is a non-profit project run
+ and developed by volunteers located around the world. More than 50 software
+ developers have contributed to Kodi, and 100-plus translators have worked to
+ expand its reach, making it available in more than 30 languages.
+ .
+ While Kodi functions very well as a standard media player application for
+ your computer, it has been designed to be the perfect companion for your
+ HTPC. Supporting an almost endless range of remote controls, and combined
+ with its beautiful interface and powerful skinning engine, Kodi feels very
+ natural to use from the couch and is the ideal solution for your home
+ theater. Once installed, your computer will become a fully functional
+ multimedia jukebox.
+ .
+ This package is the Kodi-SEND package for Kodi Event Client.
+
+Package: kodi-addon-dev
+Provides: xbmc-addon-dev
+Architecture: i386 amd64 armhf 
+Section: libdevel
+Replaces: kodi-pvr-dev, kodi-audio-dev, kodi-screensaver-dev, kodi-visualization-dev, kodi-inputstream-dev, kodi-peripheral-dev
+Depends: pkg-config, cmake
+Description: Kodi Media Center (General Add-on Dev package)
+ Kodi, formerly known as XBMC Media Center, is an award winning free and
+ open source software media-player and entertainment hub for all your digital
+ media. Kodi is available for Linux, Mac OS X (Leopard, Tiger and Apple TV)
+ and Microsoft Windows, as well as the original Xbox game console. Created in
+ 2003 by a group of like minded programmers, Kodi is a non-profit project run
+ and developed by volunteers located around the world. More than 50 software
+ developers have contributed to Kodi, and 100-plus translators have worked to
+ expand its reach, making it available in more than 30 languages.
+ .
+ While Kodi functions very well as a standard media player application for
+ your computer, it has been designed to be the perfect companion for your
+ HTPC. Supporting an almost endless range of remote controls, and combined
+ with its beautiful interface and powerful skinning engine, Kodi feels very
+ natural to use from the couch and is the ideal solution for your home
+ theater. Once installed, your computer will become a fully functional
+ multimedia jukebox.
+ .
+ This is the Development package for Kodi add-ons.
+
+Package: kodi-ffmpeg-dev
+Architecture: i386 amd64
+Section: libdevel
+Depends: kodi-addon-dev, libgnutls-dev | libgnutls28-dev, liblzma-dev, libva-dev, libvdpau-dev, zlib1g-dev
+Description: Kodi Media Center (Kodi FFmpeg Add-on Dev package)
+ Kodi, formerly known as XBMC Media Center, is an award winning free and
+ open source software media-player and entertainment hub for all your digital
+ media. Kodi is available for Linux, Mac OS X (Leopard, Tiger and Apple TV)
+ and Microsoft Windows, as well as the original Xbox game console. Created in
+ 2003 by a group of like minded programmers, Kodi is a non-profit project run
+ and developed by volunteers located around the world. More than 50 software
+ developers have contributed to Kodi, and 100-plus translators have worked to
+ expand its reach, making it available in more than 30 languages.
+ .
+ While Kodi functions very well as a standard media player application for
+ your computer, it has been designed to be the perfect companion for your
+ HTPC. Supporting an almost endless range of remote controls, and combined
+ with its beautiful interface and powerful skinning engine, Kodi feels very
+ natural to use from the couch and is the ideal solution for your home
+ theater. Once installed, your computer will become a fully functional
+ multimedia jukebox.
+ .
+ This is the FFmpeg Development package for Kodi add-ons.
+
+Package: kodi-tools-texturepacker
+Architecture: any
+Depends: ${shlibs:Depends}
+Description: Kodi Media Center (Skin Dev - TexturePacker)
+ Kodi, formerly known as XBMC Media Center, is an award winning free and
+ open source software media-player and entertainment hub for all your digital
+ media. Kodi is available for Linux, Mac OS X (Leopard, Tiger and Apple TV)
+ and Microsoft Windows, as well as the original Xbox game console. Created in
+ 2003 by a group of like minded programmers, Kodi is a non-profit project run
+ and developed by volunteers located around the world. More than 50 software
+ developers have contributed to Kodi, and 100-plus translators have worked to
+ expand its reach, making it available in more than 30 languages.
+ .
+ While Kodi functions very well as a standard media player application for
+ your computer, it has been designed to be the perfect companion for your
+ HTPC. Supporting an almost endless range of remote controls, and combined
+ with its beautiful interface and powerful skinning engine, Kodi feels very
+ natural to use from the couch and is the ideal solution for your home
+ theater. Once installed, your computer will become a fully functional
+ multimedia jukebox.
+ .
+ This is the Kodi TexturePacker tool.
+

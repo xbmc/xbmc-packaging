@@ -1,0 +1,6 @@
+usr/lib/*/kodi/ffmpeg/lib
+usr/include/kodi/libav*
+usr/include/kodi/libsw*
+usr/include/kodi/libpost*
+usr/include/kodi/dav1d
+
