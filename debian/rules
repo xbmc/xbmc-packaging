@@ -18,11 +18,11 @@ ifeq ($(USE_LTO),no)
   NUMCPU = OFF
 endif
 
-DVDREAD = $(shell ls -1tr tools/depends/target/libdvdread/libdvdread-*.tar.gz | tail -1)
-DVDNAV = $(shell ls -1tr tools/depends/target/libdvdnav/libdvdnav-*.tar.gz | tail -1)
-DVDCSS = $(shell ls -1tr tools/depends/target/libdvdcss/libdvdcss-*.tar.gz | tail -1)
-FFMPEG = $(shell ls -1tr tools/depends/target/ffmpeg/ffmpeg-*.tar.gz | tail -1)
-DAVID = $(shell ls -1tr tools/depends/target/dav1d/dav1d-*.tar.gz | tail -1)
+DVDREAD = $(shell ls -1 tools/depends/target/libdvdread/libdvdread-$(awk -F= '/^VERSION/ { print $$2 }' tools/depends/target/libdvdread/LIBDVDREAD-VERSION).tar.*)
+DVDNAV = $(shell ls -1 tools/depends/target/libdvdnav/libdvdnav-$(awk -F= '/^VERSION/ { print $$2 }' tools/depends/target/libdvdnav/LIBDVDNAV-VERSION).tar.*)
+DVDCSS = $(shell ls -1 tools/depends/target/libdvdcss/libdvdcss-$(awk -F= '/^VERSION/ { print $$2 }' tools/depends/target/libdvdcss/LIBDVDCSS-VERSION).tar.*)
+FFMPEG = $(shell ls -1 tools/depends/target/ffmpeg/ffmpeg-$(awk -F= '/^VERSION/ { print $$2 }' tools/depends/target/ffmpeg/FFMPEG-VERSION).tar.*)
+DAVID = $(shell ls -1 tools/depends/target/dav1d/dav1d-$(awk -F= '/^VERSION/ { print $$2 }' tools/depends/target/dav1d/DAV1D-VERSION).tar.*)
 
 ifeq ($(DEB_HOST_ARCH),i386)
   EXTRA_FLAGS += -DFFMPEG_EXTRA_FLAGS=--disable-filter=atadenoise
