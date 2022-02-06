@@ -18,11 +18,16 @@ ifeq ($(USE_LTO),no)
   NUMCPU = OFF
 endif
 
-DVDREAD = $(shell ls -1 tools/depends/target/libdvdread/libdvdread-$(awk -F= '/^VERSION/ { print $$2 }' tools/depends/target/libdvdread/LIBDVDREAD-VERSION).tar.*)
-DVDNAV = $(shell ls -1 tools/depends/target/libdvdnav/libdvdnav-$(awk -F= '/^VERSION/ { print $$2 }' tools/depends/target/libdvdnav/LIBDVDNAV-VERSION).tar.*)
-DVDCSS = $(shell ls -1 tools/depends/target/libdvdcss/libdvdcss-$(awk -F= '/^VERSION/ { print $$2 }' tools/depends/target/libdvdcss/LIBDVDCSS-VERSION).tar.*)
-FFMPEG = $(shell ls -1 tools/depends/target/ffmpeg/ffmpeg-$(awk -F= '/^VERSION/ { print $$2 }' tools/depends/target/ffmpeg/FFMPEG-VERSION).tar.*)
-DAVID = $(shell ls -1 tools/depends/target/dav1d/dav1d-$(awk -F= '/^VERSION/ { print $$2 }' tools/depends/target/dav1d/DAV1D-VERSION).tar.*)
+DVDREAD_VER = $(shell awk -F= '/^VERSION/ { print $$2 }' tools/depends/target/libdvdread/LIBDVDREAD-VERSION)
+DVDREAD = $(shell ls -1 tools/depends/target/libdvdread/libdvdread-$(DVDREAD_VER).tar.*)
+DVDNAV_VER = $(shell awk -F= '/^VERSION/ { print $$2 }' tools/depends/target/libdvdnav/LIBDVDNAV-VERSION)
+DVDNAV = $(shell ls -1 tools/depends/target/libdvdnav/libdvdnav-$(DVDNAV_VER).tar.*)
+DVDCSS_VER = $(shell awk -F= '/^VERSION/ { print $$2 }' tools/depends/target/libdvdcss/LIBDVDCSS-VERSION)
+DVDCSS = $(shell ls -1 tools/depends/target/libdvdcss/libdvdcss-$(DVDCSS_VER).tar.*)
+FFMPEG_VER = $(shell awk -F= '/^VERSION/ { print $$2 }' tools/depends/target/ffmpeg/FFMPEG-VERSION)
+FFMPEG = $(shell ls -1 tools/depends/target/ffmpeg/ffmpeg-$(FFMPEG_VER).tar.*)
+DAVID_VER = $(shell awk -F= '/^VERSION/ { print $$2 }' tools/depends/target/dav1d/DAV1D-VERSION)
+DAVID = $(shell ls -1 tools/depends/target/dav1d/dav1d-$(DAVID_VER).tar.*)
 
 ifeq ($(DEB_HOST_ARCH),i386)
   EXTRA_FLAGS += -DFFMPEG_EXTRA_FLAGS=--disable-filter=atadenoise
@@ -70,6 +75,7 @@ $(EXTRA_FLAGS)
 
 
 override_dh_auto_configure:
+	[ -f "${DVDREAD}" ] && [ -f "${DVDNAV}" ] && [ -f "${DVDCSS}" ] && [ -f "${DAVID}" ] && [ -f "${FFMPEG}" ] || { echo "tarballs not found"; exit 1; }
 	dh_auto_configure --builddir kodi_build -- ${KODI_OPTS}
 
 override_dh_auto_build:
