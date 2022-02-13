@@ -19,15 +19,15 @@ ifeq ($(USE_LTO),no)
 endif
 
 DVDREAD_VER = $(shell awk -F= '/^VERSION/ { print $$2 }' tools/depends/target/libdvdread/LIBDVDREAD-VERSION)
-DVDREAD = $(shell ls -1 tools/depends/target/libdvdread/libdvdread-$(DVDREAD_VER).tar.*)
+DVDREAD = $(shell ls -1 tools/depends/target/libdvdread/libdvdread-$(DVDREAD_VER).tar.* | grep -E "(gz|bz2|xz)$$")
 DVDNAV_VER = $(shell awk -F= '/^VERSION/ { print $$2 }' tools/depends/target/libdvdnav/LIBDVDNAV-VERSION)
-DVDNAV = $(shell ls -1 tools/depends/target/libdvdnav/libdvdnav-$(DVDNAV_VER).tar.*)
+DVDNAV = $(shell ls -1 tools/depends/target/libdvdnav/libdvdnav-$(DVDNAV_VER).tar.* | grep -E "(gz|bz2|xz)$$")
 DVDCSS_VER = $(shell awk -F= '/^VERSION/ { print $$2 }' tools/depends/target/libdvdcss/LIBDVDCSS-VERSION)
-DVDCSS = $(shell ls -1 tools/depends/target/libdvdcss/libdvdcss-$(DVDCSS_VER).tar.*)
+DVDCSS = $(shell ls -1 tools/depends/target/libdvdcss/libdvdcss-$(DVDCSS_VER).tar.* | grep -E "(gz|bz2|xz)$$")
 FFMPEG_VER = $(shell awk -F= '/^VERSION/ { print $$2 }' tools/depends/target/ffmpeg/FFMPEG-VERSION)
-FFMPEG = $(shell ls -1 tools/depends/target/ffmpeg/ffmpeg-$(FFMPEG_VER).tar.*)
+FFMPEG = $(shell ls -1 tools/depends/target/ffmpeg/ffmpeg-$(FFMPEG_VER).tar.* | grep -E "(gz|bz2|xz)$$")
 DAVID_VER = $(shell awk -F= '/^VERSION/ { print $$2 }' tools/depends/target/dav1d/DAV1D-VERSION)
-DAVID = $(shell ls -1 tools/depends/target/dav1d/dav1d-$(DAVID_VER).tar.*)
+DAVID = $(shell ls -1 tools/depends/target/dav1d/dav1d-$(DAVID_VER).tar.* | grep -E "(gz|bz2|xz)$$")
 
 ifeq ($(DEB_HOST_ARCH),i386)
   EXTRA_FLAGS += -DFFMPEG_EXTRA_FLAGS=--disable-filter=atadenoise
