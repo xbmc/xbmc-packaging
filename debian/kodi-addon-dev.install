@@ -4,4 +4,5 @@ usr/include/kodi/gui
 usr/include/kodi/tools
 usr/include/kodi/platform
 usr/include/kodi/addon-instance
+usr/lib/*/kodi/cmake
 usr/share/kodi/cmake/*.cmake
