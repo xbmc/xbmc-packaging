@@ -98,6 +98,7 @@ override_dh_install:
             -e 's|includedir=.*$$|includedir=/usr/include/kodi|' debian/tmp/usr/lib/${DEB_HOST_MULTIARCH}/kodi/ffmpeg/lib/pkgconfig/*.pc
 	cp -r kodi_build/build/include/lib* debian/tmp/usr/include/kodi
 	cp -r kodi_build/build/include/dav1d* debian/tmp/usr/include/kodi
+	cp -r kodi_build/build/texturepacker/TexturePacker debian/tmp/usr/bin/TexturePacker
 	dh_install
 
 override_dh_auto_test:
